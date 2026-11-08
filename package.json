@@ -1,0 +1,12 @@
+{
+  "name": "finpath-kz",
+  "version": "1.0.0",
+  "private": true,
+  "description": "FinPath KZ financial education and portfolio website",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

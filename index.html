@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="kk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FinPath KZ</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <button class="menu-toggle" aria-label="Open menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <aside class="sidebar" id="sidebar">
+        <div class="brand">
+          <span class="brand-mark">↗</span>
+          <span class="brand-name">FinPath KZ</span>
+        </div>
+
+        <nav class="nav">
+          <div class="nav-item active" data-page="home">
+            <span class="nav-icon home-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1v-9.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+            </span>
+            <span>Басты бет</span>
+          </div>
+
+          <div class="nav-item" data-page="research">
+            <span class="nav-icon search-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="5.8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16 16L21 21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </span>
+            <span>Активті зерттеу</span>
+          </div>
+
+          <div class="nav-item" data-page="portfolio">
+            <span class="nav-icon briefcase-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="7.2" width="17" height="12.8" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9.3 7.2V5.8A1.8 1.8 0 0 1 11.1 4h1.8a1.8 1.8 0 0 1 1.8 1.8v1.4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 11.5h17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </span>
+            <span>Портфель</span>
+          </div>
+
+          <div class="nav-item" data-page="goals">
+            <span class="nav-icon target-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 1.8v2.7M12 19.5v2.7M1.8 12h2.7M19.5 12h2.7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </span>
+            <span>Мақсаттар</span>
+          </div>
+
+          <div class="nav-item" data-page="news">
+            <span class="nav-icon nav-news-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="1.8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 9h8M8 12h8M8 15h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </span>
+            <span>Жаңалықтар</span>
+          </div>
+
+          <div class="nav-item" data-page="broker">
+            <span class="nav-icon broker-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 10h8M8 14h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M18 18 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </span>
+            <span>Брокер</span>
+          </div>
+
+          <div class="nav-item" data-page="academy">
+            <span class="nav-icon academy-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5 12 4l8 4.5-8 4.5-8-4.5Zm0 3.2L12 16l8-4.3M7 10.4v4.3c0 1.4 2.2 2.8 5 2.8s5-1.4 5-2.8v-4.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span>Академия</span>
+          </div>
+        </nav>
+      </aside>
+
+      <main class="main-panel">
+        <div class="account-bar">
+          <span class="account-status" id="account-status" hidden>Тіркелмегенсіз</span>
+          <button class="signup-button" id="signup-open" type="button">Sign up</button>
+        </div>
+
+        <section class="page-view dashboard-page active" data-view="home">
+          <header class="hero dashboard-hero">
+            <div class="dashboard-hero-copy">
+              <div class="hero-tag">FINPATH · ЖЕКЕ ПАНЕЛЬ</div>
+              <h1 id="dashboard-greeting">Қош келдіңіз!</h1>
+              <p>Капитал → инвестиция → мақсат</p>
+            </div>
+            <div class="dashboard-hero-art" aria-hidden="true">
+              <div class="hero-art-glow"></div>
+              <svg viewBox="0 0 380 220" role="presentation">
+                <defs>
+                  <linearGradient id="hero-card-fill" x1="0" x2="1" y1="0" y2="1">
+                    <stop offset="0" stop-color="#ffffff" stop-opacity=".2" />
+                    <stop offset="1" stop-color="#baf3d4" stop-opacity=".07" />
+                  </linearGradient>
+                  <linearGradient id="hero-line-fill" x1="0" x2="1">
+                    <stop offset="0" stop-color="#a5f2c9" />
+                    <stop offset="1" stop-color="#f1ffd7" />
+                  </linearGradient>
+                </defs>
+                <rect x="55" y="28" width="278" height="158" rx="22" fill="url(#hero-card-fill)" stroke="#d6ffea" stroke-opacity=".22" />
+                <path d="M80 145h225M80 112h225M80 79h225" stroke="#d6ffea" stroke-opacity=".13" stroke-dasharray="4 7" />
+                <rect x="91" y="121" width="18" height="42" rx="6" fill="#98e9bd" fill-opacity=".38" />
+                <rect x="129" y="106" width="18" height="57" rx="6" fill="#98e9bd" fill-opacity=".48" />
+                <rect x="167" y="116" width="18" height="47" rx="6" fill="#98e9bd" fill-opacity=".4" />
+                <rect x="205" y="87" width="18" height="76" rx="6" fill="#98e9bd" fill-opacity=".56" />
+                <rect x="243" y="72" width="18" height="91" rx="6" fill="#98e9bd" fill-opacity=".65" />
+                <path d="m83 128 43-21 37 12 39-31 33 6 55-40" fill="none" stroke="url(#hero-line-fill)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                <circle cx="290" cy="54" r="6" fill="#eaffd4" />
+                <rect x="18" y="62" width="106" height="42" rx="13" fill="#f4fff8" />
+                <circle cx="38" cy="83" r="9" fill="#daf6e5" />
+                <path d="m34 85 4-5 4 2 4-5" fill="none" stroke="#128959" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M59 79h48M59 87h32" stroke="#c3d8cb" stroke-width="4" stroke-linecap="round" />
+                <circle cx="308" cy="164" r="29" fill="#d7f5e4" fill-opacity=".96" />
+                <circle cx="308" cy="164" r="20" fill="none" stroke="#18895c" stroke-opacity=".55" stroke-width="2" />
+                <path d="M308 151v26m-8-18c0-3 3-5 8-5s8 2 8 5-3 5-8 5-8 2-8 5 3 5 8 5 8-2 8-5" fill="none" stroke="#137a51" stroke-width="2.4" stroke-linecap="round" />
+                <path d="m27 159 5-9 5 9m-5-9v19" fill="none" stroke="#d9ffeb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <circle cx="342" cy="74" r="3" fill="#d9ffeb" />
+                <circle cx="45" cy="132" r="2" fill="#d9ffeb" />
+              </svg>
+              <span class="hero-art-label">ҚАРЖЫЛЫҚ ӨСУ БАҒЫТЫ</span>
+            </div>
+          </header>
+
+          <section class="dashboard-capital-row" aria-label="Жеке капитал">
+            <article class="capital-card">
+              <div class="capital-card-copy">
+                <span class="dashboard-eyebrow">ЖАЛПЫ КАПИТАЛ · DEMO</span>
+                <strong id="dashboard-capital">56 000 ₸</strong>
+                <span>Портфель құны + бос ақша</span>
+              </div>
+              <div class="capital-card-icon" aria-hidden="true">₸</div>
+            </article>
+            <article class="dashboard-position-count">
+              <span class="dashboard-eyebrow">АШЫҚ ПОЗИЦИЯЛАР</span>
+              <strong id="dashboard-position-count">3</strong>
+              <span>TSLA · AAPL · NVDA</span>
+            </article>
+          </section>
+
+          <section class="dashboard-section">
+            <div class="dashboard-section-heading">
+              <div>
+                <span class="dashboard-eyebrow">СЕНІҢ АКТИВТЕРІҢ</span>
+                <h2>Портфель</h2>
+              </div>
+              <button class="dashboard-link" type="button" data-open-page="portfolio">Портфельді ашу <span aria-hidden="true">→</span></button>
+            </div>
+            <div class="dashboard-holdings" id="dashboard-holdings"></div>
+          </section>
+
+          <section class="dashboard-section">
+            <div class="dashboard-section-heading">
+              <div>
+                <span class="dashboard-eyebrow">ЖОСПАРҒА ЖЕТУ</span>
+                <h2>Мақсаттар</h2>
+              </div>
+              <button class="dashboard-link" type="button" data-open-page="goals">Мақсаттарды ашу <span aria-hidden="true">→</span></button>
+            </div>
+            <div class="dashboard-goals">
+              <article class="dashboard-goal-card">
+                <div class="dashboard-goal-topline"><span>Ұзақ мерзімді</span><span>Үй алу</span></div>
+                <div class="dashboard-goal-amount"><strong id="dashboard-home-progress">0 ₸</strong><span>/ <span id="dashboard-home-target">25 000 000 ₸</span></span></div>
+                <div class="dashboard-goal-track" role="progressbar" aria-label="Үй алу мақсатының орындалуы" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="dashboard-home-fill"></div></div>
+                <div class="dashboard-goal-bottom"><span id="dashboard-home-percent">0%</span><span>Жоспарлық баға · шамамен</span></div>
+              </article>
+              <article class="dashboard-goal-card">
+                <div class="dashboard-goal-topline"><span>Қысқа мерзімді</span><span>Телефон алу</span></div>
+                <div class="dashboard-goal-amount"><strong id="dashboard-phone-progress">0 ₸</strong><span>/ <span id="dashboard-phone-target">600 000 ₸</span></span></div>
+                <div class="dashboard-goal-track" role="progressbar" aria-label="Телефон алу мақсатының орындалуы" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="dashboard-phone-fill"></div></div>
+                <div class="dashboard-goal-bottom"><span id="dashboard-phone-percent">0%</span><span>Жоспарлық бюджет</span></div>
+              </article>
+            </div>
+          </section>
+
+          <section class="dashboard-market">
+            <div class="dashboard-section-heading">
+              <div>
+                <span class="dashboard-eyebrow">РЕСМИ ДЕРЕККӨЗДЕР · ЖАРИЯЛАНҒАН КҮНІ КӨРСЕТІЛГЕН</span>
+                <h2>Портфеліңдегі компания жаңалықтары</h2>
+              </div>
+              <span class="demo-badge">Тізім жаңартылды · 08.11.2026</span>
+            </div>
+            <div class="market-summary">
+              <div><span>Позициялардың құны · есептік</span><strong id="dashboard-market-value">52 000 ₸</strong></div>
+              <div><span>Сатып алу құны · енгізілген</span><strong id="dashboard-market-invested">50 000 ₸</strong></div>
+              <div><span>Өзгеріс · DEMO</span><strong id="dashboard-market-change">+2 000 ₸</strong></div>
+            </div>
+            <div class="real-news-list dashboard-news-list" id="home-news-list" aria-live="polite"></div>
+          </section>
+        </section>
+
+        <section class="page-view portfolio-page" data-view="portfolio" hidden>
+          <header class="portfolio-hero">
+            <div class="portfolio-hero-copy">
+              <div class="hero-tag">FINPATH · PORTFOLIO</div>
+              <h1>Менің портфелім</h1>
+              <p>Инвестицияларыңыздың қазіргі құны мен құрылымы</p>
+              <div class="portfolio-hero-balance">
+                <span>Портфельдің ағымдағы құны</span>
+                <strong id="portfolio-market-value">0 ₸</strong>
+                <small id="portfolio-market-value-usd">—</small>
+              </div>
+              <div class="portfolio-hero-change">
+                <span id="portfolio-total-change">0 ₸</span>
+                <small id="portfolio-total-change-usd">—</small>
+                <span class="portfolio-hero-change-caption">салынған қаражатқа қатысты</span>
+              </div>
+            </div>
+            <div class="portfolio-hero-allocation">
+              <div class="portfolio-donut-wrap">
+                <svg class="portfolio-donut" viewBox="0 0 120 120" role="img" aria-label="Портфель активтерінің үлестік диаграммасы">
+                  <circle class="portfolio-donut-track" cx="60" cy="60" r="44"></circle>
+                  <g id="portfolio-donut-segments" transform="rotate(-90 60 60)"></g>
+                </svg>
+                <div class="portfolio-donut-center">
+                  <strong id="portfolio-position-count">0</strong>
+                  <span>позиция</span>
+                </div>
+              </div>
+              <div class="portfolio-asset-legend" id="portfolio-asset-legend">
+                <span class="portfolio-legend-empty">Актив қосқанда портфель құрамы көрінеді</span>
+              </div>
+            </div>
+          </header>
+
+          <section class="portfolio-overview" aria-label="Портфель жиынтығы">
+            <article class="portfolio-summary-card portfolio-summary-primary">
+              <span>Салынған қаражат</span>
+              <strong id="portfolio-invested">0 ₸</strong>
+              <small id="portfolio-invested-usd">—</small>
+            </article>
+            <article class="portfolio-summary-card portfolio-summary-change">
+              <span>Жалпы кіріс / шығын</span>
+              <strong id="portfolio-overview-change">0 ₸</strong>
+              <small id="portfolio-overview-change-usd">—</small>
+            </article>
+            <article class="portfolio-summary-card">
+              <span>Позициялар</span>
+              <strong id="portfolio-overview-position-count">0</strong>
+              <small>Портфельдегі актив саны</small>
+            </article>
+            <article class="portfolio-summary-card">
+              <span>Мақсаттар</span>
+              <strong id="portfolio-goal-count">0</strong>
+              <small>Қолданылған мақсат санаты</small>
+            </article>
+            <label class="portfolio-fx-card" for="portfolio-fx-rate">
+              <span>USD → KZT нақты бағамы</span>
+              <input id="portfolio-fx-rate" type="text" value="Жүктелуде..." readonly aria-describedby="portfolio-fx-status" />
+              <small id="portfolio-fx-status">Yahoo Finance дерегінен автоматты алынады</small>
+            </label>
+          </section>
+
+          <div class="portfolio-layout">
+            <section class="portfolio-panel add-position-panel">
+              <div class="portfolio-panel-heading">
+                <div>
+                  <span class="portfolio-kicker">ЖАҢА ИНВЕСТИЦИЯ</span>
+                  <h2>Жаңа позиция</h2>
+                </div>
+                <span class="portfolio-panel-icon" aria-hidden="true">＋</span>
+              </div>
+              <form class="portfolio-form" id="portfolio-form">
+                <label class="research-field">
+                  <span>Актив</span>
+                  <select id="portfolio-asset" name="asset">
+                    <option value="tesla">Tesla (TSLA)</option>
+                    <option value="apple">Apple (AAPL)</option>
+                    <option value="nvidia">NVIDIA (NVDA)</option>
+                    <option value="gold">Gold</option>
+                    <option value="sp500">S&amp;P 500</option>
+                    <option value="nasdaq">NASDAQ 100</option>
+                    <option value="bitcoin">Bitcoin</option>
+                    <option value="eurusd">EUR/USD</option>
+                    <option value="deposit">Депозит</option>
+                  </select>
+                </label>
+                <label class="research-field">
+                  <span>Салынатын сома, ₸</span>
+                  <input id="portfolio-investment-amount" name="investmentAmount" type="number" min="100" step="100" value="100000" required />
+                </label>
+                <label class="research-field">
+                  <span id="portfolio-market-price-label">Нақты ағымдағы баға, USD / акция</span>
+                  <input id="portfolio-market-price" name="marketPrice" type="number" min="0.01" max="1000000000" step="0.01" value="" readonly required />
+                </label>
+                <label class="research-field">
+                  <span id="portfolio-quantity-label">Осы сомаға алынатын акция саны</span>
+                  <input id="portfolio-quantity" name="quantity" type="number" min="0.000001" step="any" value="" readonly required />
+                </label>
+                <label class="research-field">
+                  <span>Мақсат</span>
+                  <select id="portfolio-goal" name="goal">
+                    <option value="car">Көлік</option>
+                    <option value="home">Үй</option>
+                    <option value="phone">Телефон</option>
+                    <option value="retirement">Зейнет</option>
+                    <option value="education">Білім</option>
+                    <option value="reserve">Қаржылық қор</option>
+                    <option value="other">Басқа</option>
+                  </select>
+                </label>
+                <label class="research-field" id="portfolio-custom-goal-field" hidden>
+                  <span>Мақсатты жазыңыз</span>
+                  <input id="portfolio-custom-goal" name="customGoal" type="text" maxlength="80" placeholder="Мысалы: Саяхатқа қаражат" />
+                </label>
+                <button class="recalculate-button portfolio-submit" type="submit">Позицияны сақтау</button>
+              </form>
+              <p class="portfolio-storage-note" id="portfolio-status" role="status">
+                Соманы теңгемен енгізіңіз. Нақты баға мен бағам арқылы алынатын бөлшек акция автоматты есептеледі.
+              </p>
+            </section>
+
+            <section class="portfolio-panel positions-panel">
+              <div class="positions-heading">
+                <div>
+                  <span class="portfolio-kicker">ПОРТФЕЛЬ ҚҰРАМЫ</span>
+                  <h2>Менің активтерім</h2>
+                </div>
+                <button class="clear-portfolio-button" id="clear-portfolio" type="button" hidden>Барлығын өшіру</button>
+              </div>
+              <div class="portfolio-empty" id="portfolio-empty">
+                <div class="empty-illustration" aria-hidden="true">
+                  <svg viewBox="0 0 64 64"><rect x="8" y="15" width="48" height="38" rx="9"/><path d="M8 27h48M19 40h11M42 40h5M23 15v-4h18v4"/></svg>
+                </div>
+                <h3>Портфель әлі бос</h3>
+                <p>Алғашқы активіңізді қоссаңыз, осы жерде толық тізім мен мақсат бойынша үлесі көрінеді.</p>
+              </div>
+              <div class="portfolio-list" id="portfolio-list"></div>
+            </section>
+          </div>
+
+          <section class="portfolio-panel allocation-panel">
+            <div class="positions-heading">
+              <div>
+                <span class="portfolio-kicker">ҚАРЖЫНЫҢ БАҒЫТЫ</span>
+                <h2>Мақсаттар бойынша бөлініс</h2>
+              </div>
+            </div>
+            <div class="goal-allocation" id="goal-allocation">
+              <p>Позиция қосылғанда бөлініс осы жерде есептеледі.</p>
+            </div>
+          </section>
+
+          <section class="portfolio-panel compound-panel" id="compound-calculator">
+            <div class="compound-heading">
+              <div>
+                <span class="portfolio-kicker">ӨСІМДІ ЗЕРТТЕУ</span>
+                <h2>Күрделі пайыз калькуляторы</h2>
+                <p>Табысты қайта инвестициялау уақыт өте капиталдың қалай өзгеретінін есептеңіз.</p>
+              </div>
+              <div class="compound-mark" aria-hidden="true">
+                <svg viewBox="0 0 48 48"><path d="M8 37h32M12 31l9-9 7 5 11-14M31 13h8v8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+            </div>
+
+            <div class="compound-guide">
+              <strong>Бұл калькуляторды қалай пайдалану керек?</strong>
+              <p>Бастапқы капиталға қазір салатын соманы, ай сайынғы салымға тұрақты түрде қоса алатын ақшаңызды, жылдық пайызға болжамды орташа кірісті және мерзімді жазыңыз. «Есептеу» батырмасын басқанда, ай сайынғы салым мен сол уақытқа дейін жиналған өсім қайтадан капиталға қосылып есептеледі.</p>
+              <div class="compound-guide-grid">
+                <span><b>1.</b> Қазір бар соманы енгізіңіз.</span>
+                <span><b>2.</b> Әр айдағы салымды жазыңыз.</span>
+                <span><b>3.</b> Кірістілік пен мерзімді таңдаңыз.</span>
+                <span><b>4.</b> Нәтижені мақсат сомасымен салыстырыңыз.</span>
+              </div>
+              <small>Формула оқу үлгісі ретінде қолданылады: бастапқы капитал + ай сайынғы салым + қайта инвестицияланған өсім. Нәтиже кепілдік емес; нақты инвестицияда баға ауытқуы, комиссия, салық және инфляция болуы мүмкін.</small>
+            </div>
+
+            <form class="compound-form" id="compound-form">
+              <label class="research-field">
+                <span>Бастапқы капитал, ₸</span>
+                <input id="compound-initial" name="initial" type="number" min="0" max="1000000000000" step="1000" value="50000" required />
+              </label>
+              <label class="research-field">
+                <span>Ай сайынғы салым, ₸</span>
+                <input id="compound-monthly" name="monthly" type="number" min="0" max="1000000000" step="1000" value="25000" required />
+              </label>
+              <label class="research-field">
+                <span>Жылдық пайыз, %</span>
+                <input id="compound-rate" name="rate" type="number" min="0" max="100" step="0.1" value="8" required />
+              </label>
+              <label class="research-field">
+                <span>Мерзім, жыл</span>
+                <input id="compound-years" name="years" type="number" min="1" max="50" step="1" value="10" required />
+              </label>
+              <label class="research-field">
+                <span>Нақты активпен тексеру</span>
+                <select id="compound-asset" name="asset">
+                  <option value="tesla">Tesla (TSLA)</option>
+                  <option value="apple">Apple (AAPL)</option>
+                  <option value="nvidia">NVIDIA (NVDA)</option>
+                  <option value="sp500">S&amp;P 500</option>
+                  <option value="bitcoin">Bitcoin</option>
+                  <option value="gold">Gold</option>
+                </select>
+              </label>
+              <div class="compound-actions">
+                <button class="recalculate-button" type="submit">Есептеу</button>
+                <button class="compound-use-portfolio" id="compound-use-portfolio" type="button">Портфель сомасын қою</button>
+                <button class="compound-use-portfolio" id="compound-historical-button" type="button">Нақты тарихпен есептеу</button>
+              </div>
+            </form>
+
+            <p class="compound-error" id="compound-error" role="alert" hidden></p>
+            <p class="compound-historical-status" id="compound-historical-status" role="status">«Нақты тарихпен есептеу» акция бағасының тарихи өзгерісін және әр ай сайын қосылған ақшаны бірге есептейді.</p>
+
+            <div class="compound-results" aria-live="polite">
+              <article class="compound-result-card compound-result-total">
+                <span>Мерзім соңындағы капитал</span>
+                <strong id="compound-final-value">—</strong>
+              </article>
+              <article class="compound-result-card">
+                <span>Өз қаражатыңыз</span>
+                <strong id="compound-contributions">—</strong>
+              </article>
+              <article class="compound-result-card">
+                <span>Пайыздан түскен өсім</span>
+                <strong id="compound-interest">—</strong>
+              </article>
+            </div>
+
+            <div class="compound-chart-wrap">
+              <div class="compound-chart-heading">
+                <strong>Капиталдың болжамды өсуі</strong>
+                <span id="compound-chart-rate-label">8% жылдық модель · ай сайын капиталдандыру</span>
+              </div>
+              <div class="compound-chart-legend"><span><i class="compound-legend-total"></i> Болжамды капитал</span><span><i class="compound-legend-invested"></i> Өз салымдарыңыз</span></div>
+              <svg class="compound-chart" id="compound-chart" viewBox="0 0 1000 260" role="img" aria-label="Күрделі пайыз арқылы капиталдың жылдар бойынша өсу графигі">
+                <defs>
+                  <linearGradient id="compound-chart-fill" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#19a96f" stop-opacity=".22" />
+                    <stop offset="100%" stop-color="#19a96f" stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+                <g id="compound-chart-grid"></g>
+                <path class="compound-chart-area" id="compound-chart-area" d="" />
+                <polyline class="compound-chart-line" id="compound-chart-line" points="" />
+                <polyline class="compound-chart-invested-line" id="compound-chart-invested-line" points="" />
+                <text class="compound-chart-label" id="compound-chart-start" x="12" y="250"></text>
+                <text class="compound-chart-label" id="compound-chart-end" x="988" y="250" text-anchor="end"></text>
+              </svg>
+            </div>
+            <div class="compound-breakdown">
+              <div class="compound-breakdown-heading">
+                <strong>Ақшаңыздың жыл сайынғы қозғалысы</strong>
+                <span>Бастапқы сома өседі, ай сайынғы салым қосылады, өсім қайта капиталға қосылады.</span>
+              </div>
+              <div class="compound-breakdown-list" id="compound-breakdown-list"></div>
+            </div>
+            <p class="compound-note">Есеп жылдық пайызды 12-ге бөліп, ай сайын капиталдандырумен жасалады. Айлық салым ай соңында қосылады. Бұл тұрақты мөлшерлемеге негізделген оқу симуляциясы; комиссия, салық және инвестициялық тәуекел есепке алынбаған.</p>
+          </section>
+
+          <footer class="research-footer">
+            Соманы теңгемен енгізіңіз. Жүйе нақты ағымдағы баға мен USD/KZT бағамы арқылы қанша бөлшек акция алынатынын автоматты есептейді.
+          </footer>
+        </section>
+
+        <section class="page-view goals-page" data-view="goals" hidden>
+          <header class="portfolio-hero goals-hero">
+            <div class="hero-tag">FINPATH · GOALS</div>
+            <h1>Мақсаттар навигаторы</h1>
+            <p>Капиталды өмірлік мақсатқа байланыстырыңыз</p>
+          </header>
+
+          <div class="goal-navigator" id="goal-navigator"></div>
+          <section class="goals-activity-panel">
+            <div class="goals-activity-heading">
+              <div><span class="portfolio-kicker">АЛҒАШҚЫ АЙ ПРОГРЕСІ</span><h2>Мақсаттарға қарай қозғалыс</h2><p>Бұл диаграмма қазір енгізілген қаражаттың алғашқы айдағы мақсаттарға бөлінуін көрсетеді.</p></div>
+              <strong id="goals-total-progress">0 ₸</strong>
+            </div>
+            <svg class="goals-progress-chart" id="goals-progress-chart" viewBox="0 0 1000 260" role="img" aria-label="Мақсаттарға жиналған қаражат диаграммасы"><path id="goals-chart-area" /><polyline id="goals-chart-line" points="" /><g id="goals-chart-labels"></g></svg>
+            <div class="goals-action-list" id="goals-action-list"></div>
+          </section>
+
+          <footer class="research-footer">
+            Прогресс портфельдегі нақты енгізілген қаражат пен автоматты алынған USD/KZT бағамы негізінде есептеледі. Нарық бағасының өзгеруі мақсатқа жету уақытын өзгертуі мүмкін.
+          </footer>
+        </section>
+
+        <section class="page-view news-page" data-view="news" hidden>
+          <header class="portfolio-hero news-hero">
+            <div class="hero-tag">FINPATH · NEWS</div>
+            <h1>Нарық жаңалықтары</h1>
+            <p>2026 жылғы қарашадағы ресми хабарламалар және олардың инвесторға ықпалы</p>
+          </header>
+
+          <div class="news-panel official-news-panel">
+            <div class="news-tag">FINPATH · MARKET BRIEFING · 08.11.2026</div>
+            <div class="news-header">
+              <div><h2>Нарықты қысқа әрі түсінікті оқыңыз</h2><p class="news-header-lead">Ресми хабарламаны жай оқып қана қоймай, оның инвесторға ықпалын түсініңіз.</p></div>
+              <span class="news-live-badge"><i></i> Соңғы шолу</span>
+            </div>
+            <div class="news-insight-strip">
+              <article><span class="news-insight-icon">01</span><div><strong>Компания не айтты?</strong><p>Ресми дереккөздегі негізгі факт.</p></div></article>
+              <article><span class="news-insight-icon">02</span><div><strong>Неге маңызды?</strong><p>Өнім, табыс немесе сұранысқа ықпалы.</p></div></article>
+              <article><span class="news-insight-icon">03</span><div><strong>Инвестор не істейді?</strong><p>Асықпай тексеретін келесі қадам.</p></div></article>
+            </div>
+            <div class="news-filter-bar" role="group" aria-label="Жаңалықтарды сүзу">
+              <button type="button" class="news-filter active" data-news-filter="all">Барлығы</button>
+              <button type="button" class="news-filter" data-news-filter="apple">Apple</button>
+              <button type="button" class="news-filter" data-news-filter="nvidia">NVIDIA</button>
+            </div>
+            <div class="real-news-list" id="official-news-list" aria-live="polite"></div>
+            <div class="news-next-step"><strong>Оқығаннан кейін тексеріңіз</strong><span>Компания жаңалығы баға міндетті түрде өседі деген белгі емес.</span><button class="news-action-button" type="button" data-open-page="research">Активті зерттеуге өту →</button></div>
+          </div>
+
+          <footer class="research-footer">
+            Бұл — 2026 жылғы 8 қарашада жаңартылған, ресми дереккөздерден іріктелген шолу. Бұл тікелей жаңалықтар лентасы емес және инвестициялық кеңес болып саналмайды.
+          </footer>
+        </section>
+
+        <section class="page-view broker-page" data-view="broker" hidden>
+          <header class="portfolio-hero broker-hero">
+            <div class="hero-tag">FINPATH · BROKER</div>
+            <h1>Брокер</h1>
+            <p>Инвестицияға апаратын келесі қадам</p>
+          </header>
+
+          <section class="broker-notice" aria-labelledby="broker-notice-title">
+            <div class="broker-illustration" aria-hidden="true">
+              <svg viewBox="0 0 220 180">
+                <path d="M46 144h128" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+                <rect x="70" y="50" width="80" height="94" rx="12" fill="#fff" stroke="currentColor" stroke-width="6"/>
+                <path d="M90 50v-9a20 20 0 0 1 40 0v9" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+                <circle cx="110" cy="88" r="11" fill="none" stroke="currentColor" stroke-width="6"/>
+                <path d="M110 99v17M42 71l12-12M178 71l-12-12M37 105h17M183 105h-17" fill="none" stroke="#22b879" stroke-width="6" stroke-linecap="round"/>
+                <path d="m91 128 13 12 26-29" fill="none" stroke="#22b879" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="broker-status">ӘЗІРЛЕУ ҮСТІНДЕ</span>
+            <h2 id="broker-notice-title">Бұл бөлім әзірге қолжетімсіз</h2>
+            <p>Брокер сервистерімен байланыс әлі қосылған жоқ. Бұл бөлім дайын болғанда осы жерден брокер туралы ақпарат пен қосылу мүмкіндігін көресіз.</p>
+          </section>
+        </section>
+
+        <section class="page-view academy-page" data-view="academy" hidden>
+          <div class="academy-home" id="academy-overview">
+            <header class="academy-overview-hero">
+              <div class="academy-overview-copy">
+                <div class="hero-tag">FINPATH · ОҚУ ОРТАЛЫҒЫ</div>
+                <h1>Қаржы әлемін<br /><span>үйренуден баста</span></h1>
+                <p>Алдымен инвестиция негіздерін меңгер. Ал трейдинг академиясы осы оқу бағытын аяқтағаннан кейін ашылады.</p>
+                <div class="academy-market-tags" aria-label="Оқу бағыттары">
+                  <span>ИНВЕСТИЦИЯ</span><span>ҚАРЖЫЛЫҚ САУАТ</span><span>ТӘУЕКЕЛДІ БАСҚАРУ</span>
+                </div>
+              </div>
+              <div class="academy-header-market" aria-label="Оқу үлгісіндегі нарық графигі">
+                <div class="academy-market-head"><span>ҰЗАҚ МЕРЗІМДІ ӨСУ ҮЛГІСІ</span><span><i></i> ДЕМО</span></div>
+                <div class="academy-market-plot">
+                  <div class="academy-market-y-axis"><span>↑</span><span>ҚҰН</span></div>
+                  <svg viewBox="0 0 440 132" role="img" aria-label="Уақыт өте өзгеретін түсіндірмелік график">
+                    <defs><linearGradient id="academy-market-gradient" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#68e4a7" stop-opacity=".3" /><stop offset="100%" stop-color="#68e4a7" stop-opacity="0" /></linearGradient></defs>
+                    <path class="academy-market-grid" d="M0 20H440M0 52H440M0 84H440M0 116H440" />
+                    <path class="academy-market-area" d="M0 105 52 96 105 101 158 72 211 81 264 55 317 61 370 30 440 16V132H0Z" />
+                    <path class="academy-market-line" d="M0 105 52 96 105 101 158 72 211 81 264 55 317 61 370 30 440 16" />
+                    <circle cx="440" cy="16" r="5" />
+                  </svg>
+                </div>
+                <div class="academy-market-x-axis"><span>БҮГІН</span><span>УАҚЫТ</span><strong>↗</strong></div>
+              </div>
+            </header>
+
+            <div class="academy-courses">
+              <article class="academy-course-card academy-general-card">
+                <div class="academy-course-copy">
+                  <span class="academy-course-kicker">1-БАҒЫТ · БАСТАПҚЫ ДЕҢГЕЙ</span>
+                  <span class="academy-course-label">ЖАЛПЫ ИНВЕСТИЦИЯ</span>
+                  <h2>Инвестицияны нөлден үйрен</h2>
+                  <p>Активтерді, инвестиция стратегияларын және тәуекелді түсініп, қаржылық шешімдерді сенімді қабылдауға қажетті негізді меңгер.</p>
+                  <div class="academy-course-topics"><span>Акциялар мен ETF</span><span>Инфляция</span><span>Портфель</span><span>Симуляциялар</span></div>
+                </div>
+                <div class="academy-course-illustration academy-investment-illustration" aria-label="Инвестицияның уақыт өте өсуін түсіндіретін иллюстрация">
+                  <span class="academy-illustration-orbit" aria-hidden="true"></span>
+                  <svg viewBox="0 0 520 250" role="img" aria-label="Капитал өсімінің демо графигі">
+                    <defs><linearGradient id="academy-investment-fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#159762" stop-opacity=".24" /><stop offset="100%" stop-color="#159762" stop-opacity="0" /></linearGradient></defs>
+                    <path class="academy-investment-grid" d="M32 38H490M32 86H490M32 134H490M32 182H490" />
+                    <path class="academy-investment-bar" d="M66 168h27v38H66zm93-31h27v69h-27zm93-29h27v98h-27zm93-38h27v136h-27zm93-40h27v176h-27z" />
+                    <path class="academy-investment-area" d="M32 190 96 176 156 181 221 142 278 151 343 106 397 111 451 61 490 34V210H32Z" />
+                    <path class="academy-investment-line" d="M32 190 96 176 156 181 221 142 278 151 343 106 397 111 451 61 490 34" />
+                    <circle class="academy-investment-point" cx="490" cy="34" r="6" />
+                    <text x="32" y="232">БҮГІН</text><text x="435" y="232">УАҚЫТ</text>
+                  </svg>
+                  <div class="academy-illustration-note"><span>ОҚУ ҮЛГІСІ</span><strong>Капитал динамикасы ↗</strong></div>
+                </div>
+                <button class="academy-enter-button" id="academy-open-general-investment" type="button">Кіру <span aria-hidden="true">→</span></button>
+              </article>
+
+              <article class="academy-course-card academy-trading-card">
+                <div class="academy-locked-content" aria-hidden="true">
+                  <div class="academy-course-copy">
+                    <span class="academy-course-kicker">2-БАҒЫТ · КЕЙІНГІ ДЕҢГЕЙ</span>
+                    <span class="academy-course-label">TRADING ACADEMY</span>
+                    <h2>Трейдинг академиясы</h2>
+                    <p>Нарықты оқу, сауда стратегиялары және тәуекелді басқару бойынша келесі оқу бағыты.</p>
+                    <div class="academy-course-topics"><span>Графиктер</span><span>Стратегиялар</span><span>Тәуекел</span></div>
+                  </div>
+                  <div class="academy-course-illustration academy-trading-illustration">
+                    <svg viewBox="0 0 520 250">
+                      <path class="academy-trading-grid" d="M25 38H495M25 86H495M25 134H495M25 182H495" />
+                      <path class="academy-candle-wick" d="M83 80v88m0-72h25v38H83zm66 8v94m0-80h25v42h-25zm66-48v110m0-95h25v51h-25zm66 18v95m0-80h25v40h-25zm66-60v124m0-107h25v52h-25zm66-46v109m0-94h25v43h-25z" />
+                      <path class="academy-candle-up" d="M83 96h25v38H83zm132-10h25v51h-25zm132 18h25v40h-25zm132-28h25v43h-25z" />
+                      <path class="academy-candle-down" d="M149 96h25v42h-25zm132 2h25v40h-25z" />
+                    </svg>
+                  </div>
+                </div>
+                <div class="academy-lock-overlay" aria-label="Трейдинг академиясы жалпы инвестиция курсын аяқтағаннан кейін ашылады">
+                  <span class="academy-lock-icon" aria-hidden="true">⌑</span>
+                  <strong>Алдымен Жалпы инвестиция</strong>
+                  <span>Бұл бағыт базалық оқу аяқталғаннан кейін қолжетімді болады.</span>
+                </div>
+              </article>
+
+              <article class="academy-course-card academy-finance-card">
+                <div class="academy-locked-content" aria-hidden="true">
+                  <div class="academy-course-copy">
+                    <span class="academy-course-kicker">3-БАҒЫТ · БАЗАЛЫҚ ДЕҢГЕЙ</span>
+                    <span class="academy-course-label">ҚАРЖЫЛЫҚ САУАТТЫЛЫҚ НЕГІЗДЕРІ</span>
+                    <h2>Ақшаңызды басқаруды үйреніңіз</h2>
+                    <p>Кіріс пен шығысты жоспарлау, қаржылық қауіпсіздік жастығын құру және қарызды саналы басқару туралы практикалық бағыт.</p>
+                    <div class="academy-course-topics"><span>Бюджет</span><span>Жинақ</span><span>Қарыз</span><span>Қауіпсіздік жастығы</span></div>
+                  </div>
+                  <div class="academy-course-illustration academy-finance-illustration">
+                    <svg viewBox="0 0 520 250" role="img" aria-label="Қаржылық жоспарлау иллюстрациясы">
+                      <path class="academy-finance-grid" d="M32 42H488M32 92H488M32 142H488M32 192H488" />
+                      <rect class="academy-finance-wallet" x="170" y="58" width="180" height="126" rx="18" />
+                      <path class="academy-finance-wallet-line" d="M170 91h180M303 124h48v38h-48c-19 0-19-38 0-38Z" />
+                      <circle class="academy-finance-dot" cx="320" cy="143" r="6" />
+                      <path class="academy-finance-coin" d="M83 171v-38m0 0 15 15m-15-15-15 15M424 176v-65m0 0 15 15m-15-15-15 15" />
+                      <circle class="academy-finance-coin-ring" cx="93" cy="77" r="20" />
+                      <path class="academy-finance-coin-mark" d="M93 65v24m-8-17c8-7 16 2 16 7s-8 9-16 2m0 0c8 7 16-2 16-7" />
+                    </svg>
+                    <div class="academy-illustration-note"><span>ОҚУ ҮЛГІСІ</span><strong>Ақша ағыны ↗</strong></div>
+                  </div>
+                </div>
+                <div class="academy-lock-overlay" aria-label="Қаржылық сауаттылық негіздері жақында ашылады">
+                  <span class="academy-lock-icon" aria-hidden="true">⌑</span>
+                  <strong>Жақында ашылады</strong>
+                  <span>Күнделікті қаржыны басқару туралы практикалық сабақтар дайындалып жатыр.</span>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <div class="general-investment-content" id="general-investment-content" hidden>
+            <button class="academy-back-button" id="academy-back-to-overview" type="button"><span aria-hidden="true">←</span> Академияға қайту</button>
+          <header class="investment-welcome-hero">
+            <div class="investment-welcome-copy">
+              <span class="investment-eyebrow">ЖАЛПЫ ИНВЕСТИЦИЯ · БАСТАПҚЫ ДЕҢГЕЙ</span>
+              <h1>Инвестицияны<br /><span>жүйелі үйреніңіз</span></h1>
+              <p>Қаржылық мақсаттан бастап активтерді таңдауға, тәуекелді бағалауға және саналы шешім қабылдауға дейінгі негізгі ұғымдарды ретімен үйреніңіз.</p>
+              <div class="investment-hero-actions">
+                <button class="investment-primary-button" id="investment-start-learning" type="button">Бірінші сабақты бастау <span aria-hidden="true">→</span></button>
+                <span class="investment-course-meta">7 қысқа сабақ <span aria-hidden="true">•</span> Өзіңізге ыңғайлы қарқынмен</span>
+              </div>
+            </div>
+            <div class="investment-course-map" aria-label="Әр сабақтың оқу құрылымы">
+              <span class="investment-course-map-label">ӘР САБАҚТА</span>
+              <div><span>01</span><p><strong>Түсініңіз</strong><small>Қарапайым теория және терминдер</small></p></div>
+              <div><span>02</span><p><strong>Мысал көріңіз</strong><small>Күнделікті өмірмен байланыстыру</small></p></div>
+              <div><span>03</span><p><strong>Біліміңізді тексеріңіз</strong><small>Қысқа тест және түсіндірме</small></p></div>
+            </div>
+          </header>
+
+          <section class="investment-progress-card" aria-label="Оқу барысы">
+            <div class="investment-progress-intro">
+              <span class="investment-section-kicker">СІЗДІҢ КУРСЫҢЫЗ</span>
+              <h2>Оқу барысы</h2>
+              <p>Сабақ тестінен өткен сайын курс прогресі осы құрылғыда сақталады.</p>
+            </div>
+            <div class="investment-progress-meter">
+              <div class="investment-progress-numbers"><strong id="investment-progress-percent">0%</strong><span id="investment-progress-count">0 / 7 сабақ</span></div>
+              <div class="investment-progress-track" role="progressbar" aria-label="Инвестиция курсының орындалуы" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="investment-progress-fill"></span></div>
+              <button class="investment-progress-link" id="investment-resume-learning" type="button">Келесі сабақты ашу <span aria-hidden="true">→</span></button>
+            </div>
+            <p class="investment-progress-status" id="investment-progress-status" role="status" hidden></p>
+          </section>
+
+          <section class="investment-notebook" aria-labelledby="investment-notebook-title">
+            <div class="investment-notebook-heading">
+              <div>
+                <span class="investment-section-kicker">ЖЕКЕ ОҚУ ДӘПТЕРІ</span>
+                <h2 id="investment-notebook-title">Мақсаттарыңыз бен ойларыңызды жазыңыз</h2>
+                <p>Жоспарыңызды және сабақтан түйгеніңізді өз сөзіңізбен белгілеңіз. Жазбалар осы құрылғыда сақталады.</p>
+              </div>
+              <span class="investment-notebook-icon" aria-hidden="true">✎</span>
+            </div>
+            <div class="investment-notebook-fields">
+              <label>
+                <span>Менің қаржылық мақсатым</span>
+                <textarea id="investment-notebook-goal" rows="3" maxlength="1200" placeholder="Мысалы: қандай мақсатқа, шамамен қашанға дейін ақша жинағым келеді?"></textarea>
+              </label>
+              <label>
+                <span>Сабақтан түйгенім және сұрақтарым</span>
+                <textarea id="investment-notebook-reflection" rows="5" maxlength="5000" placeholder="Қандай ой есте қалды? Нені әлі зерттеуім керек?"></textarea>
+              </label>
+            </div>
+            <div class="investment-notebook-footer">
+              <p id="investment-notebook-status" role="status" aria-live="polite">Жазбаларыңыз әлі сақталған жоқ.</p>
+              <button type="button" id="investment-notebook-save">Жазбаларды сақтау</button>
+            </div>
+          </section>
+
+          <section class="investment-pathways-section" id="investment-pathways-section" aria-labelledby="investment-pathways-title">
+            <div class="investment-section-heading">
+              <div><span class="investment-section-kicker">ОҚУ ЖОСПАРЫ</span><h2 id="investment-pathways-title">Сабақтар ретімен</h2><p class="investment-section-description">Алғашқы сабақтан бастаңыз. Келесі модуль тек алдыңғы сабақтың тестіне дұрыс жауап берген соң ашылады.</p></div>
+              <span class="investment-pathway-count">7 модуль</span>
+            </div>
+            <div class="investment-pathways-grid" id="investment-pathways"></div>
+            <section class="investment-lesson-panel" id="investment-lesson-panel" aria-live="polite"></section>
+          </section>
+
+          <section class="investment-simulations-section" aria-labelledby="investment-simulations-title">
+            <div class="investment-section-heading">
+              <div><span class="investment-section-kicker">ҚОЛДАНБАЛЫ ПРАКТИКА</span><h2 id="investment-simulations-title">Инвестицияда есептеу не үшін қажет?</h2><p class="investment-section-description">Әр құрал нақты бір сұраққа жауап береді: уақыт пен салым капиталға қалай әсер етеді, нәтиже қаншалықты өзгеруі мүмкін, инфляция өсімді азайта ма? Мысалдар оқу мақсатындағы модельдер.</p></div>
+              <span class="investment-demo-caption">Есептік үлгілер · кепілдік емес</span>
+            </div>
+            <div class="investment-simulations-grid">
+              <article class="investment-simulation-card simulation-compound">
+                <div class="investment-simulation-top"><span class="investment-simulation-icon">∑</span><span class="investment-simulation-tag">ҰЗАҚ МЕРЗІМДІ ӨСІМ</span></div>
+                <h3>Инвестициядағы күрделі пайыз</h3>
+                <p class="investment-simulation-purpose">Табысты қайта инвестициялаған кезде бастапқы капитал мен тұрақты салым уақыт өте қалай өзгеруі мүмкін екенін есептейді.</p>
+                <div class="investment-simulation-visual" role="img" aria-label="Бастапқы капитал мен айлық салым уақыт өте ықтимал капиталды құрайды">
+                  <svg viewBox="0 0 480 130" aria-hidden="true">
+                    <defs><linearGradient id="sim-compound-fill" x1="0" x2="1"><stop offset="0%" stop-color="#b8ead0"/><stop offset="100%" stop-color="#40b47e"/></linearGradient></defs>
+                    <path d="M28 105H455" class="simulation-visual-axis"/>
+                    <path d="M45 101C110 99 145 89 198 81S281 61 328 42 400 23 445 13" class="simulation-visual-growth"/>
+                    <path d="M45 102C110 100 145 90 198 82S281 62 328 43 400 24 445 14V105H45Z" fill="url(#sim-compound-fill)" opacity=".24"/>
+                    <circle cx="45" cy="101" r="5" class="simulation-visual-dot"/>
+                    <circle cx="198" cy="81" r="5" class="simulation-visual-dot"/>
+                    <circle cx="328" cy="42" r="5" class="simulation-visual-dot"/>
+                    <circle cx="445" cy="13" r="5" class="simulation-visual-dot"/>
+                    <text x="45" y="124">Бастапқы сома</text><text x="198" y="124">Айлық салым</text><text x="420" y="124">Уақыт</text>
+                  </svg>
+                </div>
+                <div class="investment-simulation-example"><strong>Инвестициямен байланысы</strong><span>Ай сайын 25 000 ₸ салып, жылдық болжамды кірісті өзгертсеңіз, өз салымыңыз бен есептік өсімді бөлек салыстырасыз.</span></div>
+                <button type="button" data-open-page="portfolio" data-scroll-target="compound-calculator" aria-label="Күрделі пайыз калькуляторын ашу">Калькуляторды ашу <span aria-hidden="true">→</span></button>
+              </article>
+
+              <article class="investment-simulation-card simulation-monte-carlo">
+                <div class="investment-simulation-top"><span class="investment-simulation-icon">≈</span><span class="investment-simulation-tag">ЫҚТИМАЛ СЦЕНАРИЙЛЕР</span></div>
+                <h3>Портфельдің ықтимал жолдары</h3>
+                <p class="investment-simulation-purpose">Monte Carlo моделі бір нәтиже айтпайды. Болжамды кіріс пен құбылмалылық негізінде әртүрлі ықтимал жолдарды салыстырады.</p>
+                <div class="investment-simulation-visual" role="img" aria-label="Бір капиталдың бірнеше ықтимал өсу және төмендеу сценарийлері">
+                  <svg viewBox="0 0 480 130" aria-hidden="true">
+                    <path d="M28 106H455M28 76H455M28 46H455M28 16H455" class="simulation-visual-grid"/>
+                    <path d="M35 98C110 83 116 91 180 63S280 57 333 31 407 38 448 12" class="simulation-visual-path simulation-path-best"/>
+                    <path d="M35 98C94 101 130 71 188 78S274 63 328 67 392 39 448 45" class="simulation-visual-path simulation-path-mid"/>
+                    <path d="M35 98C102 76 127 99 183 93S266 111 324 91 403 111 448 105" class="simulation-visual-path simulation-path-low"/>
+                    <text x="38" y="124">Бастапқы сома</text><text x="390" y="124">Мүмкін нәтижелер</text>
+                  </svg>
+                </div>
+                <div class="investment-simulation-example"><strong>Инвестициямен байланысы</strong><span>Жоспарланған мерзім соңындағы капиталдың төменгі, орта және жоғарғы сценарийлерін көріп, белгісіздікті бағалауға көмектеседі.</span></div>
+                <button type="button" data-open-topic="monte-carlo" data-scroll-target="monte-carlo-calculator">Monte Carlo ашу <span aria-hidden="true">→</span></button>
+              </article>
+
+              <article class="investment-simulation-card simulation-risk">
+                <div class="investment-simulation-top"><span class="investment-simulation-icon">↕</span><span class="investment-simulation-tag">ТӘУЕКЕЛ ЖӘНЕ КІРІС</span></div>
+                <h3>Кірісті тәуекелмен салыстыру</h3>
+                <p class="investment-simulation-purpose">Күтілетін кірісті құбылмалылықпен бірге қарастырады. Тек жоғары кіріс санын емес, оған байланысты ауытқуды да салыстырады.</p>
+                <div class="investment-simulation-visual" role="img" aria-label="Көрнекі диаграммада күтілетін кіріс пен тәуекел деңгейлері салыстырылған">
+                  <svg viewBox="0 0 480 130" aria-hidden="true">
+                    <path d="M48 106H452M48 106V16" class="simulation-visual-axis"/>
+                    <path d="M48 78H452M48 49H452M155 16V106M265 16V106M375 16V106" class="simulation-visual-grid"/>
+                    <circle cx="138" cy="83" r="8" class="risk-dot-low"/><circle cx="260" cy="57" r="8" class="risk-dot-mid"/><circle cx="378" cy="28" r="8" class="risk-dot-high"/>
+                    <text x="48" y="124">Төмен</text><text x="386" y="124">Құбылмалылық / тәуекел</text>
+                    <text x="14" y="20">Кіріс ↑</text>
+                  </svg>
+                </div>
+                <div class="investment-simulation-example"><strong>Инвестициямен байланысы</strong><span>Модельдік кіріс, стандартты ауытқу, VaR және Sharpe көрсеткіштерін көріп, тәуекелдің бір өлшеммен шектелмейтінін түсінесіз.</span></div>
+                <button type="button" data-open-topic="risk-return" data-scroll-target="risk-return-calculator">Тәуекел есебін ашу <span aria-hidden="true">→</span></button>
+              </article>
+
+              <article class="investment-simulation-card simulation-inflation">
+                <div class="investment-simulation-top"><span class="investment-simulation-icon">₸</span><span class="investment-simulation-tag">САТЫП АЛУ ҚАБІЛЕТІ</span></div>
+                <h3>Инфляциядан кейінгі нақты кіріс</h3>
+                <p class="investment-simulation-purpose">Номиналды өсімді инфляциямен салыстырады. Шоттағы сома өскенімен, ақшаның нақты сатып алу қабілеті азаюы мүмкін.</p>
+                <div class="investment-simulation-visual" role="img" aria-label="Он екі пайыз номиналды кіріс пен сегіз пайыз инфляцияның салыстыруы">
+                  <svg viewBox="0 0 480 130" aria-hidden="true">
+                    <path d="M30 105H450" class="simulation-visual-axis"/>
+                    <rect x="78" y="22" width="76" height="83" rx="10" class="inflation-visual-nominal"/>
+                    <rect x="202" y="49" width="76" height="56" rx="10" class="inflation-visual-inflation"/>
+                    <rect x="326" y="79" width="76" height="26" rx="10" class="inflation-visual-real"/>
+                    <text x="116" y="17">12%</text><text x="240" y="44">8%</text><text x="364" y="74">3,70%</text>
+                    <text x="116" y="124">Номиналды</text><text x="240" y="124">Инфляция</text><text x="364" y="124">Нақты</text>
+                  </svg>
+                </div>
+                <div class="investment-simulation-example"><strong>Инвестициямен байланысы</strong><span>Мысал: 12% номиналды кіріс пен 8% инфляцияда дәл Fisher формуласы нақты кірісті шамамен 3,70% деп көрсетеді.</span></div>
+                <button type="button" data-open-topic="fisher" data-scroll-target="fisher-calculator">Нақты кірісті есептеу <span aria-hidden="true">→</span></button>
+              </article>
+            </div>
+            <div class="investment-simulation-cta">
+              <span>Өз мақсатыңыз бен қаржылық жағдайыңызға сай оқу сценарийін құрып көріңіз.</span>
+              <button type="button" id="investment-simulation-start">Жеке симуляцияны бастау <span aria-hidden="true">→</span></button>
+            </div>
+            <section class="investment-scenario-wizard" id="investment-simulation-wizard" aria-labelledby="investment-scenario-title" hidden>
+              <div class="investment-scenario-heading">
+                <div><span class="investment-section-kicker">ИНТЕРАКТИВТІ ОҚУ СИМУЛЯЦИЯСЫ</span><h3 id="investment-scenario-title">Қаржылық мақсатыңызды сипаттаңыз</h3><p>Жауаптарыңыз тек осы беттегі демо есепке қолданылады. Еш дерек сақталмайды.</p></div>
+                <button class="investment-scenario-close" id="investment-scenario-close" type="button" aria-label="Симуляцияны жабу">×</button>
+              </div>
+              <div class="investment-scenario-progress" role="progressbar" aria-label="Симуляция қадамы" aria-valuemin="1" aria-valuemax="3" aria-valuenow="1"><span id="investment-scenario-progress-fill"></span></div>
+              <form id="investment-scenario-form" novalidate>
+                <fieldset class="investment-scenario-step" data-scenario-step="0">
+                  <legend><span>1 / 3</span> Мақсат пен мерзім</legend>
+                  <p>Алдымен ақшаның не үшін және қашан қажет болатынын белгілеңіз.</p>
+                  <div class="investment-scenario-fields">
+                    <label class="research-field"><span>Қаржылық мақсатыңыз</span><select id="scenario-goal" required><option value="home">Үй немесе баспана</option><option value="education">Білім</option><option value="reserve">Қаржылық қор</option><option value="retirement">Ұзақ мерзімді қор</option><option value="other">Басқа мақсат</option></select></label>
+                    <label class="research-field"><span>Мақсат сомасы, ₸</span><input id="scenario-target" type="number" min="10000" max="1000000000000" step="10000" value="5000000" required></label>
+                    <label class="research-field"><span>Мақсатқа дейінгі уақыт, жыл</span><input id="scenario-years" type="number" min="1" max="50" step="1" value="5" required></label>
+                  </div>
+                </fieldset>
+                <fieldset class="investment-scenario-step" data-scenario-step="1" hidden>
+                  <legend><span>2 / 3</span> Қазіргі қаржылық жағдай</legend>
+                  <p>Тұрақты шығындарыңызды ескеріп, есептеуге қолданатын соманы енгізіңіз.</p>
+                  <div class="investment-scenario-fields">
+                    <label class="research-field"><span>Бастапқы салымға бөлген қаражат, ₸</span><input id="scenario-initial" type="number" min="0" max="1000000000000" step="10000" value="300000" required></label>
+                    <label class="research-field"><span>Ай сайын бөлуге болатын сома, ₸</span><input id="scenario-monthly" type="number" min="0" max="1000000000" step="5000" value="50000" required></label>
+                    <label class="research-field"><span>Ай сайынғы негізгі шығын, ₸</span><input id="scenario-expenses" type="number" min="0" max="1000000000" step="5000" value="150000" required></label>
+                    <label class="research-field"><span>Қаржы резерві</span><select id="scenario-has-reserve" required><option value="yes">Иә, бар</option><option value="no">Әлі жинап жүрмін</option></select></label>
+                    <label class="research-field" id="scenario-reserve-field"><span>Қолда бар резерв, ₸</span><input id="scenario-reserve" type="number" min="0" max="1000000000000" step="10000" value="450000" required></label>
+                  </div>
+                </fieldset>
+                <fieldset class="investment-scenario-step" data-scenario-step="2" hidden>
+                  <legend><span>3 / 3</span> Белгісіздікке көзқарас</legend>
+                  <p>Бұл таңдау тек оқу моделін баптайды, сізге актив ұсынбайды.</p>
+                  <div class="investment-scenario-fields">
+                    <label class="research-field"><span>Құнның ауытқуына көзқарасыңыз</span><select id="scenario-risk" required><option value="careful">Төмен ауытқуды қалаймын</option><option value="balanced" selected>Орташа ауытқуға дайынмын</option><option value="growth">Жоғары ауытқуға дайынмын</option></select></label>
+                    <label class="research-field"><span>Инфляцияға арналған демо болжам, % / жыл</span><input id="scenario-inflation" type="number" min="0" max="100" step="0.1" value="8" required></label>
+                  </div>
+                  <p class="investment-scenario-note">Нақты инфляцияны алдын ала білу мүмкін емес. Бұл мән тек сатып алу қабілетін салыстыру мысалы.</p>
+                </fieldset>
+                <p class="investment-scenario-error" id="investment-scenario-error" role="alert" hidden></p>
+                <div class="investment-scenario-controls">
+                  <button type="button" class="investment-scenario-back" id="investment-scenario-back" hidden>← Артқа</button>
+                  <button type="button" class="investment-scenario-next" id="investment-scenario-next">Жалғастыру →</button>
+                  <button type="submit" class="investment-scenario-next" id="investment-scenario-submit" hidden>Жеке сценарийді есептеу →</button>
+                </div>
+              </form>
+              <section class="investment-scenario-results" id="investment-simulation-results" aria-live="polite" hidden></section>
+            </section>
+            <p class="investment-disclaimer">График пен иллюстрациялар оқу мақсатында берілген. Нақты актив бағасы немесе инвестициялық ұсыныс емес.</p>
+          </section>
+          </div>
+        </section>
+
+        <section class="page-view research-page" data-view="research" hidden>
+          <header class="research-hero">
+            <div class="hero-tag">FINPATH · RESEARCH</div>
+            <h1>Активті зерттеу</h1>
+            <p>Monte Carlo сценарийі · кіріс пен тәуекел · инфляция және нақты табыс</p>
+          </header>
+
+          <section class="research-card" aria-labelledby="research-title">
+            <form class="research-controls" id="research-form">
+              <label class="research-field">
+                <span>Актив</span>
+                <select id="asset-select" name="asset">
+                  <option value="tesla">Tesla (TSLA)</option>
+                  <option value="apple">Apple (AAPL)</option>
+                  <option value="nvidia">NVIDIA (NVDA)</option>
+                  <option value="gold">Gold</option>
+                  <option value="sp500">S&amp;P 500</option>
+                  <option value="nasdaq">NASDAQ 100</option>
+                  <option value="bitcoin">Bitcoin</option>
+                  <option value="eurusd">EUR/USD</option>
+                </select>
+              </label>
+              <label class="research-field">
+                <span>Айлық салым, ₸</span>
+                <input id="monthly-input" name="monthly" type="number" min="0" step="10000" value="150000" required />
+              </label>
+              <label class="research-field">
+                <span>Мақсат, ₸</span>
+                <input id="goal-input" name="goal" type="number" min="100000" step="100000" value="15000000" required />
+              </label>
+              <label class="research-field research-field-short">
+                <span>Мерзім, жыл</span>
+                <input id="years-input" name="years" type="number" min="1" max="50" step="1" value="3" required />
+              </label>
+              <label class="research-field">
+                <span>Бастапқы капитал, ₸</span>
+                <input id="capital-input" name="capital" type="number" min="0" step="100000" value="5000000" required />
+              </label>
+              <button class="recalculate-button" type="submit">Қайта есептеу</button>
+            </form>
+
+            <div class="research-heading-row">
+              <h2 id="research-title"><span id="selected-asset-name">Gold</span> · <span id="research-mode-label">жүктелуде</span> <span id="ending-balance">—</span></h2>
+              <span class="demo-badge" id="research-data-badge">Нақты дерек жүктелуде...</span>
+            </div>
+
+            <div class="live-chart-heading">
+              <div>
+                <h3>Нақты нарық графигі</h3>
+                <span>TradingView · нарық дерегі</span>
+              </div>
+              <div class="chart-size-controls" role="group" aria-label="График өлшемін өзгерту">
+                <button id="chart-size-smaller" type="button" aria-label="Графикті кішірейту" title="Кішірейту">−</button>
+                <span id="chart-size-value" aria-live="polite">510 px</span>
+                <button id="chart-size-larger" type="button" aria-label="Графикті үлкейту" title="Үлкейту">+</button>
+              </div>
+            </div>
+            <div class="tradingview-widget-container" id="tradingview-chart" aria-label="TradingView нақты нарық графигі">
+              <div class="tv-fallback">
+                <strong>Нақты нарық графигі</strong>
+                <span>TradingView виджеті жүктелгенше сыртқы графикті ашуға болады.</span>
+                <a href="https://www.tradingview.com/chart/" target="_blank" rel="noopener noreferrer">TradingView графигін ашу ↗</a>
+              </div>
+            </div>
+
+            <div class="chart-panel">
+              <div class="chart-caption">
+                <span><span id="chart-data-label">Нақты дерек</span> · <span id="period-days">—</span></span>
+                <span id="chart-range-label">Тарихи қатар жүктелуде</span>
+              </div>
+              <svg class="simulation-chart" id="simulation-chart" viewBox="0 0 1200 260" role="img" aria-label="Актив бағасының демонстрациялық симуляция графигі">
+                <defs>
+                  <linearGradient id="chart-fill" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#19a96f" stop-opacity=".16" />
+                    <stop offset="100%" stop-color="#19a96f" stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+                <path class="chart-area" id="chart-area" d="" />
+                <polyline class="chart-line" id="chart-line" points="" />
+              </svg>
+            </div>
+
+            <div class="research-metrics" aria-live="polite">
+              <article class="metric-card"><span>Күтілетін жылдық кіріс</span><strong id="metric-return">—</strong></article>
+              <article class="metric-card"><span>Құбылмалылық · жылдық</span><strong id="metric-volatility">—</strong></article>
+              <article class="metric-card"><span>Стандартты ауытқу · капиталдан</span><strong id="metric-deviation">—</strong></article>
+              <article class="metric-card"><span>VaR 95% · 1 күндік тарихи шығын</span><strong id="metric-var">—</strong></article>
+              <article class="metric-card"><span>Максималды төмендеу · тарихи жол</span><strong id="metric-drawdown">—</strong></article>
+              <article class="metric-card"><span>Sharpe коэффициенті · rf=3%</span><strong id="metric-sharpe">—</strong></article>
+              <article class="metric-card"><span>Кіріс / құбылмалылық қатынасы</span><strong id="metric-risk-reward">—</strong></article>
+              <article class="metric-card"><span>Тәуекел деңгейі · модель</span><strong id="metric-risk">—</strong></article>
+            </div>
+
+            <p class="research-disclaimer" id="research-disclaimer">
+              Нақты тарихи дерек жүктелуде...
+            </p>
+            <p class="historical-analysis" id="historical-analysis" aria-live="polite">
+              Ұзақ мерзімді талдау жүктелуде...
+            </p>
+          </section>
+
+          <section class="monte-carlo-card">
+            <div class="analysis-section-heading">
+              <div>
+                <div class="monte-carlo-kicker">01 · МҮМКІН СЦЕНАРИЙЛЕР</div>
+                <h2>Monte Carlo симуляциясы</h2>
+                <p>Кірістілік пен құбылмалылық болжамдарына сүйенген көптеген ықтимал жолдарды салыстырыңыз.</p>
+                <button class="learn-more-link" type="button" data-open-topic="monte-carlo">Толығырақ <span aria-hidden="true">→</span></button>
+              </div>
+              <div class="analysis-illustration" aria-hidden="true">
+                <svg viewBox="0 0 72 72"><path d="M12 57h48M17 49l12-14 10 8 17-23M47 20h9v9" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="17" cy="49" r="3" fill="currentColor"/><circle cx="29" cy="35" r="3" fill="currentColor"/><circle cx="39" cy="43" r="3" fill="currentColor"/><circle cx="56" cy="20" r="3" fill="currentColor"/></svg>
+              </div>
+            </div>
+            <p class="analysis-method-note">Модель: геометриялық Броун қозғалысы, айлық қадам. Параметрлер төмендегі активтің күтілетін кірісі мен құбылмалылығынан алынады. Тұрақты салым ай соңында енгізіледі.</p>
+            <div class="monte-carlo-controls">
+              <label class="research-field">
+                <span>Күтілетін кіріс, % / жыл</span>
+                <input id="mc-return" type="number" min="-99" max="100" step="0.1" value="8" />
+              </label>
+              <label class="research-field">
+                <span>Құбылмалылық, % / жыл</span>
+                <input id="mc-volatility" type="number" min="0" max="200" step="0.1" value="23" />
+              </label>
+              <label class="research-field">
+                <span>Сценарий саны</span>
+                <select id="mc-trials">
+                  <option value="1000">1 000</option>
+                  <option value="5000" selected>5 000</option>
+                  <option value="10000">10 000</option>
+                </select>
+              </label>
+            </div>
+            <button class="monte-carlo-button" id="monte-carlo-button" type="button">Сценарийлерді есептеу</button>
+            <p class="monte-carlo-result" id="goal-impact-text" aria-live="polite">Бастапқы капитал, айлық салым, мерзім және мақсат мәндері жоғарыдағы өрістерден алынады.</p>
+            <div class="monte-carlo-stats" id="monte-carlo-stats" aria-live="polite">
+              <article><span>5-процентиль · төмендеу шегі</span><strong id="mc-p05">—</strong></article>
+              <article><span>Медиана · 50-процентиль</span><strong id="mc-p50">—</strong></article>
+              <article><span>Орташа нәтиже</span><strong id="mc-mean">—</strong></article>
+              <article><span>95-процентиль · жоғарылау шегі</span><strong id="mc-p95">—</strong></article>
+              <article><span>Мақсатқа жету ықтималдығы</span><strong id="mc-goal-probability">—</strong></article>
+              <article><span>Салымнан төмен нәтиже ықтималдығы</span><strong id="mc-loss-probability">—</strong></article>
+            </div>
+            <div class="distribution-panel">
+              <div class="distribution-heading"><strong>Соңғы капиталдың таралуы</strong><span id="mc-distribution-caption">Сценарий нәтижелерінің жиілігі</span></div>
+              <div class="distribution-chart" id="mc-distribution-chart" role="img" aria-label="Monte Carlo сценарийлерінің соңғы капитал бойынша таралу графигі"></div>
+            </div>
+            <p class="analysis-footnote">Monte Carlo болашақты болжамайды. Нәтиже енгізілген болжамдарға және кездейсоқ сценарийлерге тәуелді; бұл инвестициялық кеңес емес.</p>
+          </section>
+
+          <section class="research-analysis-grid">
+            <article class="analysis-card risk-analysis-card">
+              <div class="analysis-section-heading">
+                <div>
+                  <div class="monte-carlo-kicker">02 · КІРІС ПЕН ТӘУЕКЕЛ</div>
+                  <h2>Тәуекел және кірістілік</h2>
+                  <button class="learn-more-link" type="button" data-open-topic="risk-return">Толығырақ <span aria-hidden="true">→</span></button>
+                </div>
+                <div class="analysis-illustration risk-illustration" aria-hidden="true">
+                  <svg viewBox="0 0 72 72"><path d="M36 9 59 18v16c0 15-10 24-23 30C23 58 13 49 13 34V18l23-9Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><path d="m24 37 8 8 17-19" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+              </div>
+              <p>Көрсеткіштер таңдалған активтің модельдік кірісі мен құбылмалылығына сүйенеді. Стандартты ауытқу теңгемен есептеліп, VaR бір күндік 95% модельдік бағалау ретінде көрсетіледі.</p>
+              <div class="risk-formula-list">
+                <div><strong>Sharpe</strong><span>(күтілетін кіріс − 3% тәуекелсіз мөлшерлеме) ÷ құбылмалылық</span></div>
+                <div><strong>Стандартты ауытқу</strong><span>бастапқы капитал × жылдық құбылмалылық</span></div>
+                <div><strong>Кіріс / құбылмалылық</strong><span>күтілетін жылдық кіріс ÷ жылдық құбылмалылық; классикалық тәуекел/пайда болжамы емес</span></div>
+              </div>
+              <p class="analysis-footnote">Көрсеткіштер тәуекелді толық сипаттамайды және ықтимал шығынның кепілді шегі емес. Графиктегі ең үлкен төмендеу — синтетикалық бір жылдық жолдан.</p>
+            </article>
+
+            <article class="analysis-card fisher-card">
+              <div class="analysis-section-heading">
+                <div>
+                  <div class="monte-carlo-kicker">03 · ИНФЛЯЦИЯ ӘСЕРІ</div>
+                  <h2>Фишер теңдеуі</h2>
+                  <button class="learn-more-link" type="button" data-open-topic="fisher">Толығырақ <span aria-hidden="true">→</span></button>
+                </div>
+                <div class="analysis-illustration fisher-illustration" aria-hidden="true">
+                  <svg viewBox="0 0 72 72"><circle cx="36" cy="36" r="25" fill="none" stroke="currentColor" stroke-width="4"/><path d="M36 19v34M26 27c0-4 4-7 10-7s10 3 10 7-4 7-10 7-10 3-10 7 4 7 10 7 10-3 10-7" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/><path d="M13 17h10m-5-5v10M52 55h8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
+                </div>
+              </div>
+              <p>Инфляцияны есепке алғанда кірістің сатып алу қабілетіне қанша қосатынын көріңіз.</p>
+              <form class="fisher-form" id="fisher-form">
+                <label class="research-field"><span>Номиналдық кіріс, % / жыл</span><input id="fisher-nominal" type="number" min="-99" max="1000" step="0.1" value="12" required /></label>
+                <label class="research-field"><span>Инфляция, % / жыл</span><input id="fisher-inflation" type="number" min="-99" max="1000" step="0.1" value="8" required /></label>
+                <label class="research-field"><span>Бастапқы сома, ₸</span><input id="fisher-capital" type="number" min="0" max="1000000000000" step="1000" value="1000000" required /></label>
+                <label class="research-field"><span>Мерзім, жыл</span><input id="fisher-years" type="number" min="1" max="50" step="1" value="10" required /></label>
+              </form>
+              <p class="fisher-error" id="fisher-error" role="alert" hidden></p>
+              <div class="fisher-equation"><span>Дәл теңдеу</span><strong>r = (1 + i) ÷ (1 + π) − 1</strong></div>
+              <div class="fisher-results" aria-live="polite">
+                <div><span>Нақты кіріс · дәл</span><strong id="fisher-real">—</strong></div>
+                <div><span>Жуық кіріс · i − π</span><strong id="fisher-approx">—</strong></div>
+                <div><span>Номинал соманың болашақ құны</span><strong id="fisher-nominal-value">—</strong></div>
+                <div><span>Сатып алу қабілетімен өлшенген құн</span><strong id="fisher-real-value">—</strong></div>
+              </div>
+              <p class="fisher-explanation" id="fisher-explanation" aria-live="polite"></p>
+              <p class="analysis-footnote">Нақты кіріс теріс болса, номинал сома өскенімен сатып алу қабілеті төмендеуі мүмкін. Бұл есепте салық пен комиссия есептелмейді.</p>
+            </article>
+          </section>
+
+          <footer class="research-footer">
+            FinPath KZ · TradingView графигі нақты нарық деректерін көрсетеді; симуляция және қаржылық көрсеткіштер — DEMO. Білім беру құралы, инвестициялық кеңес емес.
+          </footer>
+        </section>
+
+        <section class="page-view learning-page" data-view="monte-carlo-details" hidden>
+          <button class="learning-back" type="button" data-open-page="research">← Активті зерттеуге оралу</button>
+          <header class="research-hero learning-hero">
+            <div class="hero-tag">FINPATH · АКАДЕМИЯ</div>
+            <h1>Monte Carlo симуляциясы</h1>
+            <p>Көптеген кездейсоқ нарық жолдарын модельдеп, ықтимал нәтижелердің ауқымын зерттеңіз.</p>
+          </header>
+          <article class="learning-card">
+            <h2>Әдіс қалай жұмыс істейді?</h2>
+            <p>Бір ғана болашақты болжаудың орнына, модель ай сайынғы кірісті кездейсоқ өзгертіп, салымның бірнеше ықтимал жолын есептейді. Әр сынақта капитал болжамды кіріс пен құбылмалылыққа сай өседі немесе азаяды, ал тұрақты салым мерзім соңында қосылады.</p>
+            <div class="learning-steps" aria-label="Monte Carlo симуляциясының қадамдары">
+              <div><span>01</span><strong>Бастапқы дерек</strong><p>Капитал, айлық салым, мерзім, кіріс және құбылмалылық.</p></div>
+              <div><span>02</span><strong>Кездейсоқ жол</strong><p>Модель әр айға ықтимал оң не теріс кіріс таңдайды.</p></div>
+              <div><span>03</span><strong>Көп қайталау</strong><p>Мыңдаған сценарийдің соңғы балансы салыстырылады.</p></div>
+            </div>
+            <div class="learning-equation"><span>Айлық модельдің ықшам түрі</span><strong>Келесі баланс = баланс × exp(айлық дрейф + құбылмалылық × кездейсоқ шама) + айлық салым</strong></div>
+            <p class="learning-note">5-процентиль — нәтижелердің шамамен 5%-ы бұдан төмен болған шек; медиана — ортасындағы сценарий; 95-процентиль — нәтижелердің шамамен 95%-ы бұдан төмен болған шек. Бұлар кепілдік немесе нарық болжамы емес.</p>
+          </article>
+          <article class="learning-card learning-simulator" id="monte-carlo-calculator">
+            <div class="learning-card-heading"><div><span class="learning-kicker">ИНТЕРАКТИВТІ МЫСАЛ</span><h2>Өз сценарийіңді модельде</h2></div><span class="learning-icon" aria-hidden="true">↗</span></div>
+            <div class="learning-form">
+              <label class="research-field"><span>Бастапқы капитал, ₸</span><input id="learn-mc-capital" type="number" min="0" max="1000000000000" step="100000" value="1000000"></label>
+              <label class="research-field"><span>Айлық салым, ₸</span><input id="learn-mc-monthly" type="number" min="0" max="1000000000" step="10000" value="50000"></label>
+              <label class="research-field"><span>Мерзім, жыл</span><input id="learn-mc-years" type="number" min="1" max="50" step="1" value="10"></label>
+              <label class="research-field"><span>Күтілетін кіріс, % / жыл</span><input id="learn-mc-return" type="number" min="-99" max="100" step="0.1" value="8"></label>
+              <label class="research-field"><span>Құбылмалылық, % / жыл</span><input id="learn-mc-volatility" type="number" min="0" max="200" step="0.1" value="20"></label>
+              <label class="research-field"><span>Сценарий саны</span><select id="learn-mc-trials"><option value="500">500</option><option value="1000" selected>1 000</option><option value="3000">3 000</option></select></label>
+            </div>
+            <button class="recalculate-button learning-run" id="learn-mc-run" type="button">Симуляцияны іске қосу</button>
+            <p class="learning-error" id="learn-mc-error" role="alert" hidden></p>
+            <div class="learning-results">
+              <div><span>5-процентиль</span><strong id="learn-mc-p05">—</strong></div>
+              <div><span>Медиана</span><strong id="learn-mc-p50">—</strong></div>
+              <div><span>Орташа</span><strong id="learn-mc-mean">—</strong></div>
+              <div><span>95-процентиль</span><strong id="learn-mc-p95">—</strong></div>
+            </div>
+            <div class="learning-chart-panel"><div class="learning-chart-heading"><strong>Соңғы капитал сценарийлер бойынша</strong><span id="learn-mc-caption">Есепті іске қосыңыз</span></div><div class="learning-histogram" id="learn-mc-chart" role="img" aria-label="Monte Carlo соңғы капитал сценарийлерінің таралу гистограммасы"></div></div>
+            <p class="analysis-footnote">Оқу симуляциясы: нақты тарихи баға, комиссия, салық және нарық шектеулері модельденбейді. Кездейсоқ сандардан нәтижелер әр іске қосқанда өзгеруі мүмкін.</p>
+          </article>
+        </section>
+
+        <section class="page-view learning-page" data-view="risk-return-details" hidden>
+          <button class="learning-back" type="button" data-open-page="research">← Активті зерттеуге оралу</button>
+          <header class="research-hero learning-hero">
+            <div class="hero-tag">FINPATH · АКАДЕМИЯ</div>
+            <h1>Тәуекел және кірістілік</h1>
+            <p>Күтілетін кірісті оның белгісіздігімен бірге қарастырыңыз.</p>
+          </header>
+          <article class="learning-card">
+            <h2>Көрсеткіштер нені білдіреді?</h2>
+            <p>Күтілетін кіріс — модель немесе болжам пайдаланатын орташа пайыз. Құбылмалылық кірістің осы орташа мәннен қаншалықты ауытқуы мүмкін екенін сипаттайды. Кірістілігі жоғары сценарийдің тәуекелі де жоғары болуы мүмкін.</p>
+            <div class="risk-chart-wrap">
+              <svg class="risk-return-chart" viewBox="0 0 640 330" role="img" aria-label="Күтілетін кіріс пен құбылмалылықтың салыстырмалы диаграммасы">
+                <line x1="72" y1="270" x2="600" y2="270"/><line x1="72" y1="270" x2="72" y2="34"/>
+                <line class="chart-gridline" x1="72" y1="210" x2="600" y2="210"/><line class="chart-gridline" x1="72" y1="150" x2="600" y2="150"/><line class="chart-gridline" x1="72" y1="90" x2="600" y2="90"/>
+                <text x="72" y="300">Төмен тәуекел</text><text x="476" y="300">Жоғары тәуекел →</text><text x="16" y="42">↑ кіріс</text>
+                <circle cx="180" cy="214" r="10"/><text x="194" y="216">Төмендеу</text><circle cx="340" cy="152" r="10"/><text x="354" y="154">Орташа</text>
+                <circle cx="500" cy="78" r="10"/><text x="514" y="80">Жоғарылау</text>
+                <circle id="learn-risk-marker" class="risk-current-marker" cx="300" cy="160" r="11"/><text id="learn-risk-marker-label" x="318" y="179">Сенің сценарийің</text>
+              </svg>
+            </div>
+            <div class="learning-steps risk-metric-explanations">
+              <div><strong>Стандартты ауытқу</strong><p>Капитал × жылдық құбылмалылық — бір жылдық ақшалай ауытқу масштабы.</p></div>
+              <div><strong>VaR 95% · модель</strong><p>Қалыпты үлестірім жорамалымен, бір күндік ықтимал шығын шегінің жуық бағасы. Ең жаман шығынды шектемейді.</p></div>
+              <div><strong>Sharpe коэффициенті</strong><p>(Күтілетін кіріс − тәуекелсіз мөлшерлеме) ÷ құбылмалылық. Модельдік кірісті тәуекелмен салыстырады.</p></div>
+              <div><strong>Максималды төмендеу</strong><p>Портфельдің шыңынан түбіне дейінгі құлдырау; дерек жолына тәуелді және болашақты кепілдемейді.</p></div>
+            </div>
+          </article>
+          <article class="learning-card learning-simulator" id="risk-return-calculator">
+            <div class="learning-card-heading"><div><span class="learning-kicker">ИНТЕРАКТИВТІ МЫСАЛ</span><h2>Кіріс пен тәуекелді салыстыр</h2></div><span class="learning-icon" aria-hidden="true">⌁</span></div>
+            <div class="learning-form risk-learning-form">
+              <label class="research-field"><span>Инвестиция сомасы, ₸</span><input id="learn-risk-capital" type="number" min="0" max="1000000000000" step="100000" value="1000000"></label>
+              <label class="research-field"><span>Күтілетін кіріс, % / жыл</span><input id="learn-risk-return" type="number" min="-99" max="100" step="0.1" value="10"></label>
+              <label class="research-field"><span>Құбылмалылық, % / жыл</span><input id="learn-risk-volatility" type="number" min="0" max="200" step="0.1" value="20"></label>
+              <label class="research-field"><span>Тәуекелсіз мөлшерлеме, %</span><input id="learn-risk-free" type="number" min="0" max="100" step="0.1" value="3"></label>
+            </div>
+            <p class="learning-error" id="learn-risk-error" role="alert" hidden></p>
+            <div class="learning-results risk-learning-results">
+              <div><span>Күтілетін жыл соңындағы сома*</span><strong id="learn-risk-value">—</strong></div>
+              <div><span>Стандартты ауытқу масштабы</span><strong id="learn-risk-deviation">—</strong></div>
+              <div><span>VaR 95% · бір күндік жуықтау</span><strong id="learn-risk-var">—</strong></div>
+              <div><span>Sharpe коэффициенті</span><strong id="learn-risk-sharpe">—</strong></div>
+            </div>
+            <p class="analysis-footnote">*Күтілетін мән — нақты нәтиже емес. VaR формуласы нормал үлестірімге сүйенген жуық оқу бағасы. Көрсетілген тәуекел өлшемдері шығынға кепілдік шек қоймайды.</p>
+          </article>
+        </section>
+
+        <section class="page-view learning-page" data-view="fisher-details" hidden>
+          <button class="learning-back" type="button" data-open-page="research">← Активті зерттеуге оралу</button>
+          <header class="research-hero learning-hero">
+            <div class="hero-tag">FINPATH · АКАДЕМИЯ</div>
+            <h1>Фишер теңдеуі</h1>
+            <p>Инфляцияны ескеріп, ақшаңыздың нақты сатып алу қабілеті қалай өзгеретінін түсініңіз.</p>
+          </header>
+          <article class="learning-card">
+            <h2>Номинал табыс пен нақты табыстың айырмасы</h2>
+            <p>Номинал табыс — шотыңыздағы ақшаның пайыздық өсімі. Нақты табыс — инфляцияны есептегеннен кейінгі сатып алу қабілетінің өсімі. Баға деңгейі кірістен жылдам өссе, ақша сомасы артса да сатып алу қабілеті азаюы мүмкін.</p>
+            <div class="learning-equation fisher-learning-equation"><span>Дәл байланыс</span><strong>1 + i = (1 + r)(1 + π)</strong><span>Нақты кіріс: r = (1 + i) ÷ (1 + π) − 1</span><small>i — номиналдық кіріс · r — нақты кіріс · π — инфляция</small></div>
+            <div class="fisher-example" aria-label="Фишер теңдеуінің сандық мысалы">
+              <div><span>Номинал кіріс</span><strong>12%</strong></div><span class="fisher-minus" aria-hidden="true">−</span><div><span>Инфляция</span><strong>8%</strong></div><span class="fisher-arrow" aria-hidden="true">→</span><div class="fisher-example-result"><span>Нақты кіріс</span><strong>3.70%</strong></div>
+            </div>
+            <p class="learning-note">Жуық есеп: 12% − 8% = 4%. Дәл есеп: 1.12 ÷ 1.08 − 1 = 3.70%. Пайыздар жоғарылаған сайын жуық және дәл жауаптың айырмасы өседі.</p>
+          </article>
+          <article class="learning-card learning-simulator" id="fisher-calculator">
+            <div class="learning-card-heading"><div><span class="learning-kicker">ИНТЕРАКТИВТІ МЫСАЛ</span><h2>Сатып алу қабілетін бақыла</h2></div><span class="learning-icon fisher-learning-icon" aria-hidden="true">₸</span></div>
+            <div class="learning-form">
+              <label class="research-field"><span>Бастапқы сома, ₸</span><input id="learn-fisher-capital" type="number" min="0" max="1000000000000" step="10000" value="1000000"></label>
+              <label class="research-field"><span>Номиналдық кіріс, % / жыл</span><input id="learn-fisher-nominal" type="number" min="-99" max="1000" step="0.1" value="12"></label>
+              <label class="research-field"><span>Инфляция, % / жыл</span><input id="learn-fisher-inflation" type="number" min="-99" max="1000" step="0.1" value="8"></label>
+              <label class="research-field"><span>Мерзім, жыл</span><input id="learn-fisher-years" type="number" min="1" max="50" step="1" value="10"></label>
+            </div>
+            <p class="learning-error" id="learn-fisher-error" role="alert" hidden></p>
+            <div class="learning-results fisher-learning-results">
+              <div><span>Нақты жылдық кіріс · дәл</span><strong id="learn-fisher-real">—</strong></div>
+              <div><span>Жуық нақты кіріс · i − π</span><strong id="learn-fisher-approx">—</strong></div>
+              <div><span>Номинал шоттағы сома</span><strong id="learn-fisher-nominal-value">—</strong></div>
+              <div><span>Бүгінгі сатып алу қабілеті</span><strong id="learn-fisher-real-value">—</strong></div>
+            </div>
+            <div class="fisher-timeline"><div class="fisher-timeline-heading"><strong>Уақыт өте сатып алу қабілеті</strong><span>Бүгінгі теңгемен көрсетілген</span></div><div class="fisher-legend"><span><i class="fisher-legend-nominal"></i> Номинал сома</span><span><i class="fisher-legend-real"></i> Нақты сатып алу қабілеті</span></div><div id="learn-fisher-chart" class="fisher-timeline-chart" role="img" aria-label="Инфляцияны ескерген ақша құнының жылдар бойынша диаграммасы"></div></div>
+            <p class="analysis-footnote">Бұл есеп тұрақты жылдық мөлшерлемелерді болжайды; салық, комиссия және инфляцияның жыл сайын өзгеруі ескерілмейді. Оқу мақсатына арналған, инвестициялық кеңес емес.</p>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <dialog class="signup-dialog" id="signup-dialog" aria-labelledby="signup-title">
+      <div class="signup-layout">
+        <aside class="signup-aside">
+          <button class="signup-close" id="signup-close" type="button" aria-label="Терезені жабу">×</button>
+          <div class="signup-brand">
+            <span class="signup-brand-mark">↗</span>
+            <span>FinPath KZ</span>
+          </div>
+          <div class="signup-art" aria-hidden="true">
+            <svg viewBox="0 0 260 230">
+              <path d="M43 177h174" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="3" stroke-linecap="round"/>
+              <rect x="64" y="80" width="132" height="97" rx="16" fill="rgba(255,255,255,.96)"/>
+              <path d="M83 145v-24h24v24M122 145v-42h24v42M161 145v-58h20v58" fill="none" stroke="#149466" stroke-width="8" stroke-linejoin="round"/>
+              <path d="m80 99 38-22 31 10 34-31" fill="none" stroke="#8be0b8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="183" cy="56" r="8" fill="#b7f0d3"/>
+            </svg>
+          </div>
+          <span class="signup-aside-label">ҚАРЖЫЛЫҚ ЖОЛЫҢЫЗ ОСЫНДА БАСТАЛАДЫ</span>
+          <h2>Болашағыңызды жоспарлаңыз</h2>
+          <p>Мақсаттарыңызды белгілеңіз, активтерді зерттеңіз және жеке портфеліңізді бір жерден басқарыңыз.</p>
+          <div class="signup-benefits">
+            <span><i aria-hidden="true">✓</i> Мақсаттарды бақылау</span>
+            <span><i aria-hidden="true">✓</i> Қаржылық білім мен модельдер</span>
+          </div>
+        </aside>
+
+        <form class="signup-form" id="signup-form">
+          <span class="signup-kicker">ТЕГІН ДЕМО АККАУНТ</span>
+          <h2 id="signup-title">Тіркелу</h2>
+          <p class="signup-description">Ақпаратыңызды енгізіп, FinPath мүмкіндіктерін ашыңыз.</p>
+          <label class="research-field">
+            <span>Атыңыз</span>
+            <input id="signup-name" name="name" type="text" autocomplete="name" maxlength="60" placeholder="Мысалы, Айдана" required />
+          </label>
+          <label class="research-field">
+            <span>Email</span>
+            <input id="signup-email" name="email" type="email" autocomplete="email" maxlength="254" placeholder="name@example.com" required />
+          </label>
+          <label class="research-field">
+            <span>Құпиясөз</span>
+            <input id="signup-password" name="password" type="password" autocomplete="new-password" minlength="8" placeholder="Кемінде 8 таңба" required />
+          </label>
+          <button class="signup-submit" type="submit">Аккаунт ашу <span aria-hidden="true">→</span></button>
+          <p class="signup-error" id="signup-error" role="alert" hidden></p>
+          <p class="signup-note"><span aria-hidden="true">●</span> Құпиясөз сақталмайды. Бұл — серверге қосылмаған демо тіркелу.</p>
+        </form>
+      </div>
+    </dialog>
+
+    <script src="script.js"></script>
+  </body>
+</html>
