@@ -7,7 +7,98 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="app-shell">
+    <section class="welcome-screen" id="welcome-screen" aria-label="FinPath KZ кіріспесі">
+      <div class="welcome-orb welcome-orb-one" aria-hidden="true"></div>
+      <div class="welcome-orb welcome-orb-two" aria-hidden="true"></div>
+      <div class="welcome-topbar">
+        <div class="welcome-brand"><span class="brand-mark">↗</span><strong>FinPath <span>KZ</span></strong></div>
+        <button class="welcome-login-link" id="welcome-login" type="button">Аккаунтқа кіру <span aria-hidden="true">→</span></button>
+      </div>
+
+      <div class="welcome-content">
+        <section class="welcome-step welcome-intro" data-welcome-step="intro">
+          <div class="welcome-copy">
+            <span class="welcome-kicker"><i aria-hidden="true"></i> ҚАРЖЫНЫ ТҮСІНУДІҢ ЖАҢА ЖОЛЫ</span>
+            <h1>Ақшаңызды <span>мақсатыңызға</span> қарай бағыттаңыз.</h1>
+            <p>FinPath KZ — қаржыны жоспарлауды, инвестиция негіздерін үйренуді және өз сценарийлеріңізді есептеуді бір жерге жинаған оқу платформасы.</p>
+            <div class="welcome-benefits">
+              <span><i aria-hidden="true">✓</i> Қаржы мақсатын жоспарлаңыз</span>
+              <span><i aria-hidden="true">✓</i> Портфель мен нарықты зерттеңіз</span>
+              <span><i aria-hidden="true">✓</i> Есептер арқылы үйреніңіз</span>
+            </div>
+            <button class="welcome-primary" id="welcome-start" type="button">Танысуды бастау <span aria-hidden="true">→</span></button>
+            <small>Алдымен бірнеше сұрақ, содан кейін жеке аккаунт ашасыз.</small>
+            <p class="welcome-error" id="welcome-error" role="alert" hidden></p>
+          </div>
+          <div class="welcome-visual" aria-label="Қаржы мақсатына бағытталған оқу жолының көрінісі" role="img">
+            <div class="welcome-visual-glow"></div>
+            <div class="welcome-visual-card">
+              <div class="welcome-visual-heading"><span>СЕНІҢ ҚАРЖЫ ЖОЛЫҢ</span><span class="welcome-live-dot">● ОҚУ</span></div>
+              <div class="welcome-chart">
+                <span class="welcome-chart-grid"></span><span class="welcome-chart-grid"></span><span class="welcome-chart-grid"></span>
+                <svg viewBox="0 0 520 230" preserveAspectRatio="none" aria-hidden="true">
+                  <defs><linearGradient id="welcome-chart-fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#64e3a8" stop-opacity=".34"/><stop offset="1" stop-color="#64e3a8" stop-opacity="0"/></linearGradient></defs>
+                  <path class="welcome-chart-area" d="M0 194 C50 188 63 154 112 167 S175 112 222 132 S293 92 340 107 S417 54 520 31 V230 H0Z"/>
+                  <path class="welcome-chart-line" pathLength="1" d="M0 194 C50 188 63 154 112 167 S175 112 222 132 S293 92 340 107 S417 54 520 31"/>
+                  <circle cx="520" cy="31" r="6"/>
+                </svg>
+                <div class="welcome-chart-labels"><span>МАҚСАТ</span><span>БІЛІМ</span><span>ЖОСПАР</span></div>
+              </div>
+              <div class="welcome-visual-footer"><span class="welcome-visual-icon">◎</span><span><b>Келесі қадам — сенің таңдауың</b><small>Өз мақсатыңнан баста</small></span><span class="welcome-visual-arrow">↗</span></div>
+            </div>
+            <div class="welcome-float welcome-float-top"><span>01</span> Үйрен</div>
+            <div class="welcome-float welcome-float-bottom"><span>02</span> Жоспарла</div>
+          </div>
+        </section>
+
+        <section class="welcome-step welcome-question-step" data-welcome-step="questions" hidden>
+          <div class="welcome-step-heading">
+            <span class="welcome-kicker">САҒАН САЙ БАСТАУ ҮШІН</span>
+            <h1>Қаржы жолыңды неден бастағың келеді?</h1>
+            <p>Жауаптарың оқу тәжірибесін бейімдеуге көмектеседі.</p>
+            <div class="welcome-progress" aria-label="2 қадамның 1-і"><span class="is-current"></span><span></span></div>
+          </div>
+          <form class="welcome-form" id="interest-form">
+            <label class="welcome-field"><span>FinPath-қа не үшін қызықтың?</span>
+              <select id="signup-interest" name="interest" required>
+                <option value="">Біреуін таңдаңыз</option>
+                <option value="budget">Ақшамды жоспарлап, шығынымды түсінгім келеді</option>
+                <option value="learn">Инвестиция негіздерін үйренгім келеді</option>
+                <option value="portfolio">Портфелімді бақылап, активтерді зерттегім келеді</option>
+                <option value="goals">Қаржылық мақсатыма жоспар құрғым келеді</option>
+                <option value="curious">Қаржы тақырыбына қызығамын</option>
+              </select>
+            </label>
+            <label class="welcome-field"><span>Алдағы уақытта қандай қаржылық мақсатың бар?</span>
+              <textarea id="signup-plan" name="plan" rows="4" maxlength="1000" minlength="5" placeholder="Мысалы: бюджетімді бақылауды үйрену немесе үйге ақша жинауды жоспарлау" required></textarea>
+            </label>
+            <div class="welcome-form-actions"><button class="welcome-back" id="welcome-back-intro" type="button">← Артқа</button><button class="welcome-primary" type="submit">Жалғастыру <span aria-hidden="true">→</span></button></div>
+          </form>
+        </section>
+
+        <section class="welcome-step welcome-registration-step" data-welcome-step="register" hidden>
+          <div class="welcome-step-heading">
+            <span class="welcome-kicker">СОҢҒЫ ҚАДАМ · АККАУНТ</span>
+            <h1>Өз жолыңды баста.</h1>
+            <p>Аккаунт профиліңізді қауіпсіз сақтайды. Портфель мен оқу барысы әзірге осы браузерде сақталады.</p>
+            <div class="welcome-progress" aria-label="2 қадамның 2-і"><span class="is-complete"></span><span class="is-current"></span></div>
+          </div>
+          <form class="welcome-form" id="registration-form">
+            <div class="welcome-form-grid">
+              <label class="welcome-field"><span>Атыңыз</span><input id="registration-name" name="name" type="text" autocomplete="name" maxlength="60" placeholder="Мысалы, Айдана" required /></label>
+              <label class="welcome-field"><span>Логин ойлап табыңыз</span><input id="registration-username" name="username" type="text" autocomplete="username" minlength="3" maxlength="32" pattern="(?:[A-Za-z0-9._]|-){3,32}" placeholder="Мысалы, aidana_01" required /><small>3–32 таңба: латын әрпі, сан, нүкте, сызықша немесе _</small></label>
+              <label class="welcome-field welcome-field-full"><span>Құпиясөз ойлап табыңыз</span><input id="registration-password" name="password" type="password" autocomplete="new-password" minlength="10" maxlength="128" placeholder="Кемінде 10 таңба" required /><small>Құпиясөз серверде қауіпсіз хэш түрінде сақталады.</small></label>
+            </div>
+            <p class="welcome-error" id="registration-error" role="alert" hidden></p>
+            <div class="welcome-form-actions"><button class="welcome-back" id="welcome-back-questions" type="button">← Артқа</button><button class="welcome-primary" id="registration-submit" type="submit">Аккаунт ашу <span aria-hidden="true">→</span></button></div>
+            <p class="welcome-form-switch">Аккаунтыңыз бар ма? <button id="registration-login" type="button">Кіру</button></p>
+          </form>
+        </section>
+      </div>
+      <footer class="welcome-footer"><span>FinPath KZ</span><span>Қаржылық білім мен жоспарлауға арналған оқу кеңістігі</span></footer>
+    </section>
+
+    <div class="app-shell" id="app-shell" hidden>
       <button class="menu-toggle" aria-label="Open menu">
         <span></span>
         <span></span>
@@ -75,7 +166,8 @@
       <main class="main-panel">
         <div class="account-bar">
           <span class="account-status" id="account-status" hidden></span>
-          <button class="signup-button" id="signup-open" type="button">Атыңызды енгізу</button>
+          <button class="signup-button" id="signup-open" type="button">Аккаунтқа кіру</button>
+          <button class="signup-button" id="account-logout" type="button" hidden>Шығу</button>
         </div>
 
         <section class="page-view dashboard-page active" data-view="home">
@@ -1220,45 +1312,18 @@
       </main>
     </div>
 
-    <dialog class="signup-dialog" id="signup-dialog" aria-labelledby="signup-title">
-      <div class="signup-layout">
-        <aside class="signup-aside">
-          <button class="signup-close" id="signup-close" type="button" aria-label="Терезені жабу">×</button>
-          <div class="signup-brand">
-            <span class="signup-brand-mark">↗</span>
-            <span>FinPath KZ</span>
-          </div>
-          <div class="signup-art" aria-hidden="true">
-            <svg viewBox="0 0 260 230">
-              <path d="M43 177h174" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="3" stroke-linecap="round"/>
-              <rect x="64" y="80" width="132" height="97" rx="16" fill="rgba(255,255,255,.96)"/>
-              <path d="M83 145v-24h24v24M122 145v-42h24v42M161 145v-58h20v58" fill="none" stroke="#149466" stroke-width="8" stroke-linejoin="round"/>
-              <path d="m80 99 38-22 31 10 34-31" fill="none" stroke="#8be0b8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="183" cy="56" r="8" fill="#b7f0d3"/>
-            </svg>
-          </div>
-          <span class="signup-aside-label">ҚОСЫМША МҮМКІНДІК</span>
-          <h2>Өз атыңызбен жалғастырыңыз</h2>
-          <p>Бұл тек осы браузерде сақталатын жергілікті профиль. Нағыз аккаунт пен серверлік тіркелу әлі қосылмаған.</p>
-          <div class="signup-benefits">
-            <span><i aria-hidden="true">✓</i> Атыңыз басты бетте көрінеді</span>
-            <span><i aria-hidden="true">✓</i> Қалған бөлімдер тіркелусіз ашық</span>
-          </div>
-        </aside>
-
-        <form class="signup-form" id="signup-form">
-          <span class="signup-kicker">ҚАЛАСАҢЫЗ ҒАНА</span>
-          <h2 id="signup-title">Профильді баптау</h2>
-          <p class="signup-description">Атыңыз басты бетте көрінуі үшін енгізіңіз. Бұл профиль осы браузерде ғана сақталады.</p>
-          <label class="research-field">
-            <span>Атыңыз</span>
-            <input id="signup-name" name="name" type="text" autocomplete="name" maxlength="60" placeholder="Мысалы, Айдана" required />
-          </label>
-          <button class="signup-submit" type="submit">Атын сақтау <span aria-hidden="true">→</span></button>
-          <p class="signup-error" id="signup-error" role="alert" hidden></p>
-          <p class="signup-note"><span aria-hidden="true">●</span> Бұл тіркелу немесе қауіпсіз аккаунт емес. Қаржы және портфель деректері осы браузерде ғана сақталады.</p>
-        </form>
-      </div>
+    <dialog class="signup-dialog login-dialog" id="signup-dialog" aria-labelledby="signup-title">
+      <button class="signup-close login-close" id="signup-close" type="button" aria-label="Терезені жабу">×</button>
+      <form class="signup-form" id="signup-form">
+        <span class="signup-kicker">FINPATH KZ · ҚОШ КЕЛДІҢІЗ</span>
+        <h2 id="signup-title">Аккаунтқа кіру</h2>
+        <p class="signup-description">Жоспарыңызды жалғастыру үшін логин мен құпиясөзді енгізіңіз.</p>
+        <label class="research-field"><span>Логин</span><input id="login-username" name="username" type="text" autocomplete="username" maxlength="32" required /></label>
+        <label class="research-field"><span>Құпиясөз</span><input id="login-password" name="password" type="password" autocomplete="current-password" maxlength="128" required /></label>
+        <button class="signup-submit" id="login-submit" type="submit">Кіру <span aria-hidden="true">→</span></button>
+        <p class="signup-error" id="signup-error" role="alert" hidden></p>
+        <p class="signup-note">Аккаунтыңыз жоқ па? <button class="signup-text-button" id="login-register" type="button">Тіркелу</button></p>
+      </form>
     </dialog>
 
     <script src="script.js"></script>

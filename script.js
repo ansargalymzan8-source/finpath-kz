@@ -6,9 +6,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const signupDialog = document.querySelector('#signup-dialog');
   const signupForm = document.querySelector('#signup-form');
   const signupOpenButton = document.querySelector('#signup-open');
+  const accountLogoutButton = document.querySelector('#account-logout');
   const signupStatus = document.querySelector('#account-status');
   const signupError = document.querySelector('#signup-error');
-  const registrationStorageKey = 'finpath-registration-v1';
+  const welcomeScreen = document.querySelector('#welcome-screen');
+  const welcomeError = document.querySelector('#welcome-error');
+  const registrationForm = document.querySelector('#registration-form');
+  const registrationError = document.querySelector('#registration-error');
   const researchForm = document.querySelector('#research-form');
   const assetSelect = document.querySelector('#asset-select');
   const monteCarloButton = document.querySelector('#monte-carlo-button');
@@ -33,25 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const portfolioStorageKey = 'finpath-portfolio-v1';
   const portfolioFxStorageKey = 'finpath-portfolio-usd-kzt-v1';
   const goalTargetsStorageKey = 'finpath-goal-targets-v1';
-  const goalTargets = { car: null, home: null, retirement: null, education: null, phone: null };
+  let goalTargets = { car: null, home: null, retirement: null, education: null, phone: null };
   let goalTargetStatus = '';
-  try {
-    const storedTargets = window.localStorage.getItem(goalTargetsStorageKey);
-    if (storedTargets) {
-      const parsedTargets = JSON.parse(storedTargets);
-      if (!parsedTargets || typeof parsedTargets !== 'object' || Array.isArray(parsedTargets)) {
-        throw new Error('Мақсат сомаларының сақталған пішімі дұрыс емес.');
-      }
-      Object.keys(goalTargets).forEach((key) => {
-        const target = parsedTargets?.[key];
-        if (target === null || target === undefined) return;
-        if (Number.isFinite(target) && target > 0) goalTargets[key] = target;
-        else throw new Error('Мақсат сомасының сақталған мәні жарамсыз.');
-      });
-    }
-  } catch (error) {
-    goalTargetStatus = `Мақсат сомаларын оқу мүмкін болмады: ${error.message}`;
-  }
   const portfolioAssets = {
     tesla: 'Tesla',
     apple: 'Apple',
@@ -290,9 +277,10 @@ document.addEventListener('DOMContentLoaded', () => {
   let portfolioPositions = [];
   let usdKztRate = null;
   let localProfile = null;
-  let registrationPersistenceWarning = '';
+  let loadedUserStorageKey = null;
   let completedInvestmentLessons = [];
   let pendingPageScrollTarget = null;
+  const getUserStorageKey = (key) => `${key}:${localProfile.username.toLowerCase()}`;
 
   const companyNews = [
     {
@@ -573,49 +561,101 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function updateRegistrationUI() {
-    if (localProfile) {
-      signupStatus.textContent = registrationPersistenceWarning
-        ? `Профиль тек осы сессияда: ${registrationPersistenceWarning}`
-        : `Профиль: ${localProfile.name} · осы браузерде`;
-      signupStatus.hidden = false;
-      signupOpenButton.textContent = 'Атын өзгерту';
-    } else {
-      signupStatus.hidden = true;
-      signupOpenButton.textContent = 'Атыңызды енгізу';
-    }
-    signupOpenButton.hidden = false;
-    signupOpenButton.disabled = false;
+  function showWelcomeStep(step) {
+    document.querySelectorAll('[data-welcome-step]').forEach((section) => {
+      section.hidden = section.dataset.welcomeStep !== step;
+    });
   }
 
-  function loadRegistration() {
+  function updateRegistrationUI() {
+    signupStatus.textContent = `Аккаунт: ${localProfile.username}`;
+    signupStatus.hidden = false;
+    signupOpenButton.hidden = true;
+    accountLogoutButton.hidden = false;
+  }
+
+  function loadGoalTargets() {
+    goalTargets = { car: null, home: null, retirement: null, education: null, phone: null };
+    goalTargetStatus = '';
     try {
-      const stored = window.localStorage.getItem(registrationStorageKey);
-      if (!stored) return;
-      const parsed = JSON.parse(stored);
-      if (!parsed || typeof parsed.name !== 'string' || !parsed.name.trim()) {
-        throw new Error('Жергілікті профиль деректерінің пішімі дұрыс емес.');
+      const storedTargets = window.localStorage.getItem(getUserStorageKey(goalTargetsStorageKey));
+      if (!storedTargets) return;
+      const parsedTargets = JSON.parse(storedTargets);
+      if (!parsedTargets || typeof parsedTargets !== 'object' || Array.isArray(parsedTargets)) {
+        throw new Error('Мақсат сомаларының сақталған пішімі дұрыс емес.');
       }
-      localProfile = { name: parsed.name.trim() };
-      if (Object.hasOwn(parsed, 'email')) {
-        try {
-          window.localStorage.setItem(registrationStorageKey, JSON.stringify(localProfile));
-        } catch (error) {
-          registrationPersistenceWarning = `ескі профиль деректерін жаңарту мүмкін болмады: ${error.message}`;
-        }
-      }
+      Object.keys(goalTargets).forEach((key) => {
+        const target = parsedTargets[key];
+        if (target === null || target === undefined) return;
+        if (Number.isFinite(target) && target > 0) goalTargets[key] = target;
+        else throw new Error('Мақсат сомасының сақталған мәні жарамсыз.');
+      });
     } catch (error) {
-      signupError.textContent = `Профильді браузерден оқу мүмкін болмады: ${error.message}`;
-      signupError.hidden = false;
+      goalTargetStatus = `Мақсат сомаларын оқу мүмкін болмады: ${error.message}`;
     }
-    updateRegistrationUI();
+  }
+
+  function initializeUserData() {
+    const userStorageKey = localProfile.username.toLowerCase();
+    if (loadedUserStorageKey === userStorageKey) return;
+    loadedUserStorageKey = userStorageKey;
+    loadGoalTargets();
+    loadPortfolio();
+    renderPortfolio();
+    loadLiveUsdKztRate();
+    loadInvestmentProgress();
+    renderInvestmentProgress();
+    renderInvestmentPathways();
+    loadInvestmentNotebook();
+    document.querySelector('#portfolio-asset').dispatchEvent(new Event('change'));
+    renderGoals();
     renderDashboard();
   }
 
+  function showAuthenticatedUser(user) {
+    localProfile = user;
+    welcomeScreen.hidden = true;
+    appShell.hidden = false;
+    welcomeError.hidden = true;
+    updateRegistrationUI();
+    initializeUserData();
+    renderDashboard();
+  }
+
+  async function requestAuth(path, body) {
+    const response = await fetch(path, {
+      method: body ? 'POST' : 'GET',
+      credentials: 'same-origin',
+      headers: body ? { 'Content-Type': 'application/json' } : {},
+      body: body ? JSON.stringify(body) : undefined,
+      cache: 'no-store'
+    });
+    let payload;
+    try {
+      payload = await response.json();
+    } catch {
+      throw new Error('Серверден жарамды жауап алынбады.');
+    }
+    if (!response.ok) throw new Error(payload.error || 'Сұрауды орындау мүмкін болмады.');
+    return payload;
+  }
+
   function openSignup() {
-    document.querySelector('#signup-name').value = localProfile?.name || '';
     signupError.hidden = true;
+    signupForm.reset();
     signupDialog.showModal();
+  }
+
+  async function restoreSession() {
+    try {
+      const { user } = await requestAuth('/api/auth/session');
+      if (user) showAuthenticatedUser(user);
+    } catch (error) {
+      welcomeError.textContent = `Серверге қосылу мүмкін болмады: ${error.message}`;
+      welcomeError.hidden = false;
+      welcomeScreen.hidden = false;
+      appShell.hidden = true;
+    }
   }
 
   function setPortfolioStatus(message, isError = false) {
@@ -671,12 +711,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function loadPortfolio() {
     try {
-      const fxRate = window.localStorage.getItem(portfolioFxStorageKey);
+      const fxRate = window.localStorage.getItem(getUserStorageKey(portfolioFxStorageKey));
       if (fxRate !== null) {
         const parsedFxRate = Number(fxRate);
         if (!Number.isFinite(parsedFxRate) || parsedFxRate < 1 || parsedFxRate > 1000000) {
           usdKztRate = null;
-          window.localStorage.removeItem(portfolioFxStorageKey);
+          window.localStorage.removeItem(getUserStorageKey(portfolioFxStorageKey));
           setPortfolioStatus('Сақталған USD/KZT бағамы жарамсыз болды. Нақты бағам қайта жүктелуде.', true);
           document.querySelector('#portfolio-fx-rate').value = '';
         } else {
@@ -685,7 +725,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
       const rate = getUsdKztRate();
-      const stored = window.localStorage.getItem(portfolioStorageKey);
+      const stored = window.localStorage.getItem(getUserStorageKey(portfolioStorageKey));
       if (!stored) {
         portfolioPositions = [];
         return;
@@ -733,7 +773,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function savePortfolio() {
     try {
-      window.localStorage.setItem(portfolioStorageKey, JSON.stringify(portfolioPositions));
+      window.localStorage.setItem(getUserStorageKey(portfolioStorageKey), JSON.stringify(portfolioPositions));
       setPortfolioStatus('Позиция осы браузерде сақталды. USD бағалары мен бағамды қолмен жаңартыңыз; брокерге қосылмаған.');
     } catch (error) {
       setPortfolioStatus(`Өзгерістер осы бет ашық тұрғанша ғана сақталады: ${error.message}`, true);
@@ -1801,7 +1841,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function loadInvestmentProgress() {
     try {
-      const stored = window.localStorage.getItem(investmentProgressKey);
+      completedInvestmentLessons = [];
+      const stored = window.localStorage.getItem(getUserStorageKey(investmentProgressKey));
       if (!stored) return;
       const parsed = JSON.parse(stored);
       if (!Array.isArray(parsed) || parsed.some((id) => !investmentLessons.some((lesson) => lesson.id === id))) {
@@ -1874,7 +1915,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function loadInvestmentNotebook() {
     const status = document.querySelector('#investment-notebook-status');
     try {
-      const stored = window.localStorage.getItem(investmentNotebookKey);
+      const stored = window.localStorage.getItem(getUserStorageKey(investmentNotebookKey));
       if (!stored) return;
       const notes = JSON.parse(stored);
       if (!notes || typeof notes.goal !== 'string' || typeof notes.reflection !== 'string') {
@@ -1896,7 +1937,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const status = document.querySelector('#investment-notebook-status');
     document.querySelector('#investment-notebook-save').addEventListener('click', () => {
       try {
-        window.localStorage.setItem(investmentNotebookKey, JSON.stringify({
+        window.localStorage.setItem(getUserStorageKey(investmentNotebookKey), JSON.stringify({
           goal: goal.value,
           reflection: reflection.value,
           updatedAt: new Date().toISOString()
@@ -2263,7 +2304,7 @@ document.addEventListener('DOMContentLoaded', () => {
         completedInvestmentLessons.push(lesson.id);
         let saved = true;
         try {
-          window.localStorage.setItem(investmentProgressKey, JSON.stringify(completedInvestmentLessons));
+          window.localStorage.setItem(getUserStorageKey(investmentProgressKey), JSON.stringify(completedInvestmentLessons));
           investmentProgressStatus.hidden = true;
         } catch (error) {
           saved = false;
@@ -2584,11 +2625,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderStep();
   }
 
-  loadInvestmentProgress();
-  renderInvestmentProgress();
-  renderInvestmentPathways();
   renderInvestmentLessonPlaceholder();
-  loadInvestmentNotebook();
   initializeInvestmentNotebook();
   initializeInvestmentScenarioSimulation();
   investmentPathways.addEventListener('click', (event) => {
@@ -2628,37 +2665,6 @@ document.addEventListener('DOMContentLoaded', () => {
       menuToggle.setAttribute('aria-expanded', String(isOpen));
     });
   }
-
-  signupOpenButton.addEventListener('click', openSignup);
-  document.querySelector('#signup-close').addEventListener('click', () => signupDialog.close());
-  signupDialog.addEventListener('click', (event) => {
-    if (event.target === signupDialog) signupDialog.close();
-  });
-
-  signupForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    signupError.hidden = true;
-    if (!signupForm.reportValidity()) return;
-
-    const name = document.querySelector('#signup-name').value.trim();
-    if (!name) {
-      signupError.textContent = 'Атыңызды енгізіңіз.';
-      signupError.hidden = false;
-      return;
-    }
-
-    localProfile = { name };
-    registrationPersistenceWarning = '';
-    try {
-      window.localStorage.setItem(registrationStorageKey, JSON.stringify(localProfile));
-    } catch (error) {
-      registrationPersistenceWarning = `профиль сақталмады: ${error.message}`;
-    }
-    updateRegistrationUI();
-    renderDashboard();
-    signupForm.reset();
-    signupDialog.close();
-  });
 
   navItems.forEach((item) => {
     item.addEventListener('click', () => {
@@ -2749,7 +2755,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     goalTargets[input.dataset.goalTarget] = target;
     try {
-      window.localStorage.setItem(goalTargetsStorageKey, JSON.stringify(goalTargets));
+      window.localStorage.setItem(getUserStorageKey(goalTargetsStorageKey), JSON.stringify(goalTargets));
       goalTargetStatus = 'Мақсат сомасы осы браузерде сақталды.';
     } catch (error) {
       goalTargetStatus = `Мақсат сомасы сақталмады: ${error.message}`;
@@ -2823,9 +2829,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (portfolioForm) {
-    loadPortfolio();
-    renderPortfolio();
-    loadLiveUsdKztRate();
     const goalSelect = document.querySelector('#portfolio-goal');
     const customGoalField = document.querySelector('#portfolio-custom-goal-field');
     const customGoalInput = document.querySelector('#portfolio-custom-goal');
@@ -2860,7 +2863,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     document.querySelector('#portfolio-investment-amount').addEventListener('input', updateInvestmentPreview);
-    document.querySelector('#portfolio-asset').dispatchEvent(new Event('change'));
   }
 
   if (compoundForm) {
@@ -2887,7 +2889,97 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCompoundInterest();
   }
 
-  loadRegistration();
+  document.querySelector('#welcome-start').addEventListener('click', () => showWelcomeStep('questions'));
+  document.querySelector('#welcome-back-intro').addEventListener('click', () => showWelcomeStep('intro'));
+  document.querySelector('#welcome-back-questions').addEventListener('click', () => showWelcomeStep('questions'));
+  document.querySelector('#welcome-login').addEventListener('click', openSignup);
+  document.querySelector('#registration-login').addEventListener('click', openSignup);
+  document.querySelector('#login-register').addEventListener('click', () => {
+    signupDialog.close();
+    welcomeScreen.hidden = false;
+    showWelcomeStep('questions');
+  });
+  document.querySelector('#interest-form').addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (!event.currentTarget.reportValidity()) return;
+    registrationError.hidden = true;
+    welcomeError.hidden = true;
+    showWelcomeStep('register');
+    document.querySelector('#registration-name').focus();
+  });
+
+  registrationForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    registrationError.hidden = true;
+    if (!registrationForm.reportValidity()) return;
+    const submit = document.querySelector('#registration-submit');
+    submit.disabled = true;
+    try {
+      const { user } = await requestAuth('/api/auth/register', {
+        name: document.querySelector('#registration-name').value.trim(),
+        username: document.querySelector('#registration-username').value.trim(),
+        password: document.querySelector('#registration-password').value,
+        interest: document.querySelector('#signup-interest').value,
+        plan: document.querySelector('#signup-plan').value.trim()
+      });
+      registrationForm.reset();
+      document.querySelector('#interest-form').reset();
+      showAuthenticatedUser(user);
+    } catch (error) {
+      registrationError.textContent = error.message;
+      registrationError.hidden = false;
+    } finally {
+      submit.disabled = false;
+    }
+  });
+
+  signupOpenButton.addEventListener('click', openSignup);
+  document.querySelector('#signup-close').addEventListener('click', () => signupDialog.close());
+  signupDialog.addEventListener('click', (event) => {
+    if (event.target === signupDialog) signupDialog.close();
+  });
+
+  signupForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    signupError.hidden = true;
+    if (!signupForm.reportValidity()) return;
+    const submit = document.querySelector('#login-submit');
+    submit.disabled = true;
+    try {
+      const { user } = await requestAuth('/api/auth/login', {
+        username: document.querySelector('#login-username').value.trim(),
+        password: document.querySelector('#login-password').value
+      });
+      signupForm.reset();
+      signupDialog.close();
+      showAuthenticatedUser(user);
+    } catch (error) {
+      signupError.textContent = error.message;
+      signupError.hidden = false;
+    } finally {
+      submit.disabled = false;
+    }
+  });
+
+  accountLogoutButton.addEventListener('click', async () => {
+    accountLogoutButton.disabled = true;
+    try {
+      await requestAuth('/api/auth/logout', {});
+      localProfile = null;
+      loadedUserStorageKey = null;
+      appShell.hidden = true;
+      welcomeScreen.hidden = false;
+      showWelcomeStep('intro');
+    } catch (error) {
+      signupError.textContent = `Аккаунттан шығу мүмкін болмады: ${error.message}`;
+      signupError.hidden = false;
+      if (!signupDialog.open) signupDialog.showModal();
+    } finally {
+      accountLogoutButton.disabled = false;
+    }
+  });
+
+  restoreSession();
 
   if (researchForm) {
     researchForm.addEventListener('submit', (event) => {
