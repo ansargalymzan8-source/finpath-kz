@@ -487,6 +487,101 @@ button {
   line-height: 1;
 }
 
+.dashboard-onboarding {
+  margin: 0 0 28px;
+  padding: 24px;
+  border: 1px solid #dcece3;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #f3fbf6, #fff);
+}
+
+.dashboard-onboarding[hidden] {
+  display: none;
+}
+
+.dashboard-onboarding-heading h2 {
+  margin: 7px 0;
+  color: #17382b;
+  font-size: clamp(1.35rem, 2vw, 1.8rem);
+  letter-spacing: -.04em;
+}
+
+.dashboard-onboarding-heading p {
+  max-width: 760px;
+  margin: 0;
+  color: #657b70;
+  font-size: .88rem;
+  line-height: 1.6;
+}
+
+.dashboard-onboarding-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.dashboard-onboarding-steps article {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+  padding: 15px;
+  border: 1px solid #e4eee8;
+  border-radius: 15px;
+  background: #fff;
+}
+
+.dashboard-onboarding-steps article > span {
+  display: grid;
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: 10px;
+  background: #e4f7ed;
+  color: #138458;
+  font-size: .72rem;
+  font-weight: 900;
+}
+
+.dashboard-onboarding-steps article div {
+  min-width: 0;
+}
+
+.dashboard-onboarding-steps strong {
+  color: #244a36;
+  font-size: .88rem;
+}
+
+.dashboard-onboarding-steps p {
+  margin: 5px 0 10px;
+  color: #71857d;
+  font-size: .78rem;
+  line-height: 1.45;
+}
+
+.dashboard-onboarding-steps button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #138458;
+  font: inherit;
+  font-size: .78rem;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.dashboard-onboarding-steps button:hover {
+  color: #075f3d;
+  text-decoration: underline;
+}
+
+.dashboard-onboarding-steps button:focus-visible {
+  outline: 3px solid rgba(38, 166, 103, .3);
+  outline-offset: 3px;
+}
+
 .dashboard-section,
 .dashboard-market {
   margin-bottom: 28px;
@@ -4286,7 +4381,8 @@ button {
 
   .dashboard-capital-row,
   .dashboard-goals,
-  .market-summary {
+  .market-summary,
+  .dashboard-onboarding-steps {
     grid-template-columns: 1fr;
     gap: 10px;
   }

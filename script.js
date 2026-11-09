@@ -31,9 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const academyOverview = document.querySelector('#academy-overview');
   const generalInvestmentContent = document.querySelector('#general-investment-content');
   const portfolioStorageKey = 'finpath-portfolio-v1';
-  const portfolioDefaultsMigratedKey = 'finpath-portfolio-demo-seeded-v1';
   const portfolioFxStorageKey = 'finpath-portfolio-usd-kzt-v1';
-  const availableCash = 4000;
   const homeGoalTargets = { home: 25000000, phone: 600000 };
   const carGoalTarget = 15000000;
   const portfolioGoalTargets = { ...homeGoalTargets, car: carGoalTarget };
@@ -275,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentChartSymbol = null;
   let portfolioPositions = [];
   let usdKztRate = null;
-  let registeredUser = null;
+  let localProfile = null;
   let registrationPersistenceWarning = '';
   let completedInvestmentLessons = [];
   let pendingPageScrollTarget = null;
@@ -560,21 +558,18 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function updateRegistrationUI() {
-    const accountBar = document.querySelector('.account-bar');
-    if (registeredUser) {
-      signupStatus.textContent = registrationPersistenceWarning;
-      signupStatus.hidden = !registrationPersistenceWarning;
-      signupOpenButton.hidden = true;
-      accountBar.hidden = !registrationPersistenceWarning;
+    if (localProfile) {
+      signupStatus.textContent = registrationPersistenceWarning
+        ? `Профиль тек осы сессияда: ${registrationPersistenceWarning}`
+        : `Профиль: ${localProfile.name} · осы браузерде`;
+      signupStatus.hidden = false;
+      signupOpenButton.textContent = 'Атын өзгерту';
     } else {
-      signupStatus.textContent = 'Тіркелмегенсіз';
       signupStatus.hidden = true;
-      signupOpenButton.textContent = 'Sign up';
-      signupOpenButton.hidden = false;
-      signupOpenButton.disabled = false;
-      signupOpenButton.removeAttribute('aria-label');
-      accountBar.hidden = false;
+      signupOpenButton.textContent = 'Атыңызды енгізу';
     }
+    signupOpenButton.hidden = false;
+    signupOpenButton.disabled = false;
   }
 
   function loadRegistration() {
@@ -582,12 +577,19 @@ document.addEventListener('DOMContentLoaded', () => {
       const stored = window.localStorage.getItem(registrationStorageKey);
       if (!stored) return;
       const parsed = JSON.parse(stored);
-      if (!parsed || typeof parsed.name !== 'string' || !parsed.name.trim() || typeof parsed.email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(parsed.email)) {
-        throw new Error('Тіркелу деректерінің пішімі дұрыс емес.');
+      if (!parsed || typeof parsed.name !== 'string' || !parsed.name.trim()) {
+        throw new Error('Жергілікті профиль деректерінің пішімі дұрыс емес.');
       }
-      registeredUser = { name: parsed.name.trim(), email: parsed.email };
+      localProfile = { name: parsed.name.trim() };
+      if (Object.hasOwn(parsed, 'email')) {
+        try {
+          window.localStorage.setItem(registrationStorageKey, JSON.stringify(localProfile));
+        } catch (error) {
+          registrationPersistenceWarning = `ескі профиль деректерін жаңарту мүмкін болмады: ${error.message}`;
+        }
+      }
     } catch (error) {
-      signupError.textContent = `Тіркелуді браузерден оқу мүмкін болмады: ${error.message}`;
+      signupError.textContent = `Профильді браузерден оқу мүмкін болмады: ${error.message}`;
       signupError.hidden = false;
     }
     updateRegistrationUI();
@@ -595,7 +597,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function openSignup() {
-    if (registeredUser) return;
+    document.querySelector('#signup-name').value = localProfile?.name || '';
+    signupError.hidden = true;
     signupDialog.showModal();
   }
 
@@ -664,28 +667,19 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       const rate = getUsdKztRate();
       const stored = window.localStorage.getItem(portfolioStorageKey);
-      const demoPositions = [
-        { id: 'mansur-tsla-demo', asset: 'tesla', quantity: 0.2, priceUsd: 200, marketPriceUsd: 210, goal: 'home', createdAt: Date.now() },
-        { id: 'mansur-aapl-demo', asset: 'apple', quantity: 0.2, priceUsd: 180, marketPriceUsd: 185, goal: 'phone', createdAt: Date.now() },
-        { id: 'mansur-nvda-demo', asset: 'nvidia', quantity: 0.2, priceUsd: 120, marketPriceUsd: 125, goal: 'home', createdAt: Date.now() }
-      ];
-      const seedDemoPortfolio = () => {
-        portfolioPositions = demoPositions;
-        window.localStorage.setItem(portfolioStorageKey, JSON.stringify(portfolioPositions));
-        window.localStorage.setItem(portfolioDefaultsMigratedKey, 'true');
-      };
-
       if (!stored) {
-        seedDemoPortfolio();
+        portfolioPositions = [];
         return;
       }
-      const parsed = JSON.parse(stored);
-      if (Array.isArray(parsed) && parsed.length === 0 && !window.localStorage.getItem(portfolioDefaultsMigratedKey)) {
-        seedDemoPortfolio();
-        return;
-      }
+      let parsed = JSON.parse(stored);
       if (!Array.isArray(parsed)) throw new Error('Сақталған портфель деректерінің пішімі дұрыс емес.');
       let migrated = false;
+      const demoPositionIds = new Set(['mansur-tsla-demo', 'mansur-aapl-demo', 'mansur-nvda-demo']);
+      const userPositions = parsed.filter((position) => !position || !demoPositionIds.has(position.id));
+      if (userPositions.length !== parsed.length) {
+        parsed = userPositions;
+        migrated = true;
+      }
       parsed.forEach((position) => {
         if (!position || typeof position !== 'object') throw new Error('Сақталған позиция пішімі дұрыс емес.');
         const normalizedAsset = normalizePortfolioAsset(position.asset);
@@ -694,22 +688,8 @@ document.addEventListener('DOMContentLoaded', () => {
           migrated = true;
         }
         if (!Number.isFinite(position.priceUsd) && Number.isFinite(position.price) && position.price > 0) {
-          if (position.id === 'mansur-tsla-demo') {
-            position.quantity = 0.2;
-            position.priceUsd = 200;
-            position.marketPriceUsd = 210;
-          } else if (position.id === 'mansur-aapl-demo') {
-            position.quantity = 0.2;
-            position.priceUsd = 180;
-            position.marketPriceUsd = 185;
-          } else if (position.id === 'mansur-nvda-demo') {
-            position.quantity = 0.2;
-            position.priceUsd = 120;
-            position.marketPriceUsd = 125;
-          } else {
-            position.priceUsd = position.price / rate;
-            position.marketPriceUsd = (position.marketPrice || position.price) / rate;
-          }
+          position.priceUsd = position.price / rate;
+          position.marketPriceUsd = (position.marketPrice || position.price) / rate;
           delete position.price;
           delete position.marketPrice;
           migrated = true;
@@ -726,7 +706,6 @@ document.addEventListener('DOMContentLoaded', () => {
       );
       if (!valid) throw new Error('Сақталған портфель деректерінің пішімі дұрыс емес.');
       portfolioPositions = parsed;
-      window.localStorage.setItem(portfolioDefaultsMigratedKey, 'true');
       if (migrated) savePortfolio();
     } catch (error) {
       setPortfolioStatus(`Портфель браузерден оқылмады: ${error.message}`, true);
@@ -906,17 +885,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const holdingsContainer = document.querySelector('#dashboard-holdings');
     if (!holdingsContainer) return;
 
-    greeting.textContent = registeredUser
-      ? `Сәлем, ${registeredUser.name}!`
+    greeting.textContent = localProfile
+      ? `Сәлем, ${localProfile.name}!`
       : 'Қош келдіңіз!';
 
     const invested = portfolioPositions.reduce((sum, position) => sum + getPositionInvested(position), 0);
     const holdingsValue = portfolioPositions.reduce((sum, position) => sum + getPositionMarketValue(position), 0);
-    const totalCapital = holdingsValue + availableCash;
+    const totalCapital = holdingsValue;
     const netChange = holdingsValue - invested;
 
     document.querySelector('#dashboard-capital').textContent = formatMoney(totalCapital);
     document.querySelector('#dashboard-position-count').textContent = String(portfolioPositions.length);
+    document.querySelector('#dashboard-position-assets').textContent = portfolioPositions.length
+      ? [...new Set(portfolioPositions.map((position) => portfolioAssets[position.asset]))].join(' · ')
+      : 'Әзірге актив жоқ';
+    document.querySelector('#dashboard-onboarding').hidden = portfolioPositions.length > 0;
     document.querySelector('#dashboard-market-value').textContent = `${formatMoney(holdingsValue)} · ${formatUsd(portfolioPositions.reduce((sum, position) => sum + position.quantity * position.marketPriceUsd, 0))}`;
     document.querySelector('#dashboard-market-invested').textContent = `${formatMoney(invested)} · ${formatUsd(portfolioPositions.reduce((sum, position) => sum + position.quantity * position.priceUsd, 0))}`;
     const changeElement = document.querySelector('#dashboard-market-change');
@@ -955,7 +938,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const companyName = document.createElement('strong');
       companyName.textContent = portfolioAssets[position.asset];
       const ticker = document.createElement('span');
-      ticker.textContent = position.asset === 'tesla' ? 'NASDAQ · TSLA' : position.asset === 'apple' ? 'NASDAQ · AAPL' : position.asset === 'nvidia' ? 'NASDAQ · NVDA' : 'DEMO · Портфель';
+      ticker.textContent = position.asset === 'tesla' ? 'NASDAQ · TSLA' : position.asset === 'apple' ? 'NASDAQ · AAPL' : position.asset === 'nvidia' ? 'NASDAQ · NVDA' : portfolioAssets[position.asset];
       ticker.textContent += ` · ${formatQuantity(position.quantity)} ${portfolioAssetUnits[position.asset].unit}`;
       companyText.append(companyName, ticker);
       company.append(logo, companyText);
@@ -2638,19 +2621,18 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!signupForm.reportValidity()) return;
 
     const name = document.querySelector('#signup-name').value.trim();
-    const email = document.querySelector('#signup-email').value.trim().toLowerCase();
-    const password = document.querySelector('#signup-password').value;
-    if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || password.length < 8) {
-      signupError.textContent = 'Атыңызды, email мекенжайын және кемінде 8 таңбалы құпиясөзді тексеріңіз.';
+    if (!name) {
+      signupError.textContent = 'Атыңызды енгізіңіз.';
       signupError.hidden = false;
       return;
     }
 
-    registeredUser = { name, email };
+    localProfile = { name };
+    registrationPersistenceWarning = '';
     try {
-      window.localStorage.setItem(registrationStorageKey, JSON.stringify(registeredUser));
+      window.localStorage.setItem(registrationStorageKey, JSON.stringify(localProfile));
     } catch (error) {
-      registrationPersistenceWarning = `Тіркелу тек осы сессияға сақталды: ${error.message}`;
+      registrationPersistenceWarning = `профиль сақталмады: ${error.message}`;
     }
     updateRegistrationUI();
     renderDashboard();
@@ -2661,11 +2643,6 @@ document.addEventListener('DOMContentLoaded', () => {
   navItems.forEach((item) => {
     item.addEventListener('click', () => {
       const target = item.dataset.page;
-      if (!registeredUser && target !== 'home' && target !== 'academy') {
-        pendingPageScrollTarget = null;
-        openSignup();
-        return;
-      }
 
       navItems.forEach((navItem) => navItem.classList.remove('active'));
       item.classList.add('active');
@@ -2710,10 +2687,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('[data-open-topic]').forEach((button) => {
     button.addEventListener('click', () => {
       const targetView = `${button.dataset.openTopic}-details`;
-      if (!registeredUser) {
-        openSignup();
-        return;
-      }
       navItems.forEach((item) => item.classList.toggle('active', item.dataset.page === 'research'));
       pageViews.forEach((view) => {
         const isTarget = view.dataset.view === targetView;

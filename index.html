@@ -74,8 +74,8 @@
 
       <main class="main-panel">
         <div class="account-bar">
-          <span class="account-status" id="account-status" hidden>Тіркелмегенсіз</span>
-          <button class="signup-button" id="signup-open" type="button">Sign up</button>
+          <span class="account-status" id="account-status" hidden></span>
+          <button class="signup-button" id="signup-open" type="button">Атыңызды енгізу</button>
         </div>
 
         <section class="page-view dashboard-page active" data-view="home">
@@ -125,17 +125,30 @@
           <section class="dashboard-capital-row" aria-label="Жеке капитал">
             <article class="capital-card">
               <div class="capital-card-copy">
-                <span class="dashboard-eyebrow">ЖАЛПЫ КАПИТАЛ · DEMO</span>
-                <strong id="dashboard-capital">56 000 ₸</strong>
-                <span>Портфель құны + бос ақша</span>
+                <span class="dashboard-eyebrow">ПОРТФЕЛЬДІҢ АҒЫМДАҒЫ ҚҰНЫ</span>
+                <strong id="dashboard-capital">0 ₸</strong>
+                <span>Портфельге енгізілген активтердің есептік құны</span>
               </div>
               <div class="capital-card-icon" aria-hidden="true">₸</div>
             </article>
             <article class="dashboard-position-count">
-              <span class="dashboard-eyebrow">АШЫҚ ПОЗИЦИЯЛАР</span>
-              <strong id="dashboard-position-count">3</strong>
-              <span>TSLA · AAPL · NVDA</span>
+              <span class="dashboard-eyebrow">САТЫП АЛЫНҒАН АКТИВТЕР</span>
+              <strong id="dashboard-position-count">0</strong>
+              <span id="dashboard-position-assets">Әзірге актив жоқ</span>
             </article>
+          </section>
+
+          <section class="dashboard-onboarding" id="dashboard-onboarding" aria-labelledby="dashboard-onboarding-title" hidden>
+            <div class="dashboard-onboarding-heading">
+              <span class="dashboard-eyebrow">АЛҒАШҚЫ ҚАДАМ · ТЕГІН ОҚУ ҚҰРАЛЫ</span>
+              <h2 id="dashboard-onboarding-title">Бірінші нәтижеге дейінгі жол</h2>
+              <p>Тіркелмей-ақ бастаңыз. Бұл — оқу симуляторы: нақты ақша салынбайды және брокерге тапсырыс жіберілмейді.</p>
+            </div>
+            <div class="dashboard-onboarding-steps">
+              <article><span>01</span><div><strong>Негізін үйреніңіз</strong><p>Қарапайым сабақтан бастап, инвестиция ұғымдарын түсініңіз.</p><button type="button" data-open-page="academy">Академияны ашу →</button></div></article>
+              <article><span>02</span><div><strong>Оқу портфелін құрыңыз</strong><p>Актив пен соманы енгізіп, есептік өзгерісті бақылаңыз.</p><button type="button" data-open-page="portfolio" data-scroll-target="portfolio-form">Портфельге өту →</button></div></article>
+              <article><span>03</span><div><strong>Мақсат қойыңыз</strong><p>Жинақ мақсатын таңдап, прогресті портфельмен салыстырыңыз.</p><button type="button" data-open-page="goals">Мақсаттарды көру →</button></div></article>
+            </div>
           </section>
 
           <section class="dashboard-section">
@@ -184,7 +197,7 @@
             <div class="market-summary">
               <div><span>Позициялардың құны · есептік</span><strong id="dashboard-market-value">52 000 ₸</strong></div>
               <div><span>Сатып алу құны · енгізілген</span><strong id="dashboard-market-invested">50 000 ₸</strong></div>
-              <div><span>Өзгеріс · DEMO</span><strong id="dashboard-market-change">+2 000 ₸</strong></div>
+              <div><span>Өзгеріс · есептік</span><strong id="dashboard-market-change">0 ₸</strong></div>
             </div>
             <div class="real-news-list dashboard-news-list" id="home-news-list" aria-live="polite"></div>
           </section>
@@ -1190,34 +1203,26 @@
               <circle cx="183" cy="56" r="8" fill="#b7f0d3"/>
             </svg>
           </div>
-          <span class="signup-aside-label">ҚАРЖЫЛЫҚ ЖОЛЫҢЫЗ ОСЫНДА БАСТАЛАДЫ</span>
-          <h2>Болашағыңызды жоспарлаңыз</h2>
-          <p>Мақсаттарыңызды белгілеңіз, активтерді зерттеңіз және жеке портфеліңізді бір жерден басқарыңыз.</p>
+          <span class="signup-aside-label">ҚОСЫМША МҮМКІНДІК</span>
+          <h2>Өз атыңызбен жалғастырыңыз</h2>
+          <p>Бұл тек осы браузерде сақталатын жергілікті профиль. Нағыз аккаунт пен серверлік тіркелу әлі қосылмаған.</p>
           <div class="signup-benefits">
-            <span><i aria-hidden="true">✓</i> Мақсаттарды бақылау</span>
-            <span><i aria-hidden="true">✓</i> Қаржылық білім мен модельдер</span>
+            <span><i aria-hidden="true">✓</i> Атыңыз басты бетте көрінеді</span>
+            <span><i aria-hidden="true">✓</i> Қалған бөлімдер тіркелусіз ашық</span>
           </div>
         </aside>
 
         <form class="signup-form" id="signup-form">
-          <span class="signup-kicker">ТЕГІН ДЕМО АККАУНТ</span>
-          <h2 id="signup-title">Тіркелу</h2>
-          <p class="signup-description">Ақпаратыңызды енгізіп, FinPath мүмкіндіктерін ашыңыз.</p>
+          <span class="signup-kicker">ҚАЛАСАҢЫЗ ҒАНА</span>
+          <h2 id="signup-title">Профильді баптау</h2>
+          <p class="signup-description">Атыңыз басты бетте көрінуі үшін енгізіңіз. Бұл профиль осы браузерде ғана сақталады.</p>
           <label class="research-field">
             <span>Атыңыз</span>
             <input id="signup-name" name="name" type="text" autocomplete="name" maxlength="60" placeholder="Мысалы, Айдана" required />
           </label>
-          <label class="research-field">
-            <span>Email</span>
-            <input id="signup-email" name="email" type="email" autocomplete="email" maxlength="254" placeholder="name@example.com" required />
-          </label>
-          <label class="research-field">
-            <span>Құпиясөз</span>
-            <input id="signup-password" name="password" type="password" autocomplete="new-password" minlength="8" placeholder="Кемінде 8 таңба" required />
-          </label>
-          <button class="signup-submit" type="submit">Аккаунт ашу <span aria-hidden="true">→</span></button>
+          <button class="signup-submit" type="submit">Атын сақтау <span aria-hidden="true">→</span></button>
           <p class="signup-error" id="signup-error" role="alert" hidden></p>
-          <p class="signup-note"><span aria-hidden="true">●</span> Құпиясөз сақталмайды. Бұл — серверге қосылмаған демо тіркелу.</p>
+          <p class="signup-note"><span aria-hidden="true">●</span> Бұл тіркелу немесе қауіпсіз аккаунт емес. Қаржы және портфель деректері осы браузерде ғана сақталады.</p>
         </form>
       </div>
     </dialog>
