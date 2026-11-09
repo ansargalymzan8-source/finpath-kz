@@ -2372,6 +2372,178 @@ button {
   letter-spacing: 0.12em;
 }
 
+.calculator-guide {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  margin: 16px 0;
+  padding: 18px 20px;
+  overflow: hidden;
+  border: 1px solid #dcece2;
+  border-radius: 17px;
+  background: linear-gradient(115deg, #f3faf6, #fff 76%);
+}
+
+.calculator-guide-copy h3 {
+  margin: 3px 0 5px;
+  color: #1c3e30;
+  font-size: 1rem;
+}
+
+.calculator-guide-copy p,
+.calculator-guide-tip {
+  margin: 0;
+  color: #5d7569;
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.calculator-guide-copy .learning-kicker {
+  color: #16875a;
+  font-size: 0.65rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+}
+
+.calculator-guide-flow {
+  display: flex;
+  align-items: stretch;
+  gap: 9px;
+}
+
+.calculator-guide-flow > div {
+  display: grid;
+  flex: 1 1 0;
+  align-content: start;
+  gap: 5px;
+  min-width: 0;
+  padding: 10px 11px;
+  border-radius: 12px;
+  background: #e8f4ec;
+  animation: guide-step-glow 4.8s ease-in-out infinite;
+}
+
+.calculator-guide-flow > div:nth-of-type(2) { animation-delay: 0.8s; }
+.calculator-guide-flow > div:nth-of-type(3) { animation-delay: 1.6s; }
+.calculator-guide-flow > div:nth-of-type(4) { animation-delay: 2.4s; }
+
+.calculator-guide-flow > div > span {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  place-items: center;
+  border-radius: 50%;
+  background: #16875a;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 850;
+}
+
+.calculator-guide-flow strong {
+  color: #244236;
+  font-size: 0.76rem;
+  line-height: 1.3;
+}
+
+.calculator-guide-flow small {
+  color: #687e73;
+  font-size: 0.68rem;
+  line-height: 1.35;
+}
+
+.calculator-guide-flow > i {
+  align-self: center;
+  color: #64a47e;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.calculator-guide-tip {
+  padding-top: 11px;
+  border-top: 1px solid #e3eee7;
+}
+
+.calculator-guide-tip strong {
+  color: #28523d;
+}
+
+.guide-path-visual {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 35px;
+  padding: 0 10px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: repeating-linear-gradient(to bottom, transparent 0 10px, #e5efe8 11px 12px);
+}
+
+.guide-path-visual span {
+  flex: 1 1 0;
+  height: 2px;
+  background: #27a66e;
+  transform-origin: left center;
+  animation: guide-path-pulse 2.4s ease-in-out infinite;
+}
+
+.guide-path-visual span:nth-child(2) { transform: rotate(-12deg); animation-delay: 0.25s; }
+.guide-path-visual span:nth-child(3) { transform: rotate(9deg); animation-delay: 0.5s; }
+.guide-path-visual span:nth-child(4) { transform: rotate(-17deg); animation-delay: 0.75s; }
+
+.guide-path-visual b {
+  padding-left: 9px;
+  color: #567365;
+  font-size: 0.68rem;
+  white-space: nowrap;
+}
+
+.guide-value-visual {
+  display: grid;
+  gap: 6px;
+  width: min(100%, 300px);
+  padding: 2px 0;
+}
+
+.guide-value-visual span {
+  display: block;
+  height: 9px;
+  border-radius: 999px;
+  transform-origin: left center;
+}
+
+.guide-value-nominal {
+  width: 88%;
+  background: linear-gradient(90deg, #27a66e, #7ecba0);
+  animation: guide-value-grow 3.2s ease-in-out infinite alternate;
+}
+
+.guide-value-real {
+  width: 61%;
+  background: linear-gradient(90deg, #e4b85e, #f0d998);
+  animation: guide-value-shrink 3.2s ease-in-out infinite alternate;
+}
+
+@keyframes guide-step-glow {
+  0%, 74%, 100% { box-shadow: inset 0 0 0 1px transparent; transform: translateY(0); }
+  12%, 28% { box-shadow: inset 0 0 0 1px rgba(22, 135, 90, 0.3); transform: translateY(-2px); }
+}
+
+@keyframes guide-path-pulse {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}
+
+@keyframes guide-value-grow {
+  from { transform: scaleX(0.82); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes guide-value-shrink {
+  from { transform: scaleX(0.8); }
+  to { transform: scaleX(1); }
+}
+
 .monte-carlo-card h2 {
   margin: 0 0 10px;
   color: #1c3029;
@@ -3891,7 +4063,7 @@ button {
 
 .goal-navigator {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
   gap: 20px;
   margin-bottom: 22px;
 }
@@ -3980,6 +4152,38 @@ button {
   font-size: 1.1rem;
 }
 
+.goal-target-input {
+  display: grid;
+  gap: 7px;
+  margin-bottom: 12px;
+  color: #526c60;
+  font-size: 0.78rem;
+  font-weight: 750;
+}
+
+.goal-target-input input {
+  width: 100%;
+  min-width: 0;
+  height: 40px;
+  padding: 0 11px;
+  border: 1px solid #d5e5dc;
+  border-radius: 10px;
+  color: #163d2e;
+  font: inherit;
+}
+
+.goal-target-input input:focus-visible {
+  outline: 3px solid rgba(32, 166, 107, 0.2);
+  border-color: #159160;
+}
+
+.goal-target-status {
+  min-height: 1.4em;
+  margin: 0 0 12px;
+  color: #526c60;
+  font-size: 0.82rem;
+}
+
 .goal-target-row {
   margin: 10px 0 20px;
   color: #71857d;
@@ -4038,6 +4242,16 @@ button {
 #goals-chart-labels text {
   fill: #789087;
   font-size: 14px;
+}
+
+#goals-chart-bars rect {
+  fill: #20b879;
+}
+
+#goals-chart-bars text {
+  fill: #3e5e50;
+  font-size: 14px;
+  font-weight: 750;
 }
 
 .goals-action-list {
@@ -4205,6 +4419,18 @@ button {
   .learning-form,
   .risk-learning-form {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .calculator-guide-flow {
+    flex-wrap: wrap;
+  }
+
+  .calculator-guide-flow > div {
+    flex: 1 1 35%;
+  }
+
+  .calculator-guide-flow > i {
+    display: none;
   }
 
   .learning-results {
@@ -4833,6 +5059,24 @@ button {
   .fisher-form,
   .fisher-results {
     grid-template-columns: 1fr;
+  }
+
+  .calculator-guide {
+    padding: 15px;
+  }
+
+  .calculator-guide-flow {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .calculator-guide-flow > div {
+    min-height: 84px;
+    padding: 9px;
+  }
+
+  .guide-path-visual b {
+    font-size: 0.6rem;
   }
 
   .monte-carlo-card .monte-carlo-button {
@@ -7800,6 +8044,12 @@ button {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .calculator-guide-flow > div,
+  .guide-path-visual span,
+  .guide-value-visual span {
+    animation: none;
+  }
+
   .investment-scenario-progress span,
   .investment-scenario-controls button,
   .investment-scenario-edit {

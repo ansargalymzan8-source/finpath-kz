@@ -32,9 +32,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const generalInvestmentContent = document.querySelector('#general-investment-content');
   const portfolioStorageKey = 'finpath-portfolio-v1';
   const portfolioFxStorageKey = 'finpath-portfolio-usd-kzt-v1';
-  const homeGoalTargets = { home: 25000000, phone: 600000 };
-  const carGoalTarget = 15000000;
-  const portfolioGoalTargets = { ...homeGoalTargets, car: carGoalTarget };
+  const goalTargetsStorageKey = 'finpath-goal-targets-v1';
+  const goalTargets = { car: null, home: null, retirement: null, education: null, phone: null };
+  let goalTargetStatus = '';
+  try {
+    const storedTargets = window.localStorage.getItem(goalTargetsStorageKey);
+    if (storedTargets) {
+      const parsedTargets = JSON.parse(storedTargets);
+      if (!parsedTargets || typeof parsedTargets !== 'object' || Array.isArray(parsedTargets)) {
+        throw new Error('Мақсат сомаларының сақталған пішімі дұрыс емес.');
+      }
+      Object.keys(goalTargets).forEach((key) => {
+        const target = parsedTargets?.[key];
+        if (target === null || target === undefined) return;
+        if (Number.isFinite(target) && target > 0) goalTargets[key] = target;
+        else throw new Error('Мақсат сомасының сақталған мәні жарамсыз.');
+      });
+    }
+  } catch (error) {
+    goalTargetStatus = `Мақсат сомаларын оқу мүмкін болмады: ${error.message}`;
+  }
   const portfolioAssets = {
     tesla: 'Tesla',
     apple: 'Apple',
@@ -77,7 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
     eurusd: { unit: 'EUR', priceUnit: 'EUR' },
     deposit: { unit: 'бірлік', priceUnit: 'бірлік' }
   };
-  const demoSharePricesUsd = { tesla: 200, apple: 180, nvidia: 120, gold: 2300, sp500: 5000, nasdaq: 18000, bitcoin: 60000, eurusd: 1.08, deposit: 1 };
   const portfolioGoals = {
     car: 'Көлік',
     home: 'Үй',
@@ -330,14 +346,14 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
   const assets = {
-    tesla: { name: 'Tesla', symbol: 'NASDAQ:TSLA', yahooSymbol: 'TSLA', annualReturn: 0.12, volatility: 0.45, factors: 'Tesla: компания нәтижелері, электр көлігі нарығы және технологиялық сектор факторлары.' },
-    apple: { name: 'Apple', symbol: 'NASDAQ:AAPL', yahooSymbol: 'AAPL', annualReturn: 0.09, volatility: 0.28, factors: 'Apple: құрылғылар сатылымы, қызметтер сегменті және компания есептері.' },
-    nvidia: { name: 'NVIDIA', symbol: 'NASDAQ:NVDA', yahooSymbol: 'NVDA', annualReturn: 0.14, volatility: 0.5, factors: 'NVIDIA: чиптерге сұраныс, дата-орталықтар және технологиялық сектор факторлары.' },
-    gold: { name: 'Gold', symbol: 'OANDA:XAUUSD', yahooSymbol: 'GC=F', annualReturn: 0.085, volatility: 0.23, factors: 'Gold: мөлшерлеме, доллар және инфляция — зерттелетін факторлар.' },
-    sp500: { name: 'S&P 500', symbol: 'SP:SPX', yahooSymbol: '^GSPC', annualReturn: 0.09, volatility: 0.18, factors: 'S&P 500: компания табысы, пайыздық мөлшерлеме және экономикалық өсім модельге әсер етеді.' },
-    nasdaq: { name: 'NASDAQ 100', symbol: 'NASDAQ:NDX', yahooSymbol: '^NDX', annualReturn: 0.11, volatility: 0.25, factors: 'NASDAQ 100: технология секторындағы өзгерістер мен пайыздық мөлшерлеме модельге әсер етеді.' },
-    bitcoin: { name: 'Bitcoin', symbol: 'BINANCE:BTCUSDT', yahooSymbol: 'BTC-USD', annualReturn: 0.14, volatility: 0.65, factors: 'Bitcoin: жоғары құбылмалылық пен цифрлық активтер нарығының өзгерістері модельге әсер етеді.' },
-    eurusd: { name: 'EUR/USD', symbol: 'FX:EURUSD', yahooSymbol: 'EURUSD=X', annualReturn: 0.02, volatility: 0.09, factors: 'EUR/USD: орталық банктердің шешімдері мен валюталық нарық қозғалысы модельге әсер етеді.' }
+    tesla: { name: 'Tesla', symbol: 'NASDAQ:TSLA', yahooSymbol: 'TSLA', factors: 'Tesla: компания есептері, электр көлігі нарығы және технологиялық сектор факторлары.' },
+    apple: { name: 'Apple', symbol: 'NASDAQ:AAPL', yahooSymbol: 'AAPL', factors: 'Apple: құрылғылар сатылымы, қызметтер сегменті және компания есептері.' },
+    nvidia: { name: 'NVIDIA', symbol: 'NASDAQ:NVDA', yahooSymbol: 'NVDA', factors: 'NVIDIA: чиптерге сұраныс, дата-орталықтар және технологиялық сектор факторлары.' },
+    gold: { name: 'Gold', symbol: 'OANDA:XAUUSD', yahooSymbol: 'GC=F', factors: 'Gold: мөлшерлеме, доллар және инфляция — бағасына ықпал ететін факторлар.' },
+    sp500: { name: 'S&P 500', symbol: 'SP:SPX', yahooSymbol: '^GSPC', factors: 'S&P 500: компания табысы, пайыздық мөлшерлеме және экономикалық өсім — негізгі факторлар.' },
+    nasdaq: { name: 'NASDAQ 100', symbol: 'NASDAQ:NDX', yahooSymbol: '^NDX', factors: 'NASDAQ 100: технология секторындағы өзгерістер мен пайыздық мөлшерлеме — негізгі факторлар.' },
+    bitcoin: { name: 'Bitcoin', symbol: 'BINANCE:BTCUSDT', yahooSymbol: 'BTC-USD', factors: 'Bitcoin: жоғары құбылмалылық пен цифрлық активтер нарығының өзгерістері.' },
+    eurusd: { name: 'EUR/USD', symbol: 'FX:EURUSD', yahooSymbol: 'EURUSD=X', factors: 'EUR/USD: орталық банктердің шешімдері мен валюталық нарық қозғалысы.' }
   };
   const historicalDataCache = new Map();
   let researchRequestId = 0;
@@ -627,6 +643,7 @@ document.addEventListener('DOMContentLoaded', () => {
       input.value = 'Қолжетімсіз';
       status.textContent = 'Нақты бағамды жүктеу мүмкін болмады';
       setPortfolioStatus(`USD/KZT нақты бағамы алынбады: ${error.message}`, true);
+      renderPortfolio();
     }
 
   }
@@ -658,8 +675,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (fxRate !== null) {
         const parsedFxRate = Number(fxRate);
         if (!Number.isFinite(parsedFxRate) || parsedFxRate < 1 || parsedFxRate > 1000000) {
-          setPortfolioStatus('Сақталған USD/KZT бағамы жарамсыз. 500 ₸ есептік бағамы уақытша қолданылды.', true);
-          document.querySelector('#portfolio-fx-rate').value = '500';
+          usdKztRate = null;
+          window.localStorage.removeItem(portfolioFxStorageKey);
+          setPortfolioStatus('Сақталған USD/KZT бағамы жарамсыз болды. Нақты бағам қайта жүктелуде.', true);
+          document.querySelector('#portfolio-fx-rate').value = '';
         } else {
           usdKztRate = parsedFxRate;
           document.querySelector('#portfolio-fx-rate').value = String(parsedFxRate);
@@ -755,7 +774,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalValue = document.createElement('strong');
     totalValue.textContent = formatPositionMoney(position.quantity * position.marketPriceUsd, position.asset);
     const convertedValue = document.createElement('span');
-    convertedValue.textContent = formatMoney(position.quantity * position.marketPriceUsd * getUsdKztRate());
+    convertedValue.textContent = hasFxRate ? formatMoney(position.quantity * position.marketPriceUsd * getUsdKztRate()) : 'USD/KZT бағамы алынбады';
     const investedValue = document.createElement('span');
     investedValue.textContent = `${formatPositionMoney(position.quantity * position.priceUsd, position.asset)} салынған`;
     valueDetails.append(totalValue, convertedValue, investedValue);
@@ -788,7 +807,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const livePrice = document.createElement('label');
     livePrice.className = 'position-live-price';
     const livePriceLabel = document.createElement('span');
-    livePriceLabel.textContent = `Қазіргі баға, ${getAssetCurrencyLabel(position.asset)}`;
+    livePriceLabel.textContent = `Соңғы енгізілген баға, ${getAssetCurrencyLabel(position.asset)}`;
     const livePriceInput = document.createElement('input');
     livePriceInput.type = 'number';
     livePriceInput.min = '0.01';
@@ -796,7 +815,7 @@ document.addEventListener('DOMContentLoaded', () => {
     livePriceInput.step = '0.01';
     livePriceInput.value = String(position.marketPriceUsd);
     livePriceInput.dataset.positionPrice = position.id;
-    livePriceInput.setAttribute('aria-label', `${portfolioAssets[position.asset]} ${portfolioAssetUnits[position.asset].unit} ағымдағы бағасы ${getAssetCurrencyLabel(position.asset)}`);
+    livePriceInput.setAttribute('aria-label', `${portfolioAssets[position.asset]} ${portfolioAssetUnits[position.asset].unit} соңғы енгізілген бағасы ${getAssetCurrencyLabel(position.asset)}`);
     livePrice.append(livePriceLabel, livePriceInput);
 
     const change = position.quantity * (position.marketPriceUsd - position.priceUsd);
@@ -811,11 +830,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function renderGoals() {
+    const hasFxRate = Number.isFinite(usdKztRate) && usdKztRate > 0;
     const goalDefinitions = [
-      { key: 'car', title: 'Көлік', target: carGoalTarget, visual: '<svg viewBox="0 0 180 120" aria-hidden="true"><path d="M22 78h136v22H22z" fill="#16875e"/><path d="m45 78 13-29a10 10 0 0 1 9-6h47a10 10 0 0 1 9 6l13 29" fill="#20b879"/><path d="M67 64h50l-7-15H74z" fill="#d8f3e5"/><circle cx="53" cy="101" r="13" fill="#173b2d"/><circle cx="127" cy="101" r="13" fill="#173b2d"/><circle cx="53" cy="101" r="5" fill="#f3fff8"/><circle cx="127" cy="101" r="5" fill="#f3fff8"/><circle cx="145" cy="28" r="15" fill="#f5c967"/></svg>', description: 'Алғашқы көлікке немесе отбасылық автокөлікке қор жинау.', action: 'Көлікке актив қосу' },
-      { key: 'home', title: 'Үй', target: homeGoalTargets.home, visual: '<svg viewBox="0 0 180 120" aria-hidden="true"><circle cx="145" cy="25" r="15" fill="#f5c967"/><path d="m30 61 60-43 60 43v49H30z" fill="#e7f5eb" stroke="#16875e" stroke-width="6"/><path d="M75 110V75h30v35M49 66h20v18H49zm62 0h20v18h-20z" fill="#abdcc1" stroke="#16875e" stroke-width="4"/><path d="M20 111h140" stroke="#48a878" stroke-width="5" stroke-linecap="round"/></svg>', description: 'Баспанаға бастапқы жарна немесе үй қорын қалыптастыру.', action: 'Үйге актив қосу' },
-      { key: 'retirement', title: 'Зейнет', target: 30000000, visual: '<svg viewBox="0 0 180 120" aria-hidden="true"><circle cx="135" cy="30" r="18" fill="#f5c967"/><path d="M20 100h140" stroke="#16875e" stroke-width="6" stroke-linecap="round"/><path d="M35 88c20-30 38-42 57-30s32 9 53-25" fill="none" stroke="#20b879" stroke-width="8" stroke-linecap="round"/><path d="m130 34 15-2-3 15" fill="none" stroke="#16875e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="48" cy="83" r="9" fill="#abdcc1"/></svg>', description: 'Ұзақ мерзімді еркіндікке арналған капитал.', action: 'Зейнетке актив қосу' },
-      { key: 'education', title: 'Білім', target: 5000000, visual: '<svg viewBox="0 0 180 120" aria-hidden="true"><path d="m25 48 65-28 65 28-65 28z" fill="#4a3c68"/><path d="M55 64v28c18 12 52 12 70 0V64" fill="#6a5a91"/><path d="M155 49v37" stroke="#16875e" stroke-width="5"/><circle cx="155" cy="91" r="7" fill="#f5c967"/><path d="M90 20v56" stroke="#f5c967" stroke-width="5"/></svg>', description: 'Оқу, курс немесе баланың білім қорына жинақ.', action: 'Білімге актив қосу' }
+      { key: 'car', title: 'Көлік', target: goalTargets.car, visual: '<svg viewBox="0 0 180 120" aria-hidden="true"><path d="M22 78h136v22H22z" fill="#16875e"/><path d="m45 78 13-29a10 10 0 0 1 9-6h47a10 10 0 0 1 9 6l13 29" fill="#20b879"/><path d="M67 64h50l-7-15H74z" fill="#d8f3e5"/><circle cx="53" cy="101" r="13" fill="#173b2d"/><circle cx="127" cy="101" r="13" fill="#173b2d"/><circle cx="53" cy="101" r="5" fill="#f3fff8"/><circle cx="127" cy="101" r="5" fill="#f3fff8"/><circle cx="145" cy="28" r="15" fill="#f5c967"/></svg>', description: 'Алғашқы көлікке немесе отбасылық автокөлікке қор жинау.', action: 'Көлікке актив қосу' },
+      { key: 'home', title: 'Үй', target: goalTargets.home, visual: '<svg viewBox="0 0 180 120" aria-hidden="true"><circle cx="145" cy="25" r="15" fill="#f5c967"/><path d="m30 61 60-43 60 43v49H30z" fill="#e7f5eb" stroke="#16875e" stroke-width="6"/><path d="M75 110V75h30v35M49 66h20v18H49zm62 0h20v18h-20z" fill="#abdcc1" stroke="#16875e" stroke-width="4"/><path d="M20 111h140" stroke="#48a878" stroke-width="5" stroke-linecap="round"/></svg>', description: 'Баспанаға бастапқы жарна немесе үй қорын қалыптастыру.', action: 'Үйге актив қосу' },
+      { key: 'retirement', title: 'Зейнет', target: goalTargets.retirement, visual: '<svg viewBox="0 0 180 120" aria-hidden="true"><circle cx="135" cy="30" r="18" fill="#f5c967"/><path d="M20 100h140" stroke="#16875e" stroke-width="6" stroke-linecap="round"/><path d="M35 88c20-30 38-42 57-30s32 9 53-25" fill="none" stroke="#20b879" stroke-width="8" stroke-linecap="round"/><path d="m130 34 15-2-3 15" fill="none" stroke="#16875e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="48" cy="83" r="9" fill="#abdcc1"/></svg>', description: 'Ұзақ мерзімді еркіндікке арналған капитал.', action: 'Зейнетке актив қосу' },
+      { key: 'education', title: 'Білім', target: goalTargets.education, visual: '<svg viewBox="0 0 180 120" aria-hidden="true"><path d="m25 48 65-28 65 28-65 28z" fill="#4a3c68"/><path d="M55 64v28c18 12 52 12 70 0V64" fill="#6a5a91"/><path d="M155 49v37" stroke="#16875e" stroke-width="5"/><circle cx="155" cy="91" r="7" fill="#f5c967"/><path d="M90 20v56" stroke="#f5c967" stroke-width="5"/></svg>', description: 'Оқу, курс немесе баланың білім қорына жинақ.', action: 'Білімге актив қосу' },
+      { key: 'phone', title: 'Телефон', target: goalTargets.phone, visual: '<svg viewBox="0 0 180 120" aria-hidden="true"><rect x="61" y="12" width="58" height="96" rx="11" fill="#d8f3e5" stroke="#16875e" stroke-width="6"/><rect x="69" y="23" width="42" height="68" rx="4" fill="#20b879"/><circle cx="90" cy="100" r="3" fill="#16875e"/><circle cx="145" cy="28" r="15" fill="#f5c967"/></svg>', description: 'Құрылғы немесе байланысқа қажет қаражат.', action: 'Телефонға актив қосу' }
     ];
     const navigator = document.querySelector('#goal-navigator');
     const totals = new Map(goalDefinitions.map(({ key }) => [key, 0]));
@@ -825,38 +846,43 @@ document.addEventListener('DOMContentLoaded', () => {
     navigator.replaceChildren();
     goalDefinitions.forEach((goalDefinition) => {
       const amount = totals.get(goalDefinition.key);
-      const percentage = Math.min((amount / goalDefinition.target) * 100, 100);
+      const hasTarget = hasFxRate && Number.isFinite(goalDefinition.target) && goalDefinition.target > 0;
+      const percentage = hasTarget ? Math.min((amount / goalDefinition.target) * 100, 100) : 0;
       const card = document.createElement('article');
       card.className = 'goal-navigator-card';
-      card.innerHTML = `<div class="goal-art">${goalDefinition.visual}<span class="goal-art-caption">FINPATH · ${goalDefinition.title.toUpperCase()}</span></div><div class="goal-card-heading"><div><span class="goal-card-kicker">МАҚСАТ ҚОРЫ</span><h2>${goalDefinition.title}</h2></div><span class="goal-percent">${percentage.toFixed(1)}%</span></div><p class="goal-description">${goalDefinition.description}</p><div class="goal-target-line"><span>Алғашқы айда жиналғаны</span><strong>${formatMoney(amount)}</strong></div><div class="goal-progress-bar" role="progressbar" aria-label="${goalDefinition.title} мақсатының орындалуы" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(percentage)}"><div class="goal-progress-fill" style="width:${percentage}%"></div></div><div class="goal-target-row"><span>Мақсат: ${formatMoney(goalDefinition.target)}</span><strong>Қалды: ${formatMoney(Math.max(0, goalDefinition.target - amount))}</strong></div><button class="recalculate-button goal-action" type="button" data-add-goal="${goalDefinition.key}">${goalDefinition.action} →</button>`;
+      card.innerHTML = `<div class="goal-art">${goalDefinition.visual}<span class="goal-art-caption">FINPATH · ${goalDefinition.title.toUpperCase()}</span></div><div class="goal-card-heading"><div><span class="goal-card-kicker">МАҚСАТ ҚОРЫ</span><h2>${goalDefinition.title}</h2></div><span class="goal-percent">${hasTarget ? `${percentage.toFixed(1)}%` : '—'}</span></div><p class="goal-description">${goalDefinition.description}</p><div class="goal-target-line"><span>Салым ретінде енгізілгені</span><strong>${hasFxRate ? formatMoney(amount) : 'Бағам жүктелуде'}</strong></div><label class="goal-target-input"><span>Мақсат сомасы, ₸</span><input type="number" min="1" step="1" data-goal-target="${goalDefinition.key}" value="${Number.isFinite(goalDefinition.target) ? goalDefinition.target : ''}" placeholder="Өз соманы енгізіңіз" aria-label="${goalDefinition.title} мақсатының сомасы"></label><div class="goal-progress-bar" role="progressbar" aria-label="${goalDefinition.title} мақсатының орындалуы" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(percentage)}"><div class="goal-progress-fill" style="width:${percentage}%"></div></div><div class="goal-target-row"><span>${hasTarget ? `Мақсат: ${formatMoney(goalDefinition.target)}` : goalDefinition.target ? 'USD/KZT бағамы алынбады' : 'Мақсат сомасы енгізілмеген'}</span><strong>${hasTarget ? `Қалды: ${formatMoney(Math.max(0, goalDefinition.target - amount))}` : '—'}</strong></div><button class="recalculate-button goal-action" type="button" data-add-goal="${goalDefinition.key}">${goalDefinition.action} →</button>`;
       navigator.append(card);
     });
 
     const total = Array.from(totals.values()).reduce((sum, amount) => sum + amount, 0);
-    document.querySelector('#goals-total-progress').textContent = formatMoney(total);
-    const chartValues = [0];
-    const monthlyLikeSteps = Math.max(4, goalDefinitions.length + 1);
-    for (let index = 1; index <= monthlyLikeSteps; index += 1) chartValues.push(total * (index / monthlyLikeSteps));
-    const width = 1000;
-    const height = 260;
-    const padding = 28;
-    const max = Math.max(...chartValues, 1);
-    const points = chartValues.map((value, index) => {
-      const x = padding + (index / (chartValues.length - 1)) * (width - padding * 2);
-      const y = height - padding - (value / max) * (height - padding * 2);
-      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    document.querySelector('#goals-total-progress').textContent = hasFxRate ? formatMoney(total) : '—';
+    const chart = document.querySelector('#goals-chart-bars');
+    const max = Math.max(...goalDefinitions.map(({ key }) => totals.get(key)), 1);
+    chart.replaceChildren();
+    goalDefinitions.forEach((goal, index) => {
+      const x = 50 + index * (840 / Math.max(1, goalDefinitions.length - 1));
+      const barHeight = (totals.get(goal.key) / max) * 165;
+      const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      rect.setAttribute('x', String(x));
+      rect.setAttribute('y', String(210 - barHeight));
+      rect.setAttribute('width', '90');
+      rect.setAttribute('height', String(barHeight));
+      rect.setAttribute('rx', '9');
+      rect.setAttribute('class', 'goals-chart-bar');
+      const amountLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      amountLabel.setAttribute('x', String(x + 45));
+      amountLabel.setAttribute('y', String(Math.max(26, 198 - barHeight)));
+      amountLabel.setAttribute('text-anchor', 'middle');
+      amountLabel.textContent = hasFxRate ? formatMoney(totals.get(goal.key)) : '—';
+      const categoryLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      categoryLabel.setAttribute('x', String(x + 45));
+      categoryLabel.setAttribute('y', '244');
+      categoryLabel.setAttribute('text-anchor', 'middle');
+      categoryLabel.textContent = goal.title;
+      chart.append(rect, amountLabel, categoryLabel);
     });
-    document.querySelector('#goals-chart-line').setAttribute('points', points.join(' '));
-    document.querySelector('#goals-chart-area').setAttribute('d', `M ${points[0].split(',')[0]} ${height - padding} L ${points.join(' L ')} L ${points[points.length - 1].split(',')[0]} ${height - padding} Z`);
-    const labels = document.querySelector('#goals-chart-labels');
-    labels.replaceChildren();
-    [0, Math.round(max / 2), Math.round(max)].forEach((value, index) => {
-      const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      label.setAttribute('x', '12');
-      label.setAttribute('y', String(height - padding - index * ((height - padding * 2) / 2) + 4));
-      label.textContent = formatMoney(value);
-      labels.append(label);
-    });
+    document.querySelector('#goal-target-status').textContent =
+      goalTargetStatus || 'Мақсат сомаларын әр картаға өзіңіз енгізіп, өзгерісті сақтаңыз.';
     const actionList = document.querySelector('#goals-action-list');
     actionList.replaceChildren();
     const actions = [
@@ -884,6 +910,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const greeting = document.querySelector('#dashboard-greeting');
     const holdingsContainer = document.querySelector('#dashboard-holdings');
     if (!holdingsContainer) return;
+    const hasFxRate = Number.isFinite(usdKztRate) && usdKztRate > 0;
 
     greeting.textContent = localProfile
       ? `Сәлем, ${localProfile.name}!`
@@ -894,26 +921,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalCapital = holdingsValue;
     const netChange = holdingsValue - invested;
 
-    document.querySelector('#dashboard-capital').textContent = formatMoney(totalCapital);
+    document.querySelector('#dashboard-capital').textContent = hasFxRate ? formatMoney(totalCapital) : '—';
     document.querySelector('#dashboard-position-count').textContent = String(portfolioPositions.length);
     document.querySelector('#dashboard-position-assets').textContent = portfolioPositions.length
       ? [...new Set(portfolioPositions.map((position) => portfolioAssets[position.asset]))].join(' · ')
       : 'Әзірге актив жоқ';
     document.querySelector('#dashboard-onboarding').hidden = portfolioPositions.length > 0;
-    document.querySelector('#dashboard-market-value').textContent = `${formatMoney(holdingsValue)} · ${formatUsd(portfolioPositions.reduce((sum, position) => sum + position.quantity * position.marketPriceUsd, 0))}`;
-    document.querySelector('#dashboard-market-invested').textContent = `${formatMoney(invested)} · ${formatUsd(portfolioPositions.reduce((sum, position) => sum + position.quantity * position.priceUsd, 0))}`;
+    document.querySelector('#dashboard-market-value').textContent = hasFxRate
+      ? `${formatMoney(holdingsValue)} · ${formatUsd(portfolioPositions.reduce((sum, position) => sum + position.quantity * position.marketPriceUsd, 0))}`
+      : 'USD/KZT бағамы алынбады';
+    document.querySelector('#dashboard-market-invested').textContent = hasFxRate
+      ? `${formatMoney(invested)} · ${formatUsd(portfolioPositions.reduce((sum, position) => sum + position.quantity * position.priceUsd, 0))}`
+      : 'USD/KZT бағамы алынбады';
     const changeElement = document.querySelector('#dashboard-market-change');
     const changeUsd = portfolioPositions.reduce((sum, position) => sum + position.quantity * (position.marketPriceUsd - position.priceUsd), 0);
-    changeElement.textContent = `${netChange > 0 ? '+' : ''}${formatMoney(netChange)} · ${changeUsd > 0 ? '+' : ''}${formatUsd(changeUsd)}`;
+    changeElement.textContent = hasFxRate
+      ? `${netChange > 0 ? '+' : ''}${formatMoney(netChange)} · ${changeUsd > 0 ? '+' : ''}${formatUsd(changeUsd)}`
+      : 'USD/KZT бағамы алынбады';
     changeElement.classList.toggle('market-positive', netChange >= 0);
     changeElement.classList.toggle('market-negative', netChange < 0);
 
     holdingsContainer.replaceChildren();
     portfolioPositions.forEach((position) => {
-      const investedValue = getPositionInvested(position);
-      const marketValue = getPositionMarketValue(position);
-      const change = marketValue - investedValue;
-      const percentage = investedValue > 0 ? (change / investedValue) * 100 : 0;
+      const change = position.quantity * (position.marketPriceUsd - position.priceUsd);
+      const percentage = position.priceUsd > 0 ? ((position.marketPriceUsd - position.priceUsd) / position.priceUsd) * 100 : 0;
       const card = document.createElement('article');
       card.className = 'holding-card';
 
@@ -943,24 +974,16 @@ document.addEventListener('DOMContentLoaded', () => {
       companyText.append(companyName, ticker);
       company.append(logo, companyText);
 
-      const trend = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      trend.classList.add('holding-trend');
-      trend.setAttribute('viewBox', '0 0 74 34');
-      if (percentage < 0) trend.classList.add('negative');
-      const trendLine = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
-      const trendPoints = percentage > 0 ? '2,25 13,20 22,23 32,13 42,17 53,8 72,5' : percentage < 0 ? '2,7 13,11 22,8 32,18 42,15 53,23 72,28' : '2,17 13,13 22,19 32,14 42,18 53,13 72,16';
-      trendLine.setAttribute('points', trendPoints);
-      trend.append(trendLine);
-      top.append(company, trend);
+      top.append(company);
 
       const bottom = document.createElement('div');
       bottom.className = 'holding-card-bottom';
       const value = document.createElement('div');
       value.className = 'holding-value';
       const current = document.createElement('strong');
-      current.textContent = `${formatPositionMoney(position.quantity * position.marketPriceUsd, position.asset)} · ${formatMoney(position.quantity * position.marketPriceUsd * getUsdKztRate())}`;
+      current.textContent = `${formatPositionMoney(position.quantity * position.marketPriceUsd, position.asset)} · ${hasFxRate ? formatMoney(position.quantity * position.marketPriceUsd * getUsdKztRate()) : 'USD/KZT бағамы алынбады'}`;
       const basis = document.createElement('span');
-      basis.textContent = `Салынғаны ${formatPositionMoney(position.quantity * position.priceUsd, position.asset)} · ${formatMoney(position.quantity * position.priceUsd * getUsdKztRate())}`;
+      basis.textContent = `Салынғаны ${formatPositionMoney(position.quantity * position.priceUsd, position.asset)} · ${hasFxRate ? formatMoney(position.quantity * position.priceUsd * getUsdKztRate()) : 'USD/KZT бағамы алынбады'}`;
       value.append(current, basis);
       const returnLabel = document.createElement('span');
       returnLabel.className = `holding-return ${change >= 0 ? 'positive' : 'negative'}`;
@@ -979,22 +1002,11 @@ document.addEventListener('DOMContentLoaded', () => {
       holdingsContainer.append(empty);
     }
 
-    const targets = [
-      { key: 'home', value: homeGoalTargets.home, currentId: '#dashboard-home-progress', targetId: '#dashboard-home-target', fillId: '#dashboard-home-fill', percentId: '#dashboard-home-percent' },
-      { key: 'phone', value: homeGoalTargets.phone, currentId: '#dashboard-phone-progress', targetId: '#dashboard-phone-target', fillId: '#dashboard-phone-fill', percentId: '#dashboard-phone-percent' }
-    ];
-    targets.forEach((goal) => {
-      const percentage = Math.min((totalCapital / goal.value) * 100, 100);
-      const currentElement = document.querySelector(goal.currentId);
-      const targetElement = document.querySelector(goal.targetId);
-      const fillElement = document.querySelector(goal.fillId);
-      const percentElement = document.querySelector(goal.percentId);
-      currentElement.textContent = formatMoney(totalCapital);
-      targetElement.textContent = formatMoney(goal.value);
-      fillElement.style.width = `${percentage}%`;
-      fillElement.parentElement.setAttribute('aria-valuenow', percentage.toFixed(2));
-      percentElement.textContent = `${percentage.toFixed(1)}%`;
-    });
+    const goalContributions = portfolioPositions
+      .filter((position) => Object.hasOwn(goalTargets, position.goal))
+      .reduce((sum, position) => sum + getPositionInvested(position), 0);
+    document.querySelector('#dashboard-goal-contributions').textContent =
+      Number.isFinite(usdKztRate) && usdKztRate > 0 ? formatMoney(goalContributions) : 'Бағам жүктелуде';
 
     renderNews();
   }
@@ -1004,6 +1016,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const homeNews = document.querySelector('#home-news-list');
     const officialNews = document.querySelector('#official-news-list');
     const monthNames = ['қаңтар', 'ақпан', 'наурыз', 'сәуір', 'мамыр', 'маусым', 'шілде', 'тамыз', 'қыркүйек', 'қазан', 'қараша', 'желтоқсан'];
+    const latestNewsDate = companyNews.reduce((latest, story) => story.date > latest ? story.date : latest, companyNews[0].date);
+    document.querySelector('#news-updated-label').textContent = `Соңғы дерек: ${formatDate(new Date(`${latestNewsDate}T00:00:00`))}`;
 
     function createNewsCard(story) {
       const card = document.createElement('article');
@@ -1098,6 +1112,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderPortfolio() {
     if (!portfolioList) return;
+    const hasFxRate = Number.isFinite(usdKztRate) && usdKztRate > 0;
     const totalInvestedUsd = portfolioPositions.reduce((sum, position) => sum + position.quantity * position.priceUsd, 0);
     const totalInvested = totalInvestedUsd * getUsdKztRate();
     const totalMarketValueUsd = portfolioPositions.reduce((sum, position) => sum + position.quantity * position.marketPriceUsd, 0);
@@ -1115,12 +1130,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     const goalsCount = goalTotals.size;
 
-    document.querySelector('#portfolio-invested').textContent = formatMoney(totalInvested);
+    document.querySelector('#portfolio-invested').textContent = hasFxRate ? formatMoney(totalInvested) : '—';
     document.querySelector('#portfolio-invested-usd').textContent = `${formatUsd(totalInvestedUsd)} · сатып алу құны`;
-    document.querySelector('#portfolio-market-value').textContent = formatMoney(totalMarketValue);
+    document.querySelector('#portfolio-market-value').textContent = hasFxRate ? formatMoney(totalMarketValue) : '—';
     document.querySelector('#portfolio-market-value-usd').textContent = `${formatUsd(totalMarketValueUsd)} · енгізілген бағалар бойынша`;
     const totalChangeElement = document.querySelector('#portfolio-total-change');
-    totalChangeElement.textContent = `${totalChange >= 0 ? '+' : ''}${formatMoney(totalChange)}`;
+    totalChangeElement.textContent = hasFxRate ? `${totalChange >= 0 ? '+' : ''}${formatMoney(totalChange)}` : '—';
     totalChangeElement.classList.toggle('portfolio-hero-positive', totalChange >= 0);
     totalChangeElement.classList.toggle('portfolio-hero-negative', totalChange < 0);
     const totalChangeUsdElement = document.querySelector('#portfolio-total-change-usd');
@@ -1130,7 +1145,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#portfolio-position-count').textContent = String(portfolioPositions.length);
     document.querySelector('#portfolio-overview-position-count').textContent = String(portfolioPositions.length);
     document.querySelector('#portfolio-goal-count').textContent = String(goalsCount);
-    document.querySelector('#portfolio-overview-change').textContent = `${totalChange >= 0 ? '+' : ''}${formatMoney(totalChange)}`;
+    document.querySelector('#portfolio-overview-change').textContent = hasFxRate
+      ? `${totalChange >= 0 ? '+' : ''}${formatMoney(totalChange)}`
+      : '—';
     document.querySelector('#portfolio-overview-change-usd').textContent =
       `${totalChangeUsd >= 0 ? '+' : ''}${formatUsd(totalChangeUsd)} · ${totalChangePercent >= 0 ? '+' : ''}${totalChangePercent.toFixed(2)}%`;
     document.querySelector('#portfolio-overview-change').classList.toggle('portfolio-change-positive', totalChange >= 0);
@@ -1186,7 +1203,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const allocation = document.querySelector('#goal-allocation');
     allocation.replaceChildren();
-    if (portfolioPositions.length === 0) {
+    if (!hasFxRate) {
+      const emptyMessage = document.createElement('p');
+      emptyMessage.textContent = 'Мақсат бөлінісін есептеу үшін USD/KZT нақты бағамы қажет.';
+      allocation.append(emptyMessage);
+    } else if (portfolioPositions.length === 0) {
       const emptyMessage = document.createElement('p');
       emptyMessage.textContent = 'Позиция қосылғанда бөлініс осы жерде есептеледі.';
       allocation.append(emptyMessage);
@@ -1204,7 +1225,7 @@ document.addEventListener('DOMContentLoaded', () => {
           track.className = 'allocation-track';
           const fill = document.createElement('div');
           fill.className = 'allocation-fill';
-          const target = portfolioGoalTargets[goalKey];
+          const target = goalTargets[goalKey];
           const progressPercent = target ? Math.min((amount / target) * 100, 100) : (totalInvested > 0 ? (amount / totalInvested) * 100 : 0);
           fill.style.width = `${progressPercent}%`;
           track.append(fill);
@@ -1329,7 +1350,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function formatDate(date) {
-    return new Intl.DateTimeFormat('kk-KZ', { year: 'numeric', month: 'short', day: 'numeric' }).format(date);
+    const value = date instanceof Date ? date : new Date(date);
+    const day = String(value.getDate()).padStart(2, '0');
+    const month = String(value.getMonth() + 1).padStart(2, '0');
+    return `${day}.${month}.${value.getFullYear()}`;
   }
 
   function setResearchLoading(message) {
@@ -1352,47 +1376,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return values;
   }
 
-  function simulateYear(asset) {
-    const dailyReturns = [];
-    const prices = [100];
-    let price = 100;
-    const dailyDrift = (asset.annualReturn - (asset.volatility ** 2) / 2) / 252;
-    const dailyVolatility = asset.volatility / Math.sqrt(252);
-
-    for (let day = 0; day < 252; day += 1) {
-      const dailyReturn = Math.exp(dailyDrift + dailyVolatility * normalRandom()) - 1;
-      dailyReturns.push(dailyReturn);
-      price *= 1 + dailyReturn;
-      prices.push(price);
-    }
-
-    const average = dailyReturns.reduce((sum, value) => sum + value, 0) / dailyReturns.length;
-    const variance = dailyReturns.reduce((sum, value) => sum + ((value - average) ** 2), 0) / (dailyReturns.length - 1);
-    const annualVolatility = Math.sqrt(variance * 252);
-    let peak = prices[0];
-    let maximumDrawdown = 0;
-    prices.forEach((value) => {
-      peak = Math.max(peak, value);
-      maximumDrawdown = Math.min(maximumDrawdown, (value / peak) - 1);
-    });
-
-    const sortedReturns = [...dailyReturns].sort((a, b) => a - b);
-    const var95 = Math.max(0, -sortedReturns[Math.floor(sortedReturns.length * 0.05)]);
-    const annualReturn = ((prices[prices.length - 1] / prices[0]) ** (252 / dailyReturns.length) - 1) * 100;
-    const sharpe = annualVolatility > 0 ? (annualReturn / 100 - 0.03) / annualVolatility : 0;
-
-    return { prices, dailyReturns, annualReturn, annualVolatility, maximumDrawdown, var95, sharpe };
-  }
-
-  function projectBalance(asset, values) {
-    const monthlyRate = (1 + asset.annualReturn) ** (1 / 12) - 1;
-    let balance = values.capital;
-    for (let month = 0; month < values.years * 12; month += 1) {
-      balance = balance * (1 + monthlyRate) + values.monthly;
-    }
-    return balance;
-  }
-
   function drawSimulationChart(prices) {
     const width = 1200;
     const height = 260;
@@ -1412,38 +1395,40 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function updateResearch() {
-    const values = getFormValues();
     const asset = assets[assetSelect.value];
     const requestId = ++researchRequestId;
     setResearchLoading(`${asset.name}: соңғы 10 жылдық нақты дерек жүктелуде...`);
+    document.querySelector('#selected-asset-name').textContent = asset.name;
+    document.querySelector('#research-data-badge').textContent = 'Нарық дерегі жүктелуде...';
+    document.querySelector('#research-mode-label').textContent = 'тарихи дерек жүктелуде';
+    document.querySelector('#chart-data-label').textContent = 'Дерек жүктелуде';
+    document.querySelector('#period-days').textContent = '—';
+    document.querySelector('#chart-range-label').textContent = '—';
+    document.querySelector('#historical-analysis').textContent = '—';
+    document.querySelector('#simulation-chart').hidden = true;
+    document.querySelector('#chart-line').setAttribute('points', '');
+    document.querySelector('#chart-area').setAttribute('d', '');
+    document.querySelectorAll('#metric-return, #metric-volatility, #metric-deviation, #metric-var, #metric-drawdown, #metric-sharpe, #metric-risk-reward, #metric-risk')
+      .forEach((element) => { element.textContent = '—'; });
     let historical;
     try {
       historical = await loadHistoricalData(asset);
     } catch (error) {
       if (requestId !== researchRequestId) return;
-      document.querySelector('#research-data-badge').textContent = 'DEMO · дерек қолжетімсіз';
-      document.querySelector('#research-mode-label').textContent = 'DEMO';
-      document.querySelector('#research-disclaimer').textContent = `${asset.factors} Нақты дерек жүктелмеді: ${error.message} DEMO мәндері төмендегі есепке қолданылды.`;
-      document.querySelector('#historical-analysis').textContent = 'Бұл нәтиже нақты нарық талдауы емес. Интернет қосылған соң активті қайта таңдаңыз немесе «Қайта есептеу» батырмасын басыңыз.';
-      const demoResult = simulateYear(asset);
-      const demoVolatility = asset.volatility;
-      const demoExpectedReturn = asset.annualReturn;
-      document.querySelector('#chart-data-label').textContent = 'DEMO · синтетикалық дерек';
-      document.querySelector('#period-days').textContent = '252';
-      document.querySelector('#chart-range-label').textContent = '1 жылдық оқу моделі';
-      document.querySelector('#metric-return').textContent = formatPercent(demoExpectedReturn * 100);
-      document.querySelector('#metric-volatility').textContent = formatPercent(demoVolatility * 100);
-      document.querySelector('#metric-deviation').textContent = formatMoney(values.capital * demoVolatility);
-      document.querySelector('#metric-var').textContent = formatMoney(values.capital * demoResult.var95);
-      document.querySelector('#metric-drawdown').textContent = formatPercent(demoResult.maximumDrawdown * 100);
-      document.querySelector('#metric-sharpe').textContent = ((demoExpectedReturn - 0.03) / demoVolatility).toFixed(2);
-      document.querySelector('#metric-risk-reward').textContent = (demoExpectedReturn / demoVolatility).toFixed(2);
-      document.querySelector('#metric-risk').textContent = demoVolatility >= 0.4 ? 'Жоғары' : demoVolatility >= 0.2 ? 'Орташа' : 'Төмен';
-      document.querySelector('#ending-balance').textContent = formatMoney(projectBalance(asset, values));
-      document.querySelector('#mc-return').value = (demoExpectedReturn * 100).toFixed(1);
-      document.querySelector('#mc-volatility').value = (demoVolatility * 100).toFixed(1);
-      drawSimulationChart(demoResult.prices);
-      document.querySelector('#goal-impact-text').textContent = 'DEMO мәндері қолданылды. Нақты дерек үшін интернет байланысын тексеріңіз.';
+      document.querySelector('#selected-asset-name').textContent = asset.name;
+      document.querySelector('#research-data-badge').textContent = 'Нарық дерегі қолжетімсіз';
+      document.querySelector('#research-mode-label').textContent = 'тарихи дерек жоқ';
+      document.querySelector('#research-disclaimer').textContent = `Нақты нарық дерегі алынбады: ${error.message} Байланысты тексеріп, кейін қайта жүктеңіз.`;
+      document.querySelector('#historical-analysis').textContent = 'Нақты дерек болмағандықтан көрсеткіштер есептелмеді.';
+      document.querySelector('#chart-data-label').textContent = 'Дерек жоқ';
+      document.querySelector('#period-days').textContent = '—';
+      document.querySelector('#chart-range-label').textContent = 'Нақты дерек жүктелмеді';
+      document.querySelector('#simulation-chart').hidden = true;
+      document.querySelector('#chart-line').setAttribute('points', '');
+      document.querySelector('#chart-area').setAttribute('d', '');
+      document.querySelectorAll('#metric-return, #metric-volatility, #metric-deviation, #metric-var, #metric-drawdown, #metric-sharpe, #metric-risk-reward, #metric-risk')
+        .forEach((element) => { element.textContent = '—'; });
+      document.querySelector('#goal-impact-text').textContent = 'Нақты нарық дерегі алынбағандықтан ықтимал сценарий есептелмеді.';
       return;
     }
     if (requestId !== researchRequestId) return;
@@ -1460,26 +1445,28 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#selected-asset-name').textContent = asset.name;
     document.querySelector('#research-data-badge').textContent = 'Нақты тарихи дерек · Yahoo Finance';
     document.querySelector('#research-mode-label').textContent = 'нақты тарихи есеп';
-    document.querySelector('#ending-balance').textContent = formatMoney(projectBalance(asset, values));
+    document.querySelector('#simulation-chart').hidden = false;
     document.querySelector('#chart-data-label').textContent = 'Нақты айлық жабылу бағалары';
     document.querySelector('#period-days').textContent = `${historical.dailyCount} күн`;
     document.querySelector('#chart-range-label').textContent = `${formatDate(historical.startDate)} – ${formatDate(historical.endDate)}`;
     document.querySelector('#metric-return').textContent = formatPercent(expectedReturn * 100);
     document.querySelector('#metric-volatility').textContent = formatPercent(volatility * 100);
-    document.querySelector('#metric-deviation').textContent = formatMoney(values.capital * volatility);
-    document.querySelector('#metric-var').textContent = formatMoney(values.capital * result.var95);
+    const capital = Number(document.querySelector('#capital-input').value);
+    document.querySelector('#metric-deviation').textContent = Number.isFinite(capital) && capital > 0
+      ? formatMoney(capital * volatility)
+      : '—';
+    document.querySelector('#metric-var').textContent = Number.isFinite(capital) && capital > 0
+      ? formatMoney(capital * result.var95)
+      : '—';
     document.querySelector('#metric-drawdown').textContent = formatPercent(result.maximumDrawdown * 100);
     document.querySelector('#metric-sharpe').textContent = sharpe.toFixed(2);
     document.querySelector('#metric-risk-reward').textContent = returnVolatilityRatio.toFixed(2);
     document.querySelector('#metric-risk').textContent = volatility >= 0.4 ? 'Жоғары' : volatility >= 0.2 ? 'Орташа' : 'Төмен';
-    document.querySelector('#research-disclaimer').textContent = `${asset.factors} Есеп ${formatDate(historical.startDate)}–${formatDate(historical.endDate)} аралығындағы нақты жабылу бағаларына негізделген. Қазіргі баға: ${formatUsd(historical.currentPrice)}. Бұл өткен нәтиже болашақ кіріске кепілдік бермейтінін ескеріңіз.`;
-    const realReturn = ((1 + expectedReturn) / (1 + 0.08) - 1) * 100;
-    document.querySelector('#historical-analysis').textContent = `Ұзақ мерзімді қорытынды: осы кезеңдегі CAGR ${formatPercent(expectedReturn * 100)}, тарихи жылдық құбылмалылық ${formatPercent(volatility * 100)}, ең терең төмендеу ${formatPercent(historical.maximumDrawdown * 100)}. 8% инфляцияны шартты түрде алсақ, нақты жылдық кіріс шамамен ${formatPercent(realReturn)} болады. Бұл — тарихи есеп, болашақ болжамы емес.`;
-    document.querySelector('#mc-return').value = (expectedReturn * 100).toFixed(1);
-    document.querySelector('#mc-volatility').value = (volatility * 100).toFixed(1);
+    document.querySelector('#research-disclaimer').textContent = `${asset.factors} Есеп ${formatDate(historical.startDate)}–${formatDate(historical.endDate)} аралығындағы нақты жабылу бағаларына негізделген. Соңғы қолжетімді жабылу бағасы: ${formatUsd(historical.currentPrice)}. Өткен нәтиже болашақ кіріске кепілдік бермейді.`;
+    document.querySelector('#historical-analysis').textContent = `Осы тарихи кезеңдегі CAGR ${formatPercent(expectedReturn * 100)}, жылдық құбылмалылық ${formatPercent(volatility * 100)}, ең терең төмендеу ${formatPercent(historical.maximumDrawdown * 100)}. Бұл өткен деректің есебі, болашақ нәтижесінің болжамы емес.`;
     drawSimulationChart(result.prices);
     if (!document.querySelector('[data-view="research"]').hidden) renderTradingView(asset);
-    document.querySelector('#goal-impact-text').textContent = 'Актив болжамдары жаңартылды. Monte Carlo есебін жүргізу үшін сценарий батырмасын басыңыз.';
+    document.querySelector('#goal-impact-text').textContent = 'Сценарийді есептеу үшін өз кіріс және құбылмалылық мәндеріңізді енгізіңіз.';
   }
 
   function drawMonteCarloDistribution(results) {
@@ -1559,6 +1546,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updateFisherCalculation() {
     const error = document.querySelector('#fisher-error');
+    const outputs = ['#fisher-real', '#fisher-approx', '#fisher-nominal-value', '#fisher-real-value'];
+    outputs.forEach((selector) => { document.querySelector(selector).textContent = '—'; });
+    document.querySelector('#fisher-explanation').textContent = '';
+    if (Array.from(fisherForm.querySelectorAll('input')).every((input) => input.value === '')) {
+      error.hidden = true;
+      return;
+    }
     if (!fisherForm.checkValidity()) {
       error.textContent = 'Номиналдық кіріс, инфляция, бастапқы сома және мерзім мәндерін тексеріңіз.';
       error.hidden = false;
@@ -1599,6 +1593,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const error = document.querySelector('#learn-mc-error');
     const ids = ['learn-mc-capital', 'learn-mc-monthly', 'learn-mc-years', 'learn-mc-return', 'learn-mc-volatility'];
     const fields = ids.map((id) => document.querySelector(`#${id}`));
+    ['learn-mc-p05', 'learn-mc-p50', 'learn-mc-mean', 'learn-mc-p95'].forEach((id) => {
+      document.querySelector(`#${id}`).textContent = '—';
+    });
+    document.querySelector('#learn-mc-caption').textContent = 'Өз мәндеріңізді енгізіп, есепті іске қосыңыз';
+    document.querySelector('#learn-mc-chart').replaceChildren();
+    if (fields.every((field) => field.value === '')) {
+      error.hidden = true;
+      return;
+    }
     if (fields.some((field) => field.value === '' || !field.checkValidity())) {
       error.textContent = 'Өрістердегі мәндер рұқсат етілген аралықта болуы керек.';
       error.hidden = false;
@@ -1669,6 +1672,16 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateLearningRisk() {
     const error = document.querySelector('#learn-risk-error');
     const ids = ['learn-risk-capital', 'learn-risk-return', 'learn-risk-volatility', 'learn-risk-free'];
+    const fields = ids.map((id) => document.querySelector(`#${id}`));
+    ['learn-risk-value', 'learn-risk-deviation', 'learn-risk-var', 'learn-risk-sharpe'].forEach((id) => {
+      document.querySelector(`#${id}`).textContent = '—';
+    });
+    document.querySelector('#learn-risk-marker').setAttribute('hidden', '');
+    document.querySelector('#learn-risk-marker-label').setAttribute('hidden', '');
+    if (fields.every((field) => field.value === '')) {
+      error.hidden = true;
+      return;
+    }
     if (ids.some((id) => {
       const field = document.querySelector(`#${id}`);
       return field.value === '' || !field.checkValidity();
@@ -1703,14 +1716,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const y = 270 - ((Math.min(1, Math.max(-0.99, annualReturn)) + 0.99) / 1.99) * 236;
     marker.setAttribute('cx', x.toFixed(1));
     marker.setAttribute('cy', y.toFixed(1));
+    marker.removeAttribute('hidden');
     markerLabel.setAttribute('x', Math.min(490, x + 15).toFixed(1));
     markerLabel.setAttribute('y', Math.max(48, y - 13).toFixed(1));
+    markerLabel.removeAttribute('hidden');
     error.hidden = true;
   }
 
   function updateLearningFisher() {
     const error = document.querySelector('#learn-fisher-error');
     const ids = ['learn-fisher-capital', 'learn-fisher-nominal', 'learn-fisher-inflation', 'learn-fisher-years'];
+    const fields = ids.map((id) => document.querySelector(`#${id}`));
+    ['learn-fisher-real', 'learn-fisher-approx', 'learn-fisher-nominal-value', 'learn-fisher-real-value'].forEach((id) => {
+      document.querySelector(`#${id}`).textContent = '—';
+    });
+    document.querySelector('#learn-fisher-chart').replaceChildren();
+    if (fields.every((field) => field.value === '')) {
+      error.hidden = true;
+      return;
+    }
     if (ids.some((id) => {
       const field = document.querySelector(`#${id}`);
       return field.value === '' || !field.checkValidity();
@@ -2355,36 +2379,32 @@ document.addEventListener('DOMContentLoaded', () => {
       const target = Number(document.querySelector('#scenario-target').value);
       const years = Number(document.querySelector('#scenario-years').value);
       const inflation = Number(document.querySelector('#scenario-inflation').value) / 100;
-      const riskProfile = document.querySelector('#scenario-risk').value;
-      const assumptions = {
-        careful: { label: 'Төмен ауытқу', annualReturn: 0.05, annualVolatility: 0.08 },
-        balanced: { label: 'Орташа ауытқу', annualReturn: 0.08, annualVolatility: 0.18 },
-        growth: { label: 'Жоғары ауытқу', annualReturn: 0.11, annualVolatility: 0.3 }
-      }[riskProfile];
-      const values = [initial, monthly, expenses, reserve, target, years, inflation];
-      if (!values.every(Number.isFinite) || values.some((value) => value < 0) || years < 1 || years > 50 || inflation >= 1) {
-        error.textContent = 'Енгізілген мәндерді тексеріңіз. Мерзім 1–50 жыл, ал инфляция 100%-дан төмен болуы керек.';
+      const annualReturn = Number(document.querySelector('#scenario-return').value) / 100;
+      const annualVolatility = Number(document.querySelector('#scenario-volatility').value) / 100;
+      const values = [initial, monthly, expenses, reserve, target, years, inflation, annualReturn, annualVolatility];
+      const nonNegativeValues = [initial, monthly, expenses, reserve, target, years, inflation, annualVolatility];
+      if (!values.every(Number.isFinite) || nonNegativeValues.some((value) => value < 0) || years < 1 || years > 50
+        || inflation >= 1 || annualReturn <= -1 || annualReturn > 1 || annualVolatility > 2) {
+        error.textContent = 'Мәндерді тексеріңіз: мерзім 1–50 жыл, кіріс −99–100%, құбылмалылық 0–200% аралығында болуы керек.';
         error.hidden = false;
         return;
       }
 
       const months = Math.round(years * 12);
-      const monthlyReturn = (1 + assumptions.annualReturn) ** (1 / 12) - 1;
+      const monthlyReturn = (1 + annualReturn) ** (1 / 12) - 1;
       let projectedBalance = initial;
       for (let month = 0; month < months; month += 1) {
         projectedBalance = projectedBalance * (1 + monthlyReturn) + monthly;
       }
       const totalContributions = initial + monthly * months;
       const projectedRealValue = projectedBalance / ((1 + inflation) ** years);
-      const exactRealReturn = ((1 + assumptions.annualReturn) / (1 + inflation) - 1) * 100;
+      const exactRealReturn = ((1 + annualReturn) / (1 + inflation) - 1) * 100;
       const monthlyWithoutReturns = Math.max(0, (target - initial) / months);
-      const reserveTarget = expenses * 3;
-      const reserveGap = Math.max(0, reserveTarget - reserve);
 
       const samples = [];
       const scenarioCount = 1000;
-      const monthlyVolatility = assumptions.annualVolatility / Math.sqrt(12);
-      const logDrift = Math.log(1 + assumptions.annualReturn) / 12 - (monthlyVolatility ** 2) / 2;
+      const monthlyVolatility = annualVolatility / Math.sqrt(12);
+      const logDrift = Math.log(1 + annualReturn) / 12 - (monthlyVolatility ** 2) / 2;
       for (let trial = 0; trial < scenarioCount; trial += 1) {
         let balance = initial;
         const path = [balance];
@@ -2417,14 +2437,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const resultTitle = document.createElement('h3');
       resultTitle.textContent = `${labelForGoal(document.querySelector('#scenario-goal').value)} мақсаты`;
       const resultIntro = document.createElement('p');
-      resultIntro.textContent = `${years} жыл · ${currency(initial)} бастапқы сома · айына ${currency(monthly)} · ${assumptions.label.toLowerCase()} моделі`;
+      resultIntro.textContent = `${years} жыл · ${currency(initial)} бастапқы сома · айына ${currency(monthly)} · енгізілген кіріс ${percent(annualReturn * 100)} · құбылмалылық ${percent(annualVolatility * 100)}`;
       resultHeader.append(resultLabel, resultTitle, resultIntro);
 
       const summaryGrid = document.createElement('div');
       summaryGrid.className = 'investment-scenario-summary';
       const summaries = [
         { label: 'Күрделі пайыз моделі', value: currency(projectedBalance), detail: `Өз салымыңыз: ${currency(totalContributions)}` },
-        { label: 'Бүгінгі сатып алу қабілеті', value: currency(projectedRealValue), detail: `${percent(inflation * 100)} демо инфляциясымен` },
+        { label: 'Бүгінгі сатып алу қабілеті', value: currency(projectedRealValue), detail: `Сіз енгізген ${percent(inflation * 100)} мөлшерлемесімен` },
         { label: 'Нақты жылдық кіріс', value: percent(exactRealReturn), detail: 'Fisher теңдеуі бойынша' },
         { label: 'Модельдің медианасы', value: currency(median), detail: `Мақсатқа жеткен сынақ үлесі: ${percent(goalLikelihood)}` }
       ];
@@ -2449,12 +2469,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const chartTitle = document.createElement('h4');
       chartTitle.textContent = 'Бір мақсат, әртүрлі ықтимал жол';
       const chartNote = document.createElement('p');
-      chartNote.textContent = 'Monte Carlo-дың 1 000 сынағынан алынған 5, 50 және 95-процентиль жолдары · демо модель';
+      chartNote.textContent = 'Monte Carlo модель · енгізілген кіріс пен құбылмалылыққа негізделген сценарийлер';
       chartHeading.append(chartTitle, chartNote);
       const chart = createLessonSvgElement('svg', {
         viewBox: '0 0 720 290',
         role: 'img',
-        'aria-label': `${years} жыл ішіндегі үш демо сценарийдің капитал өзгерісі`
+        'aria-label': `${years} жыл ішіндегі модельдік сценарийлердің капитал өзгерісі`
       });
       [50, 100, 150, 200].forEach((y) => {
         chart.append(createLessonSvgElement('line', { x1: 58, x2: 690, y1: y, y2: y, class: 'scenario-chart-gridline' }));
@@ -2509,9 +2529,9 @@ document.addEventListener('DOMContentLoaded', () => {
       journeyTitle.append(journeyKicker, journeyHeading);
       const journey = document.createElement('ol');
       journey.className = 'investment-scenario-journey';
-      const reserveMessage = reserveGap > 0
-        ? `Қазіргі резерв ${currency(reserve)}. Негізгі шығынның 3 айлық демо межесі ${currency(reserveTarget)}; айырмасы ${currency(reserveGap)}. Резервіңіз жеткіліксіз болса, қажет ақшаңызды құбылмалы инвестицияға салмай, алдымен қауіпсіздік қорын жоспарлауды зерттеңіз.`
-        : `Енгізген резервіңіз ${currency(reserve)}; ол негізгі шығынның 3 айлық демо межесі ${currency(reserveTarget)}-ге жетеді. Бұл — оқу межесі, барлығына бірдей ереже емес.`;
+      const reserveMessage = hasReserve
+        ? `Енгізген резервіңіз: ${currency(reserve)}. Бұл модель оның сізге жеткілікті екенін бағаламайды.`
+        : 'Сіз резервіңіз бар деп көрсетпедіңіз. Өз қажеттілігіңізге сай резервті бөлек жоспарлаңыз.';
       const gap = monthlyWithoutReturns - monthly;
       const savingMessage = monthlyWithoutReturns === 0
         ? 'Енгізген бастапқы соманың өзі мақсат сомасына тең немесе одан жоғары. Бұл есеп кіріс/шығын, салық және баға өзгерісін толық қамтымайды.'
@@ -2543,7 +2563,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const disclaimer = document.createElement('p');
       disclaimer.className = 'investment-scenario-disclaimer';
-      disclaimer.textContent = 'Бұл — білім беру мақсатындағы синтетикалық есеп, жеке инвестициялық ұсыныс емес. Нәтижелер нарықтағы шынайы кіріс, комиссия, салық немесе өзгеретін инфляцияны болжай алмайды. Тәуекел деңгейі тек модельдің шарттарын таңдайды. Қажет болса, дербес кеңес үшін лицензиясы бар маманға жүгініңіз.';
+      disclaimer.textContent = 'Бұл — өзіңіз енгізген шарттар бойынша есептелген математикалық сценарий; нарықтағы нақты кірісті, комиссияны, салықты немесе инфляцияны болжамайды. Инвестициялық кеңес емес.';
       const recalculate = document.createElement('button');
       recalculate.type = 'button';
       recalculate.className = 'investment-scenario-edit';
@@ -2712,6 +2732,30 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelector('#portfolio-goal').value = button.dataset.addGoal;
       document.querySelector('#portfolio-goal').dispatchEvent(new Event('change', { bubbles: true }));
   });
+  document.querySelector('#goal-navigator').addEventListener('change', (event) => {
+    const input = event.target.closest('[data-goal-target]');
+    if (!input) return;
+    if (!input.checkValidity()) {
+      goalTargetStatus = 'Мақсат сомасы нөлден үлкен болуы керек.';
+      document.querySelector('#goal-target-status').textContent = goalTargetStatus;
+      return;
+    }
+
+    const target = input.value === '' ? null : Number(input.value);
+    if (target !== null && (!Number.isFinite(target) || target <= 0)) {
+      goalTargetStatus = 'Мақсат сомасының мәнін тексеріңіз.';
+      document.querySelector('#goal-target-status').textContent = goalTargetStatus;
+      return;
+    }
+    goalTargets[input.dataset.goalTarget] = target;
+    try {
+      window.localStorage.setItem(goalTargetsStorageKey, JSON.stringify(goalTargets));
+      goalTargetStatus = 'Мақсат сомасы осы браузерде сақталды.';
+    } catch (error) {
+      goalTargetStatus = `Мақсат сомасы сақталмады: ${error.message}`;
+    }
+    renderGoals();
+  });
 
   if (portfolioForm) {
     portfolioForm.addEventListener('submit', (event) => {
@@ -2795,14 +2839,15 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCustomGoalField();
     document.querySelector('#portfolio-asset').addEventListener('change', (event) => {
       const asset = event.target.value;
-      const price = demoSharePricesUsd[asset];
       const unit = portfolioAssetUnits[asset];
       document.querySelector('#portfolio-quantity-label').textContent = `Осы сомаға алынатын ${unit.unit} саны`;
       const currency = getAssetCurrencyLabel(asset);
-      document.querySelector('#portfolio-market-price-label').textContent = `Нақты ағымдағы баға, ${currency} / ${unit.priceUnit}`;
+      document.querySelector('#portfolio-market-price-label').textContent = `Соңғы нарық бағасы, ${currency} / ${unit.priceUnit}`;
       document.querySelector('#portfolio-market-price').value = '';
       document.querySelector('#portfolio-quantity').value = '';
-      const currentPriceRequest = asset === 'deposit' ? Promise.resolve(1) : loadCurrentAssetPrice(asset);
+      const currentPriceRequest = asset === 'deposit'
+        ? Promise.reject(new Error('Депозиттің бағасы мен шарттары банкке байланысты, автоматты нарық дерегі жоқ.'))
+        : loadCurrentAssetPrice(asset);
       currentPriceRequest
         .then((currentPrice) => {
           if (document.querySelector('#portfolio-asset').value !== asset) return;
