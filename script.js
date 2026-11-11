@@ -273,7 +273,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const companyLogoUrls = {
     tesla: 'https://cdn.simpleicons.org/tesla/E82127',
     apple: 'https://cdn.simpleicons.org/apple/252C2A',
-    nvidia: 'https://cdn.simpleicons.org/nvidia/76B900'
+    nvidia: 'https://cdn.simpleicons.org/nvidia/76B900',
+    microsoft: 'https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/microsoft.svg',
+    amazon: 'https://cdn.jsdelivr.net/npm/simple-icons@v14/icons/amazon.svg',
+    alphabet: 'https://cdn.simpleicons.org/google/4285F4',
+    meta: 'https://cdn.simpleicons.org/meta/0866FF',
+    broadcom: 'https://cdn.simpleicons.org/broadcom/CC092F',
+    walmart: 'https://cdn.jsdelivr.net/npm/simple-icons@v14/icons/walmart.svg'
   };
   let currentChartSymbol = null;
   let portfolioPositions = [];
@@ -332,6 +338,146 @@ document.addEventListener('DOMContentLoaded', () => {
       impact: 'Есеп жарияланғанға дейінгі күту акция құбылмалылығын арттыруы мүмкін. Нақты қорытынды тек компанияның есептерінен кейін жасалады.',
       source: 'NVIDIA Newsroom',
       url: 'https://nvidianews.nvidia.com/news/nvidia-sets-conference-call-for-third-quarter-financial-results-6928873'
+    },
+    {
+      asset: 'apple',
+      ticker: 'AAPL',
+      company: 'Apple',
+      date: '2026-11-11',
+      headline: 'Apple акциясына жад чиптерінің бағасы қысым түсірді',
+      summary: 'TIKR мақаласында Apple акциясының шамамен 4% төмендегені және компанияның келесі тоқсанға жалпы маржа болжамы 45–46% болғаны жазылған. Мақалада сарапшылар күткен 46,3% деңгейімен салыстырған.',
+      image: companyLogoUrls.apple,
+      imageAlt: 'Apple компаниясының логотипі',
+      imageType: 'logo',
+      impact: 'Маржа болжамы — табыс пен шығынды салыстыруға арналған бір көрсеткіш; бұл акцияның келесі бағытын өздігінен анықтамайды.',
+      source: 'TIKR · Yahoo Finance арқылы',
+      url: 'https://www.tikr.com/blog/apple-slides-4-as-ternus-calls-memory-pricing-unprecedented-despite-a-record-114-5-billion-quarter'
+    },
+    {
+      asset: 'microsoft',
+      ticker: 'MSFT',
+      company: 'Microsoft',
+      date: '2026-11-11',
+      headline: 'Anthropic өнімдері Microsoft-тың бағдарламалық бизнесіне бәсеке тудыруы мүмкін',
+      summary: 'Yahoo Finance жариялаған материал Anthropic-тің жаңа өнімдерін Microsoft-тың бағдарламалық жасақтама бизнесі үшін ықтимал бәсекелік фактор ретінде қарастырады.',
+      image: companyLogoUrls.microsoft,
+      imageAlt: 'Microsoft логотипі',
+      imageType: 'logo',
+      impact: 'Бұл — бәсеке туралы сараптамалық мақала. Нақты ықпалды бағалау үшін Microsoft есептеріндегі Azure және өнімдер түсімін тексеріңіз.',
+      source: 'Yahoo Finance',
+      url: 'https://finance.yahoo.com/technology/ai/articles/microsoft-stock-suddenly-anthropic-problem-174400453.html'
+    },
+    {
+      asset: 'nvidia',
+      ticker: 'NVDA',
+      company: 'NVIDIA',
+      date: '2026-11-11',
+      headline: 'CoreWeave есебінен кейін NVIDIA мен чип өндірушілерінің акциялары көтерілді',
+      summary: 'Yahoo Finance материалы CoreWeave нәтижелері AI инфрақұрылымына жұмсалатын шығынға қатысты алаңдаушылықты азайтып, NVIDIA, AMD және Broadcom акцияларының өсуімен тұспа-тұс келгенін хабарлайды.',
+      image: companyLogoUrls.nvidia,
+      imageAlt: 'NVIDIA логотипі',
+      imageType: 'logo',
+      impact: 'Бір күндік нарық қозғалысы ұзақ мерзімді сұранысты дәлелдемейді; компаниялардың есептері мен капиталдық шығындарын жеке тексерген жөн.',
+      source: 'Yahoo Finance',
+      url: 'https://finance.yahoo.com/technology/ai/articles/nvidia-amd-broadcom-lead-ai-183708900.html'
+    },
+    {
+      asset: 'amazon',
+      ticker: 'AMZN',
+      company: 'Amazon',
+      date: '2026-11-11',
+      headline: 'Amazon Ring желісіндегі үйге арналған ұшатын қауіпсіздік камерасын таныстырды',
+      summary: 'Yahoo Finance жариялаған материалда Ring бренді үй мен бизнеске арналған екі автономды қауіпсіздік құрылғысын таныстырғаны айтылады; тақырыпта құрылғы бағасы 250 доллар деп көрсетілген.',
+      image: companyLogoUrls.amazon,
+      imageAlt: 'Amazon логотипі',
+      imageType: 'logo',
+      impact: 'Жаңа құрылғы — өнім жаңалығы. Оның сатылымға және Amazon-ның жалпы түсіміне әсері кейінгі есептерден ғана көрінуі мүмкін.',
+      source: 'Yahoo Finance',
+      url: 'https://finance.yahoo.com/technology/articles/amazon-unveils-250-flying-home-172650920.html'
+    },
+    {
+      asset: 'alphabet',
+      ticker: 'GOOGL',
+      company: 'Alphabet · Google',
+      date: '2026-11-11',
+      headline: 'Google мен Meta онлайн жаңалықтарға қатысты жаңа ережеге қарсы пікір білдірді',
+      summary: 'Yahoo Finance материалы қаралып жатқан заң цифрлық платформалардан жаңалық сілтемелерін көрсету үшін баспагерлерге өтемақы төлеуді және жасанды интеллектке қатысты ережелерді енгізуді ұсынатынын түсіндіреді.',
+      image: companyLogoUrls.alphabet,
+      imageAlt: 'Google логотипі',
+      imageType: 'logo',
+      impact: 'Бұл — реттеу туралы талқылау; шешімнің нәтижесі әлі белгісіз. Заң жобасының кейінгі мәртебесін дереккөзден тексеріңіз.',
+      source: 'Yahoo Finance',
+      url: 'https://finance.yahoo.com/technology/articles/google-meta-fight-rule-could-173528327.html'
+    },
+    {
+      asset: 'meta',
+      ticker: 'META',
+      company: 'Meta',
+      date: '2026-11-11',
+      headline: 'Meta компаниясының инфрақұрылым жетекшісі 2027 жылдың басында қызметтен кетеді',
+      summary: 'Bloomberg дерегіне сүйенген материалда Meta-ның инфрақұрылым жетекшісі әрі инженерлік бөлімнің тең басшысы Сантос Джанарджан 2027 жылдың басында қызметтен кетіп, операциялық міндеттерді Дэйв Браунға тапсыратыны хабарланған.',
+      image: companyLogoUrls.meta,
+      imageAlt: 'Meta логотипі',
+      imageType: 'logo',
+      impact: 'Жетекшілік ауысуы AI инфрақұрылымына салынатын шығынды басқаруға қатысты; компанияның алдағы есептері шығын мен жоспардың өзгерісін нақтылайды.',
+      source: 'Bloomberg · Yahoo Finance арқылы',
+      url: 'https://finance.yahoo.com/technology/ai/articles/meta-infrastructure-chief-santosh-janardhan-165630956.html'
+    },
+    {
+      asset: 'tesla',
+      ticker: 'TSLA',
+      company: 'Tesla',
+      date: '2026-11-11',
+      headline: 'Финляндия Tesla жүргізушіге көмек жүйесін мақұлдады; ЕО шешімі әлі күтілуде',
+      summary: '24/7 Wall St. материалы Финляндия Tesla-ның жүргізушіге көмек көрсету жүйесін мақұлдағанын, ал Еуропалық Одақ деңгейіндегі дауыс беру әлі күтіліп отырғанын хабарлайды.',
+      image: companyLogoUrls.tesla,
+      imageAlt: 'Tesla логотипі',
+      imageType: 'logo',
+      impact: 'Бір елдің мақұлдауы бүкіл Еуропалық Одаққа автоматты түрде таралмайды. Нарық мүмкіндігін бағалағанда келесі реттеуші шешімдерді тексеріңіз.',
+      source: '24/7 Wall St. · Yahoo Finance арқылы',
+      url: 'https://247wallst.com/investing/2026/11/11/tesla-rises-4-as-finland-clears-its-driver-assistance-system-ahead-of-eu-vote-lucid-slides-2-after-citi-cut-rivian-dips/'
+    },
+    {
+      asset: 'broadcom',
+      ticker: 'AVGO',
+      company: 'Broadcom',
+      date: '2026-11-11',
+      headline: 'Broadcom акциясы чиптерге қатысты сараптамалық пікірден кейін көтерілді',
+      summary: 'Yahoo Finance материалында Goldman Sachs Broadcom бағасын талқылағаны және компанияның Anthropic-ке қатысты инвестициялық жоспар туралы мәлімдегені баяндалады.',
+      image: companyLogoUrls.broadcom,
+      imageAlt: 'Broadcom логотипі',
+      imageType: 'logo',
+      impact: 'Сарапшылардың бағалауы мен компания мәлімдемесін ажыратыңыз; мақаладағы пікір акцияның болашақ кірісіне кепіл болмайды.',
+      source: 'Yahoo Finance',
+      url: 'https://finance.yahoo.com/markets/stocks/articles/broadcom-stocks-climb-5-18-165920759.html'
+    },
+    {
+      asset: 'walmart',
+      ticker: 'WMT',
+      company: 'Walmart',
+      date: '2026-11-11',
+      headline: 'Bank of America Walmart бойынша баға межесін көтерді',
+      summary: 'Proactive Investors мәліметінше, Bank of America Walmart акциясының нысаналы бағасын 126-дан 139 долларға көтеріп, нарық үлесі мен пайданың өсу мүмкіндігін атаған.',
+      image: companyLogoUrls.walmart,
+      imageAlt: 'Walmart логотипі',
+      imageType: 'logo',
+      impact: 'Зорилтот үнэ нь банкны шинжээчийн таамаг болохоос бодит үнэ эсвэл компанийн амлалт биш.',
+      source: 'Proactive Investors',
+      url: 'https://www.proactiveinvestors.com/companies/news/1101616/walmart-s-ai-and-advertising-businesses-strengthen-bank-of-america-s-bullish-case-1101616.html'
+    },
+    {
+      asset: 'berkshire',
+      ticker: 'BRK.B',
+      company: 'Berkshire Hathaway',
+      date: '2026-11-11',
+      headline: 'Berkshire есебінде бас директордың капитал бөлу тәсілі талданды',
+      summary: 'Yahoo Finance материалында Berkshire Hathaway-дің қаржылық есебі мен Грег Абельдің капитал бөлу стратегиясы қарастырылған.',
+      image: 'https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/berkshire-hathaway.svg',
+      imageAlt: 'Berkshire Hathaway атауы',
+      imageType: 'logo',
+      impact: 'Конгломераттың көрсеткішін бағалағанда оның әртүрлі бизнес бөлімдерінің нәтижесі мен капитал бөлу шешімдерін бірге қараңыз.',
+      source: 'Yahoo Finance',
+      url: 'https://finance.yahoo.com/m/4474931d-c39c-3c2e-958e-d363308f0a3a/how-berkshire-hathaway.html'
     },
   ];
 
@@ -604,7 +750,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadGoalTargets();
     loadPortfolio();
     renderPortfolio();
-    loadLiveUsdKztRate();
+    showSavedUsdKztRate();
     loadInvestmentProgress();
     renderInvestmentProgress();
     renderInvestmentPathways();
@@ -718,53 +864,19 @@ document.addEventListener('DOMContentLoaded', () => {
     portfolioStatus.classList.toggle('status-error', isError);
   }
 
-  async function loadLiveUsdKztRate() {
+  function showSavedUsdKztRate() {
     const input = document.querySelector('#portfolio-fx-rate');
     const status = document.querySelector('#portfolio-fx-status');
-    try {
-      const response = await fetch('/api/market?symbol=USDKZT=X&range=2y&interval=1d', { cache: 'no-store' });
-      if (!response.ok) throw new Error('Бағам сервері жауап бермеді.');
-      const payload = await response.json();
-      const meta = payload.chart?.result?.[0]?.meta;
-      const rate = Number(meta?.regularMarketPrice);
-      if (!Number.isFinite(rate) || rate <= 0) throw new Error('USD/KZT бағамы табылмады.');
-      usdKztRate = rate;
-      input.value = rate.toFixed(2);
-      status.textContent = `Нақты бағам · Yahoo Finance · ${new Date().toLocaleString('kk-KZ')}`;
-      setPortfolioStatus('USD/KZT нақты бағамы жаңартылды.');
-      renderPortfolio();
-    } catch (error) {
-      input.value = 'Қолжетімсіз';
-      status.textContent = 'Нақты бағамды жүктеу мүмкін болмады';
-      setPortfolioStatus(`USD/KZT нақты бағамы алынбады: ${error.message}`, true);
-      renderPortfolio();
-    }
-
-  }
-
-  async function loadCurrentAssetPrice(assetKey) {
-    const asset = assets[assetKey];
-    const response = await fetch(`/api/market?symbol=${encodeURIComponent(asset.yahooSymbol)}&range=2y&interval=1d`, { cache: 'no-store' });
-    if (!response.ok) throw new Error('Актив бағасы серверден алынбады.');
-    const payload = await response.json();
-    const price = Number(payload.chart?.result?.[0]?.meta?.regularMarketPrice);
-    if (!Number.isFinite(price) || price <= 0) throw new Error(`${asset.name} үшін нақты баға табылмады.`);
-    return price;
-  }
-
-  function updateInvestmentPreview() {
-    const amount = Number(document.querySelector('#portfolio-investment-amount').value);
-    const price = Number(document.querySelector('#portfolio-market-price').value);
-    const quantityInput = document.querySelector('#portfolio-quantity');
-    if (!Number.isFinite(amount) || amount <= 0 || !Number.isFinite(price) || price <= 0 || !Number.isFinite(usdKztRate) || usdKztRate <= 0) {
-      quantityInput.value = '';
-      return;
-    }
-    quantityInput.value = (amount / usdKztRate / price).toFixed(6);
+    input.value = Number.isFinite(usdKztRate) && usdKztRate > 0 ? usdKztRate.toFixed(2) : '';
+    status.textContent = Number.isFinite(usdKztRate) && usdKztRate > 0
+      ? 'Сақталған бағам. Өзгерсе, мұнда жаңартыңыз.'
+      : 'Теңгедегі есептер үшін USD/KZT бағамын қолмен енгізіңіз.';
   }
 
   function loadPortfolio() {
     try {
+      usdKztRate = null;
+      document.querySelector('#portfolio-fx-rate').value = '';
       const fxRate = window.localStorage.getItem(getUserStorageKey(portfolioFxStorageKey));
       if (fxRate !== null) {
         const parsedFxRate = Number(fxRate);
@@ -1117,7 +1229,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const card = document.createElement('article');
       card.className = 'real-news-card';
       const image = document.createElement('img');
-      image.className = 'real-news-image';
+      image.className = story.imageType === 'logo' ? 'real-news-image real-news-image-logo' : 'real-news-image';
       image.src = story.image;
       image.alt = story.imageAlt;
       image.loading = 'lazy';
@@ -1126,7 +1238,11 @@ document.addEventListener('DOMContentLoaded', () => {
         image.remove();
         const fallback = document.createElement('div');
         fallback.className = `news-visual-fallback news-visual-${story.asset}`;
-        fallback.innerHTML = `<span>${story.asset === 'apple' ? 'A' : 'N'}</span><small>${story.company}</small>`;
+        const mark = document.createElement('span');
+        mark.textContent = story.ticker?.replace(/[^A-Z0-9]/g, '').slice(0, 3) || story.company.slice(0, 1);
+        const label = document.createElement('small');
+        label.textContent = story.company;
+        fallback.append(mark, label);
         card.prepend(fallback);
       }, { once: true });
 
@@ -2822,17 +2938,16 @@ document.addEventListener('DOMContentLoaded', () => {
       event.preventDefault();
       if (!portfolioForm.reportValidity()) return;
 
-      const investmentAmount = Number(document.querySelector('#portfolio-investment-amount').value);
       const quantity = Number(document.querySelector('#portfolio-quantity').value);
       const marketPrice = Number(document.querySelector('#portfolio-market-price').value);
       const asset = document.querySelector('#portfolio-asset').value;
       const goal = document.querySelector('#portfolio-goal').value;
       const customGoalInput = document.querySelector('#portfolio-custom-goal');
       const customGoal = customGoalInput.value.trim();
-      if (!Number.isFinite(investmentAmount) || investmentAmount < 100 || !Number.isFinite(quantity) || quantity <= 0
+      if (!Number.isFinite(quantity) || quantity <= 0 || quantity > 1000000000
         || !Number.isFinite(marketPrice) || marketPrice <= 0 || !Object.hasOwn(portfolioAssets, asset) || !Object.hasOwn(portfolioGoals, goal)
         || (goal === 'other' && !customGoal)) {
-        setPortfolioStatus('Салынатын сома мен нақты актив бағасын тексеріңіз.', true);
+        setPortfolioStatus('Активті, соңғы нарық бағасын және сатып алынған санын тексеріңіз.', true);
         return;
       }
 
@@ -2902,22 +3017,37 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelector('#portfolio-market-price-label').textContent = `Соңғы нарық бағасы, ${currency} / ${unit.priceUnit}`;
       document.querySelector('#portfolio-market-price').value = '';
       document.querySelector('#portfolio-quantity').value = '';
-      const currentPriceRequest = asset === 'deposit'
-        ? Promise.reject(new Error('Депозиттің бағасы мен шарттары банкке байланысты, автоматты нарық дерегі жоқ.'))
-        : loadCurrentAssetPrice(asset);
-      currentPriceRequest
-        .then((currentPrice) => {
-          if (document.querySelector('#portfolio-asset').value !== asset) return;
-          document.querySelector('#portfolio-market-price').value = currentPrice.toFixed(2);
-          updateInvestmentPreview();
-          setPortfolioStatus(`${portfolioAssets[asset]} нақты бағасы жаңартылды: ${formatAssetCurrency(currentPrice, asset)}.`);
-        })
-        .catch((error) => {
-          setPortfolioStatus(`Нақты баға алынбады: ${error.message}`, true);
-        });
+      setPortfolioStatus(`${portfolioAssets[asset]} үшін соңғы көрген баға мен сатып алған саныңызды енгізіңіз.`);
     });
-    document.querySelector('#portfolio-investment-amount').addEventListener('input', updateInvestmentPreview);
   }
+
+  const portfolioFxInput = document.querySelector('#portfolio-fx-rate');
+  portfolioFxInput.addEventListener('change', () => {
+    const rate = Number(portfolioFxInput.value);
+    if (!portfolioFxInput.value) {
+      usdKztRate = null;
+      document.querySelector('#portfolio-fx-status').textContent = 'Теңгедегі есептер үшін USD/KZT бағамын қолмен енгізіңіз.';
+    } else if (!Number.isFinite(rate) || rate < 1 || rate > 1000000) {
+      document.querySelector('#portfolio-fx-status').textContent = 'Бағам 1 мен 1 000 000 аралығында болуы керек.';
+      return;
+    } else {
+      usdKztRate = rate;
+      document.querySelector('#portfolio-fx-status').textContent = 'USD/KZT бағамы осы браузерде сақталды.';
+    }
+
+    try {
+      if (Number.isFinite(usdKztRate) && usdKztRate > 0) {
+        window.localStorage.setItem(getUserStorageKey(portfolioFxStorageKey), String(usdKztRate));
+      } else {
+        window.localStorage.removeItem(getUserStorageKey(portfolioFxStorageKey));
+      }
+    } catch (error) {
+      setPortfolioStatus(`USD/KZT бағамын сақтау мүмкін болмады: ${error.message}`, true);
+    }
+    renderPortfolio();
+    renderGoals();
+    renderDashboard();
+  });
 
   if (compoundForm) {
     compoundForm.addEventListener('submit', (event) => {

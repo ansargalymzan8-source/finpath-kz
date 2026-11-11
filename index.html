@@ -277,7 +277,7 @@
                 <span class="dashboard-eyebrow">РЕСМИ ДЕРЕККӨЗДЕР · ЖАРИЯЛАНҒАН КҮНІ КӨРСЕТІЛГЕН</span>
                 <h2>Портфеліңдегі компания жаңалықтары</h2>
               </div>
-              <span class="demo-badge" id="news-updated-label">Соңғы дерек: 06.11.2026</span>
+              <span class="demo-badge" id="news-updated-label">Соңғы дерек: 11.11.2026</span>
             </div>
             <div class="market-summary">
               <div><span>Позициялардың құны · есептік</span><strong id="dashboard-market-value">—</strong></div>
@@ -344,9 +344,9 @@
               <small>Қолданылған мақсат санаты</small>
             </article>
             <label class="portfolio-fx-card" for="portfolio-fx-rate">
-              <span>USD → KZT нақты бағамы</span>
-              <input id="portfolio-fx-rate" type="text" value="Жүктелуде..." readonly aria-describedby="portfolio-fx-status" />
-              <small id="portfolio-fx-status">Yahoo Finance дерегінен автоматты алынады</small>
+              <span>USD → KZT бағамы</span>
+              <input id="portfolio-fx-rate" type="number" min="1" max="1000000" step="0.01" value="" placeholder="Қолмен енгізіңіз" aria-describedby="portfolio-fx-status" />
+              <small id="portfolio-fx-status">Теңгедегі есептер үшін бағамды енгізіңіз.</small>
             </label>
           </section>
 
@@ -375,17 +375,14 @@
                   </select>
                 </label>
                 <label class="research-field">
-                  <span>Салынатын сома, ₸</span>
-                  <input id="portfolio-investment-amount" name="investmentAmount" type="number" min="100" step="100" required />
-                </label>
-                <label class="research-field">
                   <span id="portfolio-market-price-label">Соңғы нарық бағасы, USD / акция</span>
-                  <input id="portfolio-market-price" name="marketPrice" type="number" min="0.01" max="1000000000" step="0.01" value="" readonly required />
+                  <input id="portfolio-market-price" name="marketPrice" type="number" min="0.01" max="1000000000" step="0.01" value="" placeholder="Бағаны енгізіңіз" required />
                 </label>
                 <label class="research-field">
-                  <span id="portfolio-quantity-label">Осы сомаға алынатын акция саны</span>
-                  <input id="portfolio-quantity" name="quantity" type="number" min="0.000001" step="any" value="" readonly required />
+                  <span id="portfolio-quantity-label">Сатып алынған акция саны</span>
+                  <input id="portfolio-quantity" name="quantity" type="number" min="0.000001" max="1000000000" step="any" value="" placeholder="Санын енгізіңіз" required />
                 </label>
+                <p class="portfolio-form-note">Баға мен саны автоматты жүктелмейді: брокер қосылмаған. Сатып алған акция саны мен соңғы көрген бағаны өзіңіз енгізіңіз.</p>
                 <label class="research-field">
                   <span>Мақсат</span>
                   <select id="portfolio-goal" name="goal">
@@ -549,7 +546,7 @@
           </section>
 
           <footer class="research-footer">
-            Активті таңдағанда соңғы қолжетімді нарық бағасы мен USD/KZT бағамы жүктеледі. Сақталған позиция бағасы автоматты жаңартылмайды; жаңарту үшін бағаны қолмен өзгертіңіз.
+            Акция санын және соңғы көрген нарық бағасын қолмен енгізіңіз. Бұл мәндер автоматты жаңартылмайды. Теңгемен бағалау үшін USD/KZT бағамын портфельдің жоғары жағында енгізіңіз.
           </footer>
         </section>
 
@@ -580,14 +577,14 @@
           <header class="portfolio-hero news-hero">
             <div class="hero-tag">FINPATH · NEWS</div>
             <h1>Нарық жаңалықтары</h1>
-            <p>2026 жылғы қарашадағы ресми хабарламалар және олардың инвесторға ықпалы</p>
+            <p>Әлемдегі ірі компаниялар туралы жаңалықтар мен оларды түсінуге арналған қысқаша мәлімет.</p>
           </header>
 
           <div class="news-panel official-news-panel">
-            <div class="news-tag">FINPATH · MARKET BRIEFING · 08.11.2026</div>
+            <div class="news-tag">FINPATH · MARKET BRIEFING · 11.11.2026</div>
             <div class="news-header">
-              <div><h2>Нарықты қысқа әрі түсінікті оқыңыз</h2><p class="news-header-lead">Ресми хабарламаны жай оқып қана қоймай, оның инвесторға ықпалын түсініңіз.</p></div>
-              <span class="news-live-badge"><i></i> Соңғы шолу</span>
+              <div><h2>Нарықты қысқа әрі түсінікті оқыңыз</h2><p class="news-header-lead">Компанияға қатысты ақпаратты, дереккөзді және инвестор үшін ықтимал маңызын тексеріңіз.</p></div>
+              <span class="news-live-badge"><i></i> 10 компания · 11.11.2026</span>
             </div>
             <div class="news-insight-strip">
               <article><span class="news-insight-icon">01</span><div><strong>Компания не айтты?</strong><p>Ресми дереккөздегі негізгі факт.</p></div></article>
@@ -597,13 +594,22 @@
             <div class="news-filter-bar" role="group" aria-label="Жаңалықтарды сүзу">
               <button type="button" class="news-filter active" data-news-filter="all">Барлығы</button>
               <button type="button" class="news-filter" data-news-filter="apple">Apple</button>
+              <button type="button" class="news-filter" data-news-filter="microsoft">Microsoft</button>
               <button type="button" class="news-filter" data-news-filter="nvidia">NVIDIA</button>
+              <button type="button" class="news-filter" data-news-filter="amazon">Amazon</button>
+              <button type="button" class="news-filter" data-news-filter="alphabet">Alphabet</button>
+              <button type="button" class="news-filter" data-news-filter="meta">Meta</button>
+              <button type="button" class="news-filter" data-news-filter="tesla">Tesla</button>
+              <button type="button" class="news-filter" data-news-filter="broadcom">Broadcom</button>
+              <button type="button" class="news-filter" data-news-filter="walmart">Walmart</button>
+              <button type="button" class="news-filter" data-news-filter="berkshire">Berkshire</button>
             </div>
             <div class="real-news-list" id="official-news-list" aria-live="polite"></div>
             <div class="news-next-step"><strong>Оқығаннан кейін тексеріңіз</strong><span>Компания жаңалығы баға міндетті түрде өседі деген белгі емес.</span><button class="news-action-button" type="button" data-open-page="research">Активті зерттеуге өту →</button></div>
           </div>
 
           <footer class="research-footer">
+            Қысқаша шолулар 2026 жылғы 11 қарашада жарияланған материалдарға негізделген. Толық мәтінді әр жаңалықтағы дереккөзден оқыңыз; сарапшы пікірі немесе бір күндік баға қозғалысы болашақ кіріске кепіл емес.
           </footer>
         </section>
 

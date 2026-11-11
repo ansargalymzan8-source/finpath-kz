@@ -1703,6 +1703,20 @@ button {
   background: #edf4ef;
 }
 
+.real-news-image-logo {
+  padding: 28px;
+  object-fit: contain;
+  background: linear-gradient(145deg, #f3faf6, #e5f1eb);
+}
+
+.portfolio-form-note {
+  grid-column: 1 / -1;
+  margin: -4px 0 2px;
+  color: #647a70;
+  font-size: .82rem;
+  line-height: 1.5;
+}
+
 .real-news-content {
   display: flex;
   min-width: 0;
