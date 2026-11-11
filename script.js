@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const welcomeError = document.querySelector('#welcome-error');
   const registrationForm = document.querySelector('#registration-form');
   const registrationError = document.querySelector('#registration-error');
+  const localAccountsKey = 'finpath-local-accounts-v1';
+  const localSessionKey = 'finpath-local-session-v1';
   const researchForm = document.querySelector('#research-form');
   const assetSelect = document.querySelector('#asset-select');
   const monteCarloButton = document.querySelector('#monte-carlo-button');
@@ -622,22 +624,70 @@ document.addEventListener('DOMContentLoaded', () => {
     renderDashboard();
   }
 
-  async function requestAuth(path, body) {
-    const response = await fetch(path, {
-      method: body ? 'POST' : 'GET',
-      credentials: 'same-origin',
-      headers: body ? { 'Content-Type': 'application/json' } : {},
-      body: body ? JSON.stringify(body) : undefined,
-      cache: 'no-store'
-    });
-    let payload;
-    try {
-      payload = await response.json();
-    } catch {
-      throw new Error('Серверден жарамды жауап алынбады.');
+  function getLocalAccounts() {
+    const stored = window.localStorage.getItem(localAccountsKey);
+    if (!stored) return [];
+    const accounts = JSON.parse(stored);
+    if (!Array.isArray(accounts)) throw new Error('Осы браузердегі аккаунт деректері жарамсыз.');
+    return accounts;
+  }
+
+  function bytesToHex(bytes) {
+    return Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('');
+  }
+
+  function hexToBytes(hex) {
+    if (typeof hex !== 'string' || !/^(?:[0-9a-f]{2})+$/i.test(hex)) throw new Error('Құпиясөз хэші жарамсыз.');
+    return Uint8Array.from(hex.match(/.{2}/g), (byte) => Number.parseInt(byte, 16));
+  }
+
+  async function hashLocalPassword(password, salt) {
+    if (!window.crypto?.subtle) {
+      throw new Error('Құпиясөзді осы браузерде қауіпсіз өңдеу мүмкін болмады. Сайтты HTTPS арқылы ашыңыз.');
     }
-    if (!response.ok) throw new Error(payload.error || 'Сұрауды орындау мүмкін болмады.');
-    return payload;
+    const key = await window.crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveBits']);
+    const hash = await window.crypto.subtle.deriveBits({
+      name: 'PBKDF2',
+      salt,
+      iterations: 150000,
+      hash: 'SHA-256'
+    }, key, 256);
+    return new Uint8Array(hash);
+  }
+
+  async function createLocalAccount({ name, username, password, interest, plan }) {
+    const normalizedUsername = username.trim().toLowerCase();
+    const accounts = getLocalAccounts();
+    if (accounts.some((account) => account.username === normalizedUsername)) {
+      throw new Error('Бұл логин осы браузерде қолданылып тұр. Басқа логин таңдаңыз.');
+    }
+    const salt = window.crypto.getRandomValues(new Uint8Array(16));
+    const passwordHash = await hashLocalPassword(password, salt);
+    const account = {
+      username: normalizedUsername,
+      name: name.trim(),
+      interest,
+      plan: plan.trim(),
+      salt: bytesToHex(salt),
+      passwordHash: bytesToHex(passwordHash)
+    };
+    accounts.push(account);
+    window.localStorage.setItem(localAccountsKey, JSON.stringify(accounts));
+    window.localStorage.setItem(localSessionKey, normalizedUsername);
+    return account;
+  }
+
+  async function loginLocalAccount(username, password) {
+    const normalizedUsername = username.trim().toLowerCase();
+    const account = getLocalAccounts().find((item) => item.username === normalizedUsername);
+    if (!account) throw new Error('Аккаунт табылмады. Бұл аккаунт басқа браузерде немесе құрылғыда ашылған болуы мүмкін.');
+    const passwordHash = await hashLocalPassword(password, hexToBytes(account.salt));
+    const expectedHash = hexToBytes(account.passwordHash);
+    if (passwordHash.length !== expectedHash.length || passwordHash.some((byte, index) => byte !== expectedHash[index])) {
+      throw new Error('Құпиясөз қате.');
+    }
+    window.localStorage.setItem(localSessionKey, normalizedUsername);
+    return account;
   }
 
   function openSignup() {
@@ -646,15 +696,19 @@ document.addEventListener('DOMContentLoaded', () => {
     signupDialog.showModal();
   }
 
-  async function restoreSession() {
+  function restoreSession() {
     try {
-      const { user } = await requestAuth('/api/auth/session');
-      if (user) showAuthenticatedUser(user);
+      const username = window.localStorage.getItem(localSessionKey);
+      if (!username) return;
+      const account = getLocalAccounts().find((item) => item.username === username);
+      if (account) {
+        showAuthenticatedUser(account);
+        return;
+      }
+      window.localStorage.removeItem(localSessionKey);
     } catch (error) {
-      welcomeError.textContent = `Серверге қосылу мүмкін болмады: ${error.message}`;
+      welcomeError.textContent = `Аккаунтты осы браузерден оқу мүмкін болмады: ${error.message}`;
       welcomeError.hidden = false;
-      welcomeScreen.hidden = false;
-      appShell.hidden = true;
     }
   }
 
@@ -2915,7 +2969,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const submit = document.querySelector('#registration-submit');
     submit.disabled = true;
     try {
-      const { user } = await requestAuth('/api/auth/register', {
+      const user = await createLocalAccount({
         name: document.querySelector('#registration-name').value.trim(),
         username: document.querySelector('#registration-username').value.trim(),
         password: document.querySelector('#registration-password').value,
@@ -2946,10 +3000,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const submit = document.querySelector('#login-submit');
     submit.disabled = true;
     try {
-      const { user } = await requestAuth('/api/auth/login', {
-        username: document.querySelector('#login-username').value.trim(),
-        password: document.querySelector('#login-password').value
-      });
+      const user = await loginLocalAccount(
+        document.querySelector('#login-username').value,
+        document.querySelector('#login-password').value
+      );
       signupForm.reset();
       signupDialog.close();
       showAuthenticatedUser(user);
@@ -2964,16 +3018,15 @@ document.addEventListener('DOMContentLoaded', () => {
   accountLogoutButton.addEventListener('click', async () => {
     accountLogoutButton.disabled = true;
     try {
-      await requestAuth('/api/auth/logout', {});
+      window.localStorage.removeItem(localSessionKey);
       localProfile = null;
       loadedUserStorageKey = null;
       appShell.hidden = true;
       welcomeScreen.hidden = false;
       showWelcomeStep('intro');
     } catch (error) {
-      signupError.textContent = `Аккаунттан шығу мүмкін болмады: ${error.message}`;
-      signupError.hidden = false;
-      if (!signupDialog.open) signupDialog.showModal();
+      welcomeError.textContent = `Аккаунттан шығу мүмкін болмады: ${error.message}`;
+      welcomeError.hidden = false;
     } finally {
       accountLogoutButton.disabled = false;
     }

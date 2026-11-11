@@ -1,11 +1,11 @@
 # FinPath KZ
 
-## Run locally
+## GitHub Pages
 
-Requires Node.js 22.13 or newer. Run `npm start`; the default address is `http://localhost:8766/`. Set `PORT` or `HOST` to override the listener.
+The site and its local browser accounts work as static files; no account API, Node.js host, or backend database is needed. Publish `index.html`, `styles.css`, and `script.js` to GitHub Pages and open the HTTPS Pages URL.
 
-## Accounts and saved data
+Accounts, password hashes, portfolios, goals, academy progress, and notes are stored in that browser's local storage. They do not sync to another device or browser. Clearing site data removes them. Passwords are hashed in the browser, but this is not server-side authentication and should not be used to protect sensitive information.
 
-Accounts use SQLite and server-side sessions. Passwords are stored as salted scrypt hashes, not as plain text. On Windows, the database defaults to `%LOCALAPPDATA%\FinPath KZ\finpath.sqlite`; set `FINPATH_DATA_DIR` to choose another data directory. Keep this directory outside the web root.
+## Optional local server
 
-For a public deployment, use HTTPS and configure `FINPATH_DATA_DIR` to point to persistent storage so accounts survive restarts or redeployments. Account profile details and onboarding answers are stored on the server. Portfolio entries, goal amounts, academy progress, and notes remain in that user's browser and are not synchronized across devices.
+Requires Node.js 18 or newer. Run `npm start`; the default address is `http://localhost:8766/`. The optional server serves the website and proxies market-data requests. Browser accounts do not depend on this server.

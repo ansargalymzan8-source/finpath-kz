@@ -27,7 +27,7 @@
               <span><i aria-hidden="true">✓</i> Есептер арқылы үйреніңіз</span>
             </div>
             <button class="welcome-primary" id="welcome-start" type="button">Танысуды бастау <span aria-hidden="true">→</span></button>
-            <small>Алдымен бірнеше сұрақ, содан кейін жеке аккаунт ашасыз.</small>
+            <small>Алдымен бірнеше сұрақ, содан кейін осы құрылғыда аккаунт ашасыз.</small>
             <p class="welcome-error" id="welcome-error" role="alert" hidden></p>
           </div>
           <div class="welcome-visual" aria-label="Қаржы мақсатына бағытталған оқу жолының көрінісі" role="img">
@@ -80,14 +80,14 @@
           <div class="welcome-step-heading">
             <span class="welcome-kicker">СОҢҒЫ ҚАДАМ · АККАУНТ</span>
             <h1>Өз жолыңды баста.</h1>
-            <p>Аккаунт профиліңізді қауіпсіз сақтайды. Портфель мен оқу барысы әзірге осы браузерде сақталады.</p>
+            <p>Аккаунт пен деректер осы браузерде ғана сақталады. Басқа құрылғыдан кіре алмайсыз.</p>
             <div class="welcome-progress" aria-label="2 қадамның 2-і"><span class="is-complete"></span><span class="is-current"></span></div>
           </div>
           <form class="welcome-form" id="registration-form">
             <div class="welcome-form-grid">
               <label class="welcome-field"><span>Атыңыз</span><input id="registration-name" name="name" type="text" autocomplete="name" maxlength="60" placeholder="Мысалы, Айдана" required /></label>
               <label class="welcome-field"><span>Логин ойлап табыңыз</span><input id="registration-username" name="username" type="text" autocomplete="username" minlength="3" maxlength="32" pattern="(?:[A-Za-z0-9._]|-){3,32}" placeholder="Мысалы, aidana_01" required /><small>3–32 таңба: латын әрпі, сан, нүкте, сызықша немесе _</small></label>
-              <label class="welcome-field welcome-field-full"><span>Құпиясөз ойлап табыңыз</span><input id="registration-password" name="password" type="password" autocomplete="new-password" minlength="10" maxlength="128" placeholder="Кемінде 10 таңба" required /><small>Құпиясөз серверде қауіпсіз хэш түрінде сақталады.</small></label>
+              <label class="welcome-field welcome-field-full"><span>Құпиясөз ойлап табыңыз</span><input id="registration-password" name="password" type="password" autocomplete="new-password" minlength="10" maxlength="128" placeholder="Кемінде 10 таңба" required /><small>Құпиясөз браузерде хэш түрінде сақталады. Бұл серверлік аккаунт емес.</small></label>
             </div>
             <p class="welcome-error" id="registration-error" role="alert" hidden></p>
             <div class="welcome-form-actions"><button class="welcome-back" id="welcome-back-questions" type="button">← Артқа</button><button class="welcome-primary" id="registration-submit" type="submit">Аккаунт ашу <span aria-hidden="true">→</span></button></div>
@@ -1317,7 +1317,7 @@
       <form class="signup-form" id="signup-form">
         <span class="signup-kicker">FINPATH KZ · ҚОШ КЕЛДІҢІЗ</span>
         <h2 id="signup-title">Аккаунтқа кіру</h2>
-        <p class="signup-description">Жоспарыңызды жалғастыру үшін логин мен құпиясөзді енгізіңіз.</p>
+        <p class="signup-description">Бұл құрылғыда сақталған аккаунтқа кіріңіз.</p>
         <label class="research-field"><span>Логин</span><input id="login-username" name="username" type="text" autocomplete="username" maxlength="32" required /></label>
         <label class="research-field"><span>Құпиясөз</span><input id="login-password" name="password" type="password" autocomplete="current-password" maxlength="128" required /></label>
         <button class="signup-submit" id="login-submit" type="submit">Кіру <span aria-hidden="true">→</span></button>
